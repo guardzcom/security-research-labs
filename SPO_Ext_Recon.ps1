@@ -63,7 +63,7 @@ $paths = @(
 
 
 # Optional personal OneDrive users
-$usernames = @("elli", "moshe", "ron")
+$usernames = @("john", "alice", "tim")
 
 
 foreach ($user in $usernames) {
