@@ -1,4 +1,4 @@
-# SharePoint Online Exposure Recon v1.1
+# SharePoint Online Recon v1.1
 # 
 # Description:
 #   1. Automates reconnaissance of SharePoint Online and OneDrive for Business sites to identify exposed or misconfigured resources.
