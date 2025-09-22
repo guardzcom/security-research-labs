@@ -1,0 +1,20 @@
+sample-logs/sample.json[
+  {
+    "time": "2024-01-15T08:30:00Z",
+    "userPrincipalName": "john.doe@company.com",
+    "appDisplayName": "Microsoft Office 365",
+    "status": { "errorCode": 0 },
+    "location": { "city": "New York", "countryOrRegion": "US" },
+    "ipAddress": "192.168.1.100",
+    "deviceDetail": { "browser": "Chrome", "operatingSystem": "Windows" }
+  },
+  {
+    "time": "2024-01-15T08:35:00Z",
+    "userPrincipalName": "jane.smith@company.com",
+    "appDisplayName": "Azure Portal",
+    "status": { "errorCode": 50126 },
+    "location": { "city": "London", "countryOrRegion": "GB" },
+    "ipAddress": "10.0.1.50",
+    "deviceDetail": { "browser": "Edge", "operatingSystem": "Windows" }
+  }
+]
