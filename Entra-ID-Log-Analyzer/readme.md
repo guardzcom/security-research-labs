@@ -1,4 +1,4 @@
-# Entra ID Log Analyzer
+# Entra ID Log Analyzer Beta
 
 A client-side tool for analyzing Azure AD / Entra ID authentication and audit logs.  
 Upload JSON logs, visualize sign-in patterns, detect anomalies, and simulate attack scenarios.
