@@ -1,4 +1,5 @@
-sample-logs/sample.json[
+// sample-logs/sample.json
+[
   {
     "time": "2024-01-15T08:30:00Z",
     "userPrincipalName": "john.doe@company.com",
@@ -6,7 +7,10 @@ sample-logs/sample.json[
     "status": { "errorCode": 0 },
     "location": { "city": "New York", "countryOrRegion": "US" },
     "ipAddress": "192.168.1.100",
-    "deviceDetail": { "browser": "Chrome", "operatingSystem": "Windows" }
+    "deviceDetail": { "browser": "Chrome", "operatingSystem": "Windows" },
+    "riskScore": 10,
+    "anomaly": false,
+    "deviation": []
   },
   {
     "time": "2024-01-15T08:35:00Z",
@@ -15,6 +19,129 @@ sample-logs/sample.json[
     "status": { "errorCode": 50126 },
     "location": { "city": "London", "countryOrRegion": "GB" },
     "ipAddress": "10.0.1.50",
-    "deviceDetail": { "browser": "Edge", "operatingSystem": "Windows" }
+    "deviceDetail": { "browser": "Edge", "operatingSystem": "Windows" },
+    "riskScore": 70,
+    "anomaly": true,
+    "deviation": ["Failed login", "Unusual errorCode"]
+  },
+  {
+    "time": "2024-01-15T09:00:00Z",
+    "userPrincipalName": "alice.wu@company.com",
+    "appDisplayName": "Microsoft Teams",
+    "status": { "errorCode": 0 },
+    "location": { "city": "San Francisco", "countryOrRegion": "US" },
+    "ipAddress": "172.16.0.22",
+    "deviceDetail": { "browser": "Firefox", "operatingSystem": "macOS" },
+    "riskScore": 15,
+    "anomaly": false,
+    "deviation": []
+  },
+  {
+    "time": "2024-01-15T09:05:00Z",
+    "userPrincipalName": "bob.lee@company.com",
+    "appDisplayName": "Exchange Online",
+    "status": { "errorCode": 0 },
+    "location": { "city": "Berlin", "countryOrRegion": "DE" },
+    "ipAddress": "203.0.113.45",
+    "deviceDetail": { "browser": "Safari", "operatingSystem": "iOS" },
+    "riskScore": 20,
+    "anomaly": false,
+    "deviation": []
+  },
+  {
+    "time": "2024-01-15T09:10:00Z",
+    "userPrincipalName": "eve.malory@company.com",
+    "appDisplayName": "Azure CLI",
+    "status": { "errorCode": 50125 },
+    "location": { "city": "Tel Aviv", "countryOrRegion": "IL" },
+    "ipAddress": "198.51.100.77",
+    "deviceDetail": { "browser": "Unknown", "operatingSystem": "Linux" },
+    "riskScore": 85,
+    "anomaly": true,
+    "deviation": ["Failed login", "CLI access from new geo", "Unknown browser"]
+  },
+  {
+    "time": "2024-01-15T09:15:00Z",
+    "userPrincipalName": "john.doe@company.com",
+    "appDisplayName": "Microsoft Office 365",
+    "status": { "errorCode": 0 },
+    "location": { "city": "Tokyo", "countryOrRegion": "JP" },
+    "ipAddress": "192.168.1.101",
+    "deviceDetail": { "browser": "Chrome", "operatingSystem": "Windows" },
+    "riskScore": 95,
+    "anomaly": true,
+    "deviation": ["Impossible travel: NY to Tokyo in 45min", "New IP address"]
+  },
+  {
+    "time": "2024-01-15T09:20:00Z",
+    "userPrincipalName": "jane.smith@company.com",
+    "appDisplayName": "Azure Portal",
+    "status": { "errorCode": 0 },
+    "location": { "city": "London", "countryOrRegion": "GB" },
+    "ipAddress": "10.0.1.51",
+    "deviceDetail": { "browser": "Edge", "operatingSystem": "Windows" },
+    "riskScore": 10,
+    "anomaly": false,
+    "deviation": []
+  },
+  {
+    "time": "2024-01-15T09:25:00Z",
+    "userPrincipalName": "alice.wu@company.com",
+    "appDisplayName": "Microsoft Teams",
+    "status": { "errorCode": 0 },
+    "location": { "city": "San Francisco", "countryOrRegion": "US" },
+    "ipAddress": "172.16.0.23",
+    "deviceDetail": { "browser": "Firefox", "operatingSystem": "macOS" },
+    "riskScore": 15,
+    "anomaly": false,
+    "deviation": []
+  },
+  {
+    "time": "2024-01-15T09:30:00Z",
+    "userPrincipalName": "bob.lee@company.com",
+    "appDisplayName": "Exchange Online",
+    "status": { "errorCode": 50126 },
+    "location": { "city": "Berlin", "countryOrRegion": "DE" },
+    "ipAddress": "203.0.113.46",
+    "deviceDetail": { "browser": "Safari", "operatingSystem": "iOS" },
+    "riskScore": 65,
+    "anomaly": true,
+    "deviation": ["Failed login", "Repeated errorCode", "Suspicious timing"]
+  },
+  {
+    "time": "2024-01-15T09:35:00Z",
+    "userPrincipalName": "eve.malory@company.com",
+    "appDisplayName": "Azure CLI",
+    "status": { "errorCode": 0 },
+    "location": { "city": "Tel Aviv", "countryOrRegion": "IL" },
+    "ipAddress": "198.51.100.78",
+    "deviceDetail": { "browser": "Unknown", "operatingSystem": "Linux" },
+    "riskScore": 30,
+    "anomaly": false,
+    "deviation": ["Unknown browser"]
+  },
+  {
+    "time": "2024-01-15T09:40:00Z",
+    "userPrincipalName": "admin@company.com",
+    "appDisplayName": "Privileged Access Management",
+    "status": { "errorCode": 0 },
+    "location": { "city": "Moscow", "countryOrRegion": "RU" },
+    "ipAddress": "185.199.108.153",
+    "deviceDetail": { "browser": "Tor", "operatingSystem": "Linux" },
+    "riskScore": 99,
+    "anomaly": true,
+    "deviation": ["Privileged access from high-risk geo", "Tor browser", "New device fingerprint"]
+  },
+  {
+    "time": "2024-01-15T09:45:00Z",
+    "userPrincipalName": "service.account@company.com",
+    "appDisplayName": "API Token",
+    "status": { "errorCode": 0 },
+    "location": { "city": "Unknown", "countryOrRegion": "Unknown" },
+    "ipAddress": "8.8.8.8",
+    "deviceDetail": { "browser": "curl", "operatingSystem": "Linux" },
+    "riskScore": 80,
+    "anomaly": true,
+    "deviation": ["API token used from public IP", "Unknown location", "Automated access pattern"]
   }
 ]
