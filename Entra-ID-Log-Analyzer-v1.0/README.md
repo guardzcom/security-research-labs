@@ -1,4 +1,4 @@
-# 🛡️ Entra ID Log Analyzer
+# Entra ID Log Analyzer
 
 An advanced open-source security analytics platform for Azure Active Directory (Entra ID) authentication logs. Built with AI-powered threat detection and behavioral analytics to help security teams identify suspicious activities, unusual patterns, and potential security risks.
 
@@ -7,29 +7,29 @@ An advanced open-source security analytics platform for Azure Active Directory (
 ![React](https://img.shields.io/badge/React-19.0-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue)
 
-## 🌟 Features
+## Features
 
-### 🔍 Advanced Log Analysis
+### Advanced Log Analysis
 - **AI-Powered Threat Detection**: Intelligent analysis of authentication patterns and anomalies
 - **Real-time Risk Assessment**: Dynamic scoring based on user behavior, locations, devices, and applications
 - **Interactive Visualizations**: Comprehensive charts and graphs for threat distribution, authentication timelines, and geographic analysis
 
-### 🎯 Security Intelligence
+### Security Intelligence
 - **Behavioral Analytics**: User behavior profiling with geo-clustering and risk analysis
 - **Threat Correlations**: Advanced correlation analysis to identify connected security events
 - **Infrastructure Monitoring**: Detailed insights into authentication infrastructure and patterns
 
-### 📊 Comprehensive Reporting
+### Comprehensive Reporting
 - **Clickable Dashboards**: Interactive elements provide detailed drill-down capabilities
 - **Recent Activity Tracking**: Grouped user activities with detailed event logs
 - **Geographic Distribution**: Visual mapping of authentication sources and risk indicators
 
-### 🔧 User Experience
+### User Experience
 - **Drag & Drop Upload**: Simple log file upload with support for multiple formats
 - **Responsive Design**: Modern, mobile-friendly interface
 - **Export Capabilities**: Generate reports and export analysis results
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 - Node.js 18+ 
@@ -63,7 +63,7 @@ npm run build
 npm run preview
 ```
 
-## 📖 Usage Guide
+## Usage Guide
 
 ### 1. Log Upload
 - Drag and drop your Entra ID authentication log files
@@ -82,7 +82,7 @@ Once analysis is complete, explore:
 - Explore threat distributions, authentication timelines, and geographic data
 - View user-specific behavior analysis and risk indicators
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Setup
 The application works out of the box with default settings. For custom configurations:
@@ -96,7 +96,7 @@ The application works out of the box with default settings. For custom configura
 - **Component Styling**: Modify Tailwind classes throughout the application
 - **Analysis Logic**: Update threat detection algorithms in analysis components
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 - **Frontend**: React 19, TypeScript
 - **Styling**: Tailwind CSS 4, Radix UI Components
@@ -106,7 +106,7 @@ The application works out of the box with default settings. For custom configura
 - **Build Tool**: Vite
 - **Package Manager**: npm
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 entra-id-log-analyzer/
@@ -128,7 +128,7 @@ entra-id-log-analyzer/
 └── vite.config.ts
 ```
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions from the community! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
@@ -142,25 +142,19 @@ We welcome contributions from the community! Please see our [Contributing Guide]
 ### Bug Reports
 Please use the [GitHub Issues](https://github.com/your-username/entra-id-log-analyzer/issues) page to report bugs or request features.
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🔒 Security
+## Security
 
 For security vulnerabilities, please see our [Security Policy](SECURITY.md).
 
-## 📞 Support
+## Support
 
 - **Documentation**: Check the [Wiki](https://github.com/your-username/entra-id-log-analyzer/wiki)
 - **Issues**: [GitHub Issues](https://github.com/your-username/entra-id-log-analyzer/issues)
 - **Discussions**: [GitHub Discussions](https://github.com/your-username/entra-id-log-analyzer/discussions)
-
-## 🙏 Acknowledgments
-
-- Built with ❤️ for the security community
-- Powered by open-source technologies
-- Special thanks to all contributors
 
 ---
 
