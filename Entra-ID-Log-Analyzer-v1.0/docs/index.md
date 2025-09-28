@@ -1,5 +1,3 @@
--- Here is the existing canvas app code I want to edit:
-
 ```html type=html
 <!DOCTYPE html>
 <html lang="en">
