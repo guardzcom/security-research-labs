@@ -2,34 +2,7 @@
 
 This guide covers various deployment options for the Entra ID Log Analyzer.
 
-## 🚀 Quick Deploy Options
-
-### Netlify (Recommended)
-
-1. **Fork the repository** to your GitHub account
-2. **Connect to Netlify**:
-   - Go to [Netlify](https://netlify.com)
-   - Click "New site from Git"
-   - Select your forked repository
-3. **Configure build settings**:
-   - Build command: `npm run build`
-   - Publish directory: `dist`
-4. **Deploy**: Netlify will automatically build and deploy
-
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/your-username/entra-id-log-analyzer)
-
-### Vercel
-
-1. **Fork the repository**
-2. **Import to Vercel**:
-   - Go to [Vercel](https://vercel.com)
-   - Click "New Project"
-   - Import your forked repository
-3. **Deploy**: Vercel will detect the Vite configuration automatically
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/your-username/entra-id-log-analyzer)
-
-### GitHub Pages
+## GitHub Pages
 
 1. **Enable GitHub Pages** in repository settings
 2. **Add deployment workflow** (create `.github/workflows/deploy.yml`):
