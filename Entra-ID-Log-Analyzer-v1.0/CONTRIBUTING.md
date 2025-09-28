@@ -2,7 +2,7 @@
 
 Thank you for your interest in contributing to the Entra ID Log Analyzer! This document provides guidelines and information for contributors.
 
-## 🤝 How to Contribute
+## How to Contribute
 
 ### 1. Fork and Clone
 ```bash
@@ -32,7 +32,7 @@ git checkout -b feature/your-feature-name
 git checkout -b fix/bug-description
 ```
 
-## 📋 Development Guidelines
+## Development Guidelines
 
 ### Code Style
 - **TypeScript**: All new code should be written in TypeScript
@@ -69,7 +69,7 @@ export function ComponentName({ prop1, prop2 = 0 }: ComponentProps) {
 - **Utilities**: camelCase (e.g., `securityUtils.ts`)
 - **Types**: camelCase with `.types.ts` suffix (e.g., `security.types.ts`)
 
-## 🐛 Bug Reports
+## Bug Reports
 
 When reporting bugs, please include:
 
@@ -102,7 +102,7 @@ Add screenshots if helpful.
 - Node.js: [e.g., 18.17.0]
 ```
 
-## ✨ Feature Requests
+## Feature Requests
 
 For new features:
 
@@ -126,7 +126,7 @@ Other solutions you've considered.
 Screenshots, mockups, or other context.
 ```
 
-## 🔧 Development Areas
+## Development Areas
 
 ### Priority Areas for Contribution
 
