@@ -1,0 +1,2692 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data:; img-src 'self' data: https:;">
+    <title>OpenClaw Security Analyzer | Guardz</title>
+    <style>
+        /* Guardz Brand Colors */
+        :root {
+            --guardz-purple: #2f2472;
+            --guardz-green: #40FEAE;
+            --guardz-purple-accent: #654FE8;
+            --guardz-green-accent: #4FE882;
+            --guardz-black: #080619;
+            --guardz-white: #FFFFFF;
+        }
+
+        /* Dark Theme (default) */
+        [data-theme="dark"] {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --bg-input: #0d1117;
+            --border-color: #30363d;
+            --text-primary: #f0f6fc;
+            --text-secondary: #c9d1d9;
+            --text-muted: #8b949e;
+            --link-color: #58a6ff;
+            --success-color: #3fb950;
+            --warning-color: #d29922;
+            --danger-color: #f85149;
+            --info-color: #58a6ff;
+        }
+
+        /* Light Theme */
+        [data-theme="light"] {
+            --bg-primary: #f8f9fb;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #eef1f5;
+            --bg-input: #ffffff;
+            --border-color: #d8dee6;
+            --text-primary: #1a1f36;
+            --text-secondary: #3c4257;
+            --text-muted: #6b7280;
+            --link-color: #5046e5;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+            --info-color: #2563eb;
+            --guardz-purple: #4f46e5;
+            --guardz-purple-accent: #6366f1;
+            --guardz-green: #10b981;
+        }
+
+        /* Light mode specific overrides */
+        [data-theme="light"] .panel {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        [data-theme="light"] .panel-header {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        [data-theme="light"] .risk-item {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+        }
+
+        [data-theme="light"] .risk-item.critical {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border-color: #fecaca;
+        }
+
+        [data-theme="light"] .risk-item.high {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border-color: #fed7aa;
+        }
+
+        [data-theme="light"] .risk-item.medium {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border-color: #fde68a;
+        }
+
+        [data-theme="light"] .risk-item.low {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-color: #bbf7d0;
+        }
+
+        [data-theme="light"] .risk-item.info {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-color: #bfdbfe;
+        }
+
+        [data-theme="light"] .risk-title {
+            color: #1e293b;
+        }
+
+        [data-theme="light"] .risk-description {
+            color: #475569;
+        }
+
+        [data-theme="light"] .recommendation-item {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+        }
+
+        [data-theme="light"] .recommendation-item:hover {
+            background: #f8fafc;
+            border-color: #c7d2fe;
+        }
+
+        [data-theme="light"] .rec-text {
+            color: #1e293b;
+        }
+
+        [data-theme="light"] .file-btn {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            color: #374151;
+        }
+
+        [data-theme="light"] .file-btn:hover {
+            background: #f0f9ff;
+            border-color: #6366f1;
+        }
+
+        [data-theme="light"] .file-btn-title {
+            color: #1e293b;
+        }
+
+        [data-theme="light"] .file-btn-path {
+            color: #6b7280;
+        }
+
+        [data-theme="light"] .severity-tag {
+            border: 1px solid transparent;
+        }
+
+        [data-theme="light"] .severity-tag.critical {
+            background: #fee2e2;
+            color: #b91c1c;
+            border-color: #fecaca;
+        }
+
+        [data-theme="light"] .severity-tag.high {
+            background: #ffedd5;
+            color: #c2410c;
+            border-color: #fed7aa;
+        }
+
+        [data-theme="light"] .severity-tag.medium {
+            background: #fef3c7;
+            color: #b45309;
+            border-color: #fde68a;
+        }
+
+        [data-theme="light"] .severity-tag.low {
+            background: #dcfce7;
+            color: #15803d;
+            border-color: #bbf7d0;
+        }
+
+        [data-theme="light"] .severity-tag.info {
+            background: #dbeafe;
+            color: #1d4ed8;
+            border-color: #bfdbfe;
+        }
+
+        [data-theme="light"] .tab-btn {
+            color: #4b5563;
+            background: transparent;
+        }
+
+        [data-theme="light"] .tab-btn:hover {
+            background: #f3f4f6;
+        }
+
+        [data-theme="light"] .tab-btn.active {
+            background: #4f46e5;
+            color: white;
+        }
+
+        [data-theme="light"] .option-group {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+        }
+
+        [data-theme="light"] .option-label {
+            color: #374151;
+        }
+
+        [data-theme="light"] .file-info {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+        }
+
+        [data-theme="light"] .file-name {
+            color: #4f46e5;
+        }
+
+        [data-theme="light"] .stat-card {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+        }
+
+        [data-theme="light"] .exposure-graph {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+        }
+
+        [data-theme="light"] .exposure-node {
+            background: #f8fafc;
+            border: 1px solid #e5e7eb;
+        }
+
+        [data-theme="light"] .risk-path {
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        [data-theme="light"] header {
+            background: linear-gradient(135deg, #4f46e5 0%, #6366f1 50%, #8b5cf6 100%);
+        }
+
+        [data-theme="light"] .import-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        [data-theme="light"] .import-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        [data-theme="light"] .theme-toggle {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        [data-theme="light"] .tooltip {
+            background: #1e293b;
+            border-color: #4f46e5;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        [data-theme="light"] .tooltip::before {
+            border-bottom-color: #4f46e5;
+        }
+
+        [data-theme="light"] .tooltip::after {
+            border-bottom-color: #1e293b;
+        }
+
+        [data-theme="light"] .check-item {
+            color: #374151;
+        }
+
+        [data-theme="light"] .check-item input[type="checkbox"] {
+            accent-color: #4f46e5;
+        }
+
+        [data-theme="light"] .rec-category {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-secondary);
+            min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .header {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 52px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .guardz-logo {
+            height: 20px;
+            width: auto;
+            min-width: 80px;
+        }
+
+        .header h1 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .divider {
+            width: 1px;
+            height: 20px;
+            background: var(--border-color);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 4px;
+            display: flex;
+            cursor: pointer;
+        }
+
+        .theme-toggle-btn {
+            background: transparent;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .theme-toggle-btn.active {
+            background: var(--guardz-purple);
+        }
+
+        .theme-toggle-btn svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--text-muted);
+        }
+
+        .theme-toggle-btn.active svg {
+            stroke: var(--guardz-green);
+        }
+
+        /* Protection styles */
+        .protected {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        .watermark {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .openclaw-logo-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            transition: all 0.2s;
+            text-decoration: none;
+        }
+
+        .openclaw-logo-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.4);
+        }
+
+        .openclaw-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .import-btn {
+            background: var(--guardz-purple);
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+
+        .import-btn:hover {
+            background: var(--guardz-purple-accent);
+        }
+
+        .import-btn.secondary {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+        }
+
+        .import-btn.secondary:hover {
+            background: var(--border-color);
+        }
+
+        .import-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 12px;
+            padding: 12px;
+            max-width: 1600px;
+            margin: 0 auto;
+            height: calc(100vh - 52px);
+            overflow: hidden;
+        }
+
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .panel {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            background: var(--bg-tertiary);
+            padding: 8px 12px;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 600;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            color: var(--text-primary);
+        }
+
+        /* Tooltip styles for recommendations */
+        .tooltip-container {
+            position: relative;
+        }
+
+        .tooltip {
+            visibility: hidden;
+            opacity: 0;
+            position: absolute;
+            top: calc(100% + 10px);
+            left: 0;
+            background: var(--guardz-black);
+            color: #fff;
+            padding: 14px 16px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            line-height: 1.5;
+            width: 380px;
+            max-width: 95vw;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            border: 1px solid var(--guardz-purple-accent);
+            transition: opacity 0.2s, visibility 0.2s;
+        }
+
+        .tooltip::before {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 24px;
+            border: 8px solid transparent;
+            border-bottom-color: var(--guardz-purple-accent);
+        }
+
+        .tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: 100%;
+            left: 25px;
+            border: 7px solid transparent;
+            border-bottom-color: var(--guardz-black);
+        }
+
+        .tooltip-container:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .tooltip-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .tooltip-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0;
+        }
+
+        .tooltip-icon.network { background: linear-gradient(135deg, #3b82f6, #1d4ed8); }
+        .tooltip-icon.identity { background: linear-gradient(135deg, #8b5cf6, #6d28d9); }
+        .tooltip-icon.sandbox { background: linear-gradient(135deg, #f97316, #ea580c); }
+        .tooltip-icon.supply { background: linear-gradient(135deg, #10b981, #059669); }
+        .tooltip-icon.monitoring { background: linear-gradient(135deg, #ec4899, #db2777); }
+
+        .tooltip-title {
+            font-weight: 700;
+            color: #fff;
+            font-size: 0.85rem;
+        }
+
+        .tooltip-section {
+            margin-bottom: 10px;
+        }
+
+        .tooltip-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .tooltip-label {
+            font-size: 0.65rem;
+            color: var(--guardz-green);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .tooltip-text {
+            color: rgba(255,255,255,0.9);
+        }
+
+        .tooltip-code {
+            background: rgba(101, 79, 232, 0.3);
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-family: 'SF Mono', Monaco, Consolas, monospace;
+            font-size: 0.7rem;
+            display: block;
+            word-break: break-all;
+            border-left: 3px solid var(--guardz-purple-accent);
+            color: #e2e8f0;
+        }
+
+        .tooltip-risk {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            background: rgba(248, 81, 73, 0.2);
+            border-radius: 6px;
+            color: #f87171;
+            font-size: 0.7rem;
+        }
+
+        .tooltip-risk-icon {
+            font-size: 12px;
+        }
+
+        .tooltip-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 10px;
+        }
+
+        .tooltip-tag {
+            background: rgba(255,255,255,0.1);
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .tooltip-tag.difficulty-easy { background: rgba(16, 185, 129, 0.3); color: #34d399; }
+        .tooltip-tag.difficulty-medium { background: rgba(245, 158, 11, 0.3); color: #fbbf24; }
+        .tooltip-tag.difficulty-hard { background: rgba(239, 68, 68, 0.3); color: #f87171; }
+        .tooltip-tag.tag-critical { background: rgba(239, 68, 68, 0.4); color: #f87171; font-weight: 600; }
+        .tooltip-tag.tag-recommended { background: rgba(64, 254, 174, 0.3); color: #40FEAE; }
+        .tooltip-tag.tag-enterprise { background: rgba(139, 92, 246, 0.3); color: #a78bfa; }
+
+        .tooltip-instruction {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.75rem;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+
+        /* Exposure Graph */
+        .exposure-graph {
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 8px;
+            margin-top: 6px;
+        }
+
+        .exposure-title {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .exposure-title svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .exposure-node {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 8px;
+            background: var(--bg-tertiary);
+            border-radius: 5px;
+            margin-bottom: 3px;
+            font-size: 0.65rem;
+            position: relative;
+        }
+
+        .exposure-node::before {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 50%;
+            width: 8px;
+            height: 2px;
+            background: var(--border-color);
+        }
+
+        .exposure-node:first-of-type::before {
+            display: none;
+        }
+
+        .exposure-node-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            flex-shrink: 0;
+        }
+
+        .exposure-node.attacker .exposure-node-icon { background: #f85149; color: #fff; }
+        .exposure-node.network .exposure-node-icon { background: #f97316; color: #fff; }
+        .exposure-node.gateway .exposure-node-icon { background: #d29922; color: #fff; }
+        .exposure-node.agent .exposure-node-icon { background: #654FE8; color: #fff; }
+        .exposure-node.data .exposure-node-icon { background: #f85149; color: #fff; }
+
+        .exposure-node-label {
+            flex: 1;
+            color: var(--text-secondary);
+        }
+
+        .exposure-node-status {
+            font-size: 0.6rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+        }
+
+        .exposure-node-status.exposed { background: rgba(248, 81, 73, 0.2); color: #f85149; }
+        .exposure-node-status.partial { background: rgba(210, 153, 34, 0.2); color: #d29922; }
+        .exposure-node-status.protected { background: rgba(63, 185, 80, 0.2); color: #3fb950; }
+
+        .exposure-path {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px 0;
+            color: var(--text-muted);
+            font-size: 0.6rem;
+        }
+
+        .exposure-path svg {
+            width: 12px;
+            height: 16px;
+        }
+
+        .panel-header-left {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .panel-header-left svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .panel-content {
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        /* Risk Output Panel - Compact with scroll */
+        .risks-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .risks-panel .panel-content {
+            flex: 1;
+            padding: 8px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--guardz-purple) var(--bg-input);
+        }
+
+        .risks-panel .panel-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .risks-panel .panel-content::-webkit-scrollbar-track {
+            background: var(--bg-input);
+            border-radius: 3px;
+        }
+
+        .risks-panel .panel-content::-webkit-scrollbar-thumb {
+            background: var(--guardz-purple);
+            border-radius: 3px;
+        }
+
+        .risks-panel .panel-content::-webkit-scrollbar-thumb:hover {
+            background: var(--guardz-purple-accent);
+        }
+
+        .risk-item {
+            display: flex;
+            gap: 8px;
+            padding: 8px 10px;
+            background: var(--bg-input);
+            border-radius: 5px;
+            margin-bottom: 6px;
+            border-left: 3px solid;
+        }
+
+        .risk-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .risk-item.critical {
+            border-left-color: #f85149;
+            background: rgba(248, 81, 73, 0.1);
+        }
+
+        .risk-item.high {
+            border-left-color: #f97316;
+            background: rgba(249, 115, 22, 0.1);
+        }
+
+        .risk-item.medium {
+            border-left-color: #d29922;
+            background: rgba(210, 153, 34, 0.1);
+        }
+
+        .risk-item.low {
+            border-left-color: #3fb950;
+            background: rgba(63, 185, 80, 0.1);
+        }
+
+        .risk-item.info {
+            border-left-color: #58a6ff;
+            background: rgba(88, 166, 255, 0.1);
+        }
+
+        .risk-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        .risk-item.critical .risk-icon { background: #f85149; color: #fff; }
+        .risk-item.high .risk-icon { background: #f97316; color: #fff; }
+        .risk-item.medium .risk-icon { background: #d29922; color: #fff; }
+        .risk-item.low .risk-icon { background: #3fb950; color: #fff; }
+        .risk-item.info .risk-icon { background: #58a6ff; color: #fff; }
+
+        .risk-details {
+            flex: 1;
+        }
+
+        .risk-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+            color: var(--text-primary);
+            font-size: 0.8rem;
+        }
+
+        .risk-description {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        .risk-path {
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            margin-top: 4px;
+            background: var(--bg-secondary);
+            padding: 2px 6px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+
+        .risk-impact {
+            font-size: 0.65rem;
+            color: #f85149;
+            margin-top: 3px;
+            font-style: italic;
+        }
+
+        /* Recommendations Panel */
+        .recommendations-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .recommendations-panel .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--guardz-purple) var(--bg-input);
+        }
+
+        .recommendation-item {
+            display: flex;
+            gap: 8px;
+            padding: 7px 10px;
+            background: #0d1117;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            font-size: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .recommendation-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .recommendation-item.completed {
+            opacity: 0.5;
+        }
+
+        .recommendation-item.completed .rec-text {
+            text-decoration: line-through;
+        }
+
+        .rec-checkbox {
+            width: 18px;
+            height: 18px;
+            accent-color: #238636;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .rec-priority {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .rec-priority.immediate { background: #f85149; color: #fff; }
+        .rec-priority.ongoing { background: #d29922; color: #fff; }
+        .rec-priority.best-practice { background: #238636; color: #fff; }
+
+        .rec-text {
+            color: #c9d1d9;
+            line-height: 1.5;
+            flex: 1;
+        }
+
+        .rec-category {
+            font-size: 0.7rem;
+            color: #8b949e;
+            display: block;
+            margin-top: 4px;
+        }
+
+        .rec-id {
+            color: #58a6ff;
+            font-weight: 600;
+            margin-right: 4px;
+        }
+
+        /* Options Panel (Right Side) */
+        .options-panel {
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .options-panel .panel-content {
+            padding: 8px;
+        }
+
+        .option-group {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #21262d;
+        }
+
+        .option-group:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .option-label {
+            font-size: 0.7rem;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 0;
+            cursor: pointer;
+        }
+
+        .checkbox-option input[type="checkbox"] {
+            width: 12px;
+            height: 12px;
+            accent-color: #238636;
+        }
+
+        .checkbox-option span {
+            font-size: 0.7rem;
+        }
+
+        .severity-filter {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .severity-tag {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.65rem;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .severity-tag.critical { background: rgba(248, 81, 73, 0.2); color: #f85149; border-color: #f85149; }
+        .severity-tag.high { background: rgba(249, 115, 22, 0.2); color: #f97316; border-color: #f97316; }
+        .severity-tag.medium { background: rgba(210, 153, 34, 0.2); color: #d29922; border-color: #d29922; }
+        .severity-tag.low { background: rgba(63, 185, 80, 0.2); color: #3fb950; border-color: #3fb950; }
+        .severity-tag.info { background: rgba(88, 166, 255, 0.2); color: #58a6ff; border-color: #58a6ff; }
+
+        .severity-tag.inactive {
+            opacity: 0.4;
+            border-color: transparent;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 4px;
+        }
+
+        .stat-box {
+            background: #0d1117;
+            padding: 6px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #f0f6fc;
+        }
+
+        .stat-label {
+            font-size: 0.65rem;
+            color: #8b949e;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+
+        .stat-box.critical .stat-value { color: #f85149; }
+        .stat-box.high .stat-value { color: #f97316; }
+        .stat-box.medium .stat-value { color: #d29922; }
+        .stat-box.low .stat-value { color: #3fb950; }
+
+        /* Empty State */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            color: #8b949e;
+            text-align: center;
+        }
+
+        .empty-state svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            color: #c9d1d9;
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+
+        .empty-state p {
+            font-size: 0.8rem;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #21262d;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #484f58;
+            border-radius: 3px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6e7681;
+        }
+
+        /* File info */
+        .file-info {
+            background: #21262d;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .file-info svg {
+            width: 14px;
+            height: 14px;
+            color: #8b949e;
+        }
+
+        .file-name {
+            color: #58a6ff;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.75rem;
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .file-count {
+            background: var(--guardz-purple);
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+
+        .clear-files-btn {
+            background: rgba(248, 81, 73, 0.2);
+            border: none;
+            color: #f85149;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: auto;
+            transition: background 0.2s;
+        }
+
+        .clear-files-btn:hover {
+            background: rgba(248, 81, 73, 0.4);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        /* Risk score */
+        /* File buttons grid */
+        .file-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3px;
+            max-height: 160px;
+            overflow-y: auto;
+        }
+
+        .file-btn {
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #c9d1d9;
+            padding: 4px 6px;
+            border-radius: 4px;
+            font-size: 0.6rem;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+        }
+
+        .file-btn:hover {
+            background: var(--border-color);
+            border-color: var(--text-muted);
+        }
+
+        .file-btn-title {
+            font-weight: 600;
+            color: var(--text-primary);
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        .file-btn-path {
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            word-break: break-all;
+        }
+
+        /* Tabs */
+        .tab-container {
+            display: flex;
+            gap: 2px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.65rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+        }
+
+        .tab-btn.active {
+            background: var(--guardz-purple);
+            color: #fff;
+        }
+
+        /* Badge */
+        .badge {
+            background: var(--border-color);
+            color: var(--text-muted);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+        }
+
+        /* Export button */
+        .export-btn {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .export-btn:hover {
+            background: var(--border-color);
+        }
+
+        /* Link */
+        .doc-link {
+            color: #58a6ff;
+            text-decoration: none;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .doc-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="protected" data-theme="dark" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;">
+    <!-- Watermark -->
+    <div class="watermark">Guardz Security Research</div>
+
+    <header class="header">
+        <div class="header-left">
+            <!-- Guardz Logo - Brand Colors -->
+            <svg class="guardz-logo" viewBox="0 0 100 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Guardz official brand wordmark with mandatory dot -->
+                <text x="0" y="20" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="700" letter-spacing="-0.3" fill="#ffffff">Guardz</text>
+                <!-- The mandatory brand dot in Guardz green -->
+                <circle cx="74" cy="17" r="3.5" fill="#40FEAE"/>
+            </svg>
+            <div class="divider"></div>
+            <h1>OpenClaw Analyzer</h1>
+        </div>
+        <div class="header-actions">
+            <!-- OpenClaw Logo -->
+            <a href="https://openclaw.ai" target="_blank" class="openclaw-logo-link" title="OpenClaw">
+                <svg class="openclaw-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Claw icon -->
+                    <path d="M8 6c0-2 1.5-4 4-4s4 2 4 4v8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M16 6c0-2 1.5-4 4-4s4 2 4 4v8" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M4 12c0-2 1.5-4 4-4s3 1.5 3 3.5v10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M21 11.5c0-2 1-3.5 3-3.5s4 2 4 4v10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M6 22c0 4 4 8 10 8s10-4 10-8v-4c0-2-2-4-4-4H10c-2 0-4 2-4 4v4z" fill="currentColor" opacity="0.2"/>
+                    <path d="M6 22c0 4 4 8 10 8s10-4 10-8v-4c0-2-2-4-4-4H10c-2 0-4 2-4 4v4z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </a>
+            <!-- Theme Toggle -->
+            <div class="theme-toggle" onclick="toggleTheme()">
+                <button class="theme-toggle-btn active" id="darkBtn" title="Dark Mode">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+                    </svg>
+                </button>
+                <button class="theme-toggle-btn" id="lightBtn" title="Light Mode">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                </button>
+            </div>
+            <a href="https://docs.openclaw.ai/gateway/security" target="_blank" class="doc-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                Docs
+            </a>
+            <button class="import-btn" onclick="document.getElementById('fileInput').click()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                </svg>
+                Import Config
+            </button>
+            <input type="file" id="fileInput" accept=".json,.jsonl" multiple onchange="handleFileUpload(event)">
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="main-content">
+            <!-- Risks Panel -->
+            <div class="panel risks-panel">
+                <div class="panel-header">
+                    <div class="panel-header-left">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                        </svg>
+                        Potential Risks
+                        <span class="badge" id="riskCount">0</span>
+                    </div>
+                    <button class="export-btn" onclick="exportReport()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                        </svg>
+                        Export
+                    </button>
+                </div>
+                <div class="panel-content" id="risksContent">
+                    <!-- Rendered by JS -->
+                </div>
+            </div>
+
+            <!-- Recommendations Panel -->
+            <div class="panel recommendations-panel">
+                <div class="panel-header">
+                    <div class="panel-header-left">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        Security Recommendations
+                    </div>
+                    <div class="tab-container" id="recTabs">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+                <div class="panel-content" id="recommendationsContent">
+                    <!-- Rendered by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Options Panel -->
+        <div class="panel options-panel">
+            <div class="panel-header">
+                <div class="panel-header-left">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    Options
+                </div>
+            </div>
+            <div class="panel-content" style="max-height: none;">
+                <!-- File Info -->
+                <div class="file-info" id="fileInfo" style="display: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span class="file-name" id="fileName"></span>
+                    <span class="file-count" id="fileCount"></span>
+                    <button class="clear-files-btn" onclick="clearLoadedFiles()" title="Clear all loaded files">×</button>
+                </div>
+
+                <!-- Import Specific Files -->
+                <div class="option-group">
+                    <div class="option-label">Import Configuration Files</div>
+                    <div class="file-buttons">
+                        <button class="file-btn" onclick="promptFileType('config')">
+                            <span class="file-btn-title">Main Config</span>
+                            <span class="file-btn-path">~/.openclaw/openclaw.json</span>
+                        </button>
+                        <button class="file-btn" onclick="promptFileType('credentials')">
+                            <span class="file-btn-title">Credentials</span>
+                            <span class="file-btn-path">~/.openclaw/credentials/*.json</span>
+                        </button>
+                        <button class="file-btn" onclick="promptFileType('auth-profiles')">
+                            <span class="file-btn-title">Auth Profiles</span>
+                            <span class="file-btn-path">agents/*/auth-profiles.json</span>
+                        </button>
+                        <button class="file-btn" onclick="promptFileType('session')">
+                            <span class="file-btn-title">Session Logs</span>
+                            <span class="file-btn-path">agents/*/sessions/*.jsonl</span>
+                        </button>
+                        <button class="file-btn" onclick="promptFileType('allowlist')">
+                            <span class="file-btn-title">DM Allowlist</span>
+                            <span class="file-btn-path">*-allowFrom.json</span>
+                        </button>
+                        <button class="file-btn" onclick="promptFileType('whatsapp')">
+                            <span class="file-btn-title">WhatsApp Creds</span>
+                            <span class="file-btn-path">credentials/whatsapp/creds.json</span>
+                        </button>
+                        <button class="file-btn" onclick="promptFileType('discord')">
+                            <span class="file-btn-title">Discord Token</span>
+                            <span class="file-btn-path">credentials/discord/token.json</span>
+                        </button>
+                        <button class="file-btn" onclick="promptFileType('slack')">
+                            <span class="file-btn-title">Slack Token</span>
+                            <span class="file-btn-path">credentials/slack/token.json</span>
+                        </button>
+                        <button class="file-btn" onclick="promptFileType('telegram')">
+                            <span class="file-btn-title">Telegram Bot</span>
+                            <span class="file-btn-path">credentials/telegram/bot.json</span>
+                        </button>
+                        <button class="file-btn" onclick="promptFileType('plugin')">
+                            <span class="file-btn-title">Plugin Config</span>
+                            <span class="file-btn-path">extensions/*/package.json</span>
+                        </button>
+                        <button class="file-btn" onclick="promptFileType('agent')">
+                            <span class="file-btn-title">Agent Config</span>
+                            <span class="file-btn-path">agents/*/agent.json</span>
+                        </button>
+                        <button class="file-btn" onclick="promptFileType('settings')">
+                            <span class="file-btn-title">Settings</span>
+                            <span class="file-btn-path">~/.openclaw/settings.json</span>
+                        </button>
+                        <button class="file-btn" onclick="promptFileType('jobs')">
+                            <span class="file-btn-title">Jobs</span>
+                            <span class="file-btn-path">~/.openclaw/jobs.json</span>
+                        </button>
+                        <button class="file-btn" onclick="promptFileType('device-auth')">
+                            <span class="file-btn-title">Device Auth</span>
+                            <span class="file-btn-path">~/.openclaw/device-auth.json</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Severity Filter -->
+                <div class="option-group">
+                    <div class="option-label">Filter by Severity</div>
+                    <div class="severity-filter" id="severityFilter">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- Analysis Checks -->
+                <div class="option-group">
+                    <div class="option-label">Analysis Checks</div>
+                    <label class="checkbox-option">
+                        <input type="checkbox" id="checkSecrets" checked onchange="reanalyze()">
+                        <span>Exposed secrets & tokens</span>
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" id="checkNetwork" checked onchange="reanalyze()">
+                        <span>Network & gateway binding</span>
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" id="checkAuth" checked onchange="reanalyze()">
+                        <span>Authentication & access</span>
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" id="checkSandbox" checked onchange="reanalyze()">
+                        <span>Sandbox & tool policies</span>
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" id="checkChannels" checked onchange="reanalyze()">
+                        <span>Channel & DM policies</span>
+                    </label>
+                    <label class="checkbox-option">
+                        <input type="checkbox" id="checkDiscovery" checked onchange="reanalyze()">
+                        <span>Discovery & mDNS</span>
+                    </label>
+
+                    <!-- Exposure Graph -->
+                    <div class="exposure-graph" id="exposureGraph">
+                        <div class="exposure-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                            </svg>
+                            Attack Path Exposure
+                        </div>
+                        <div id="exposureNodes">
+                            <!-- Rendered by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats -->
+                <div class="option-group">
+                    <div class="option-label">Findings Summary</div>
+                    <div class="stats-grid">
+                        <div class="stat-box critical">
+                            <div class="stat-value" id="criticalCount">0</div>
+                            <div class="stat-label">Critical</div>
+                        </div>
+                        <div class="stat-box high">
+                            <div class="stat-value" id="highCount">0</div>
+                            <div class="stat-label">High</div>
+                        </div>
+                        <div class="stat-box medium">
+                            <div class="stat-value" id="mediumCount">0</div>
+                            <div class="stat-label">Medium</div>
+                        </div>
+                        <div class="stat-box low">
+                            <div class="stat-value" id="lowCount">0</div>
+                            <div class="stat-label">Low</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let loadedConfigs = []; // Array to store multiple configs
+        let currentConfig = null; // Keep for backward compatibility
+        let currentFindings = [];
+        let currentFileType = 'config';
+        let activeSeverities = new Set(['critical', 'high', 'medium', 'low', 'info']);
+        let activeRecTab = 'all';
+        let currentTheme = 'dark';
+
+        // Theme toggle function
+        function toggleTheme() {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', currentTheme);
+            document.getElementById('darkBtn').classList.toggle('active', currentTheme === 'dark');
+            document.getElementById('lightBtn').classList.toggle('active', currentTheme === 'light');
+
+            // Update logo text color for light mode
+            const logoText = document.querySelector('.logo-text');
+            if (logoText) {
+                logoText.setAttribute('fill', currentTheme === 'dark' ? '#f0f6fc' : '#2f2472');
+            }
+        }
+
+        // Comprehensive security recommendations with rich instructions (68 checks)
+        const RECOMMENDATIONS = {
+            network: [
+                { text: 'Loopback Binding: Force gateway.bind to 127.0.0.1', category: 'Network', id: 1, instruction: 'Edit openclaw.json and set gateway.bind to "loopback" or "127.0.0.1"', code: '"gateway": { "bind": "loopback" }', risk: 'Remote attackers can access your agent from the network', difficulty: 'easy', tags: ['Critical', 'Quick Win'] },
+                { text: 'Origin Validation: Whitelist localhost and proxy domain in WebSocket headers', category: 'Network', id: 2, instruction: 'Configure allowed origins in gateway settings to prevent cross-origin attacks', code: '"gateway": { "allowedOrigins": ["localhost", "127.0.0.1"] }', risk: 'Cross-site WebSocket hijacking allows session theft', difficulty: 'easy', tags: ['CSRF Protection'] },
+                { text: 'Port Randomization: Move default port 18789 to high-range non-standard port', category: 'Network', id: 3, instruction: 'Change gateway.port to a random high port (49152-65535)', code: '"gateway": { "port": 52847 }', risk: 'Default ports are targeted by automated scanners', difficulty: 'easy', tags: ['Obscurity'] },
+                { text: 'Egress Allow-listing: Block outbound traffic except to specific LLM APIs', category: 'Network', id: 4, instruction: 'Use firewall rules (iptables/pf) to whitelist only api.openai.com, api.anthropic.com', code: 'iptables -A OUTPUT -d api.anthropic.com -j ACCEPT', risk: 'Compromised agent can exfiltrate data to attacker servers', difficulty: 'medium', tags: ['Data Exfil', 'Firewall'] },
+                { text: 'UPnP Disable: Prevent agent from requesting automatic port forwarding', category: 'Network', id: 5, instruction: 'Disable UPnP on your router and block UPnP traffic from the agent', code: 'Disable in router settings: UPnP/NAT-PMP', risk: 'Agent could expose itself to the internet automatically', difficulty: 'easy', tags: ['Router Config'] },
+                { text: 'DNS Rebinding Shield: Use local proxy to validate Host header', category: 'Network', id: 6, instruction: 'Configure nginx/caddy to reject requests with non-matching Host headers', code: 'if ($host !~* ^(localhost|127.0.0.1)$) { return 444; }', risk: 'Attacker can bypass same-origin policy via DNS rebinding', difficulty: 'medium', tags: ['Advanced'] },
+                { text: 'TLS Termination: Run Control UI behind local HTTPS proxy (Caddy/Nginx)', category: 'TLS', id: 7, instruction: 'Set up Caddy with automatic HTTPS for local connections', code: 'caddy reverse-proxy --from localhost:443 --to localhost:18789', risk: 'Unencrypted traffic can be intercepted on local network', difficulty: 'medium', tags: ['Encryption'] },
+                { text: 'mTLS: Require client certificates for remote gateway management', category: 'TLS', id: 8, instruction: 'Generate client certs and configure gateway to require them', code: '"gateway": { "tls": { "clientAuth": "required" } }', risk: 'Token-only auth can be brute-forced or stolen', difficulty: 'hard', tags: ['Enterprise', 'PKI'] },
+                { text: 'VPN Requirement: Allow access only through Zero-Trust tunnel (Tailscale/WireGuard)', category: 'Network', id: 9, instruction: 'Enable Tailscale mode and disable direct network access', code: '"gateway": { "tailscale": { "mode": "on" } }', risk: 'Direct network exposure increases attack surface', difficulty: 'easy', tags: ['Zero Trust', 'Recommended'] },
+                { text: 'Proxy Chaining: Route agent traffic through inspecting proxy (Squid) for filtering', category: 'Network', id: 10, instruction: 'Configure HTTP_PROXY environment variable to point to Squid', code: 'export HTTP_PROXY=http://localhost:3128', risk: 'Malicious content can bypass network monitoring', difficulty: 'medium', tags: ['Monitoring', 'DLP'] },
+            ],
+            identity: [
+                { text: 'Brokered OAuth: Use tools like Composio so raw tokens never touch .env', category: 'Secrets', id: 11, instruction: 'Integrate Composio or similar OAuth broker to manage tokens externally', code: 'composio add slack --oauth', risk: 'Plaintext tokens in .env can be stolen via file read', difficulty: 'medium', tags: ['OAuth', 'Best Practice'] },
+                { text: 'Secret Encryption: Store keys in encrypted vault (Bitwarden/1Pass)', category: 'Secrets', id: 12, instruction: 'Use 1Password CLI or Bitwarden to inject secrets at runtime', code: 'export OPENAI_KEY=$(op read "op://Vault/OpenAI/key")', risk: 'Unencrypted secrets are exposed if filesystem is compromised', difficulty: 'easy', tags: ['Vault', 'Recommended'] },
+                { text: 'Short-Lived Tokens: Set authToken TTL to 4 hours or less', category: 'Authentication', id: 13, instruction: 'Configure token expiration in gateway auth settings', code: '"gateway": { "auth": { "tokenTTL": "4h" } }', risk: 'Long-lived tokens give attackers extended access windows', difficulty: 'easy', tags: ['Quick Win'] },
+                { text: 'Canary Secrets: Place fake "AWS_KEY" files in config to trigger alerts on read', category: 'Detection', id: 14, instruction: 'Create honeypot files and monitor with auditd or canarytokens.org', code: 'echo "AKIA_FAKE_KEY" > ~/.openclaw/aws_canary.txt', risk: 'Without canaries, credential theft goes undetected', difficulty: 'easy', tags: ['Detection', 'Honeypot'] },
+                { text: 'Scoped API Keys: Use "Read-Only" scopes for Gmail/Slack integrations', category: 'Access Control', id: 15, instruction: 'When creating OAuth apps, select minimal scopes (read-only where possible)', code: 'OAuth scopes: channels:read, users:read (not write)', risk: 'Over-privileged keys allow data modification if compromised', difficulty: 'easy', tags: ['Least Privilege'] },
+                { text: 'FIDO2 MFA: Require hardware key (YubiKey) for Control UI access', category: 'Authentication', id: 16, instruction: 'Enable WebAuthn in gateway settings and register your hardware key', code: '"gateway": { "controlUi": { "requireFido2": true } }', risk: 'Password/token-only auth is phishable', difficulty: 'medium', tags: ['Enterprise', 'MFA'] },
+                { text: 'Directory Isolation: Block agent from reading ~/.ssh and ~/.aws', category: 'Isolation', id: 17, instruction: 'Use AppArmor or sandbox rules to deny access to sensitive directories', code: 'deny /home/*/.ssh/** r, deny /home/*/.aws/** r,', risk: 'Agent could exfiltrate SSH keys or cloud credentials', difficulty: 'medium', tags: ['Critical', 'Sandbox'] },
+                { text: 'Browser Cookie Protection: Encrypt or move browser profiles away from agent', category: 'Isolation', id: 18, instruction: 'Move Chrome/Firefox profiles outside agent workspace or encrypt with LUKS', code: 'mv ~/.config/google-chrome /secure-volume/', risk: 'Browser cookies contain session tokens for all your accounts', difficulty: 'medium', tags: ['Browser', 'Session Hijack'] },
+                { text: 'Key Rotation Script: Auto-regenerate gateway_token weekly', category: 'Credentials', id: 19, instruction: 'Create a cron job to regenerate and update the gateway token', code: '0 0 * * 0 openclaw auth rotate-token', risk: 'Static credentials have unlimited validity if leaked', difficulty: 'easy', tags: ['Automation', 'Cron'] },
+                { text: 'No-Share Policy: Use unique identities for Dev, Test, and Prod', category: 'Isolation', id: 20, instruction: 'Create separate OpenClaw installations with different credentials per environment', code: 'OPENCLAW_HOME=~/.openclaw-prod openclaw start', risk: 'Shared credentials allow dev compromise to affect prod', difficulty: 'easy', tags: ['Environment Separation'] },
+            ],
+            sandbox: [
+                { text: 'Rootless Docker: Run entire stack as non-privileged user (UID 1000)', category: 'Container', id: 21, instruction: 'Run Docker in rootless mode or specify --user flag', code: 'docker run --user 1000:1000 openclaw/agent', risk: 'Root container can escape to host with full privileges', difficulty: 'easy', tags: ['Critical', 'Quick Win'] },
+                { text: 'Read-Only Root FS: Use --read-only in Docker to prevent persistence', category: 'Container', id: 22, instruction: 'Add --read-only flag to prevent filesystem modifications', code: 'docker run --read-only --tmpfs /tmp openclaw/agent', risk: 'Writable filesystem allows malware persistence and backdoors', difficulty: 'easy', tags: ['Persistence Prevention'] },
+                { text: 'Dropped Capabilities: Use --cap-drop=ALL to strip admin rights', category: 'Container', id: 23, instruction: 'Drop all Linux capabilities from the container', code: 'docker run --cap-drop=ALL openclaw/agent', risk: 'Capabilities like CAP_SYS_ADMIN enable container escapes', difficulty: 'easy', tags: ['Critical', 'Container Escape'] },
+                { text: 'No-New-Privileges: Enable --security-opt=no-new-privileges', category: 'Container', id: 24, instruction: 'Prevent privilege escalation via setuid binaries', code: 'docker run --security-opt=no-new-privileges openclaw/agent', risk: 'Setuid binaries can escalate to root inside container', difficulty: 'easy', tags: ['Privilege Escalation'] },
+                { text: 'PIDs Limit: Use --pids-limit=50 to prevent fork-bombs', category: 'Container', id: 25, instruction: 'Limit the number of processes the container can spawn', code: 'docker run --pids-limit=50 openclaw/agent', risk: 'Fork bombs can DoS the entire host system', difficulty: 'easy', tags: ['DoS Prevention'] },
+                { text: 'CPU/RAM Capping: Limit container to 1 CPU and 2GB RAM', category: 'Container', id: 26, instruction: 'Set resource limits to prevent crypto-mining or DoS', code: 'docker run --cpus=1 --memory=2g openclaw/agent', risk: 'Unlimited resources enable cryptomining and resource exhaustion', difficulty: 'easy', tags: ['Resource Limits'] },
+                { text: 'No Host Mounts: Never mount / or /home/user - use isolated sub-dirs', category: 'Container', id: 27, instruction: 'Only mount specific directories needed by the agent', code: 'docker run -v /openclaw/workspace:/workspace openclaw/agent', risk: 'Host mounts expose sensitive files like SSH keys and credentials', difficulty: 'easy', tags: ['Critical', 'Data Exposure'] },
+                { text: 'Seccomp Profiles: Apply custom Seccomp to block dangerous syscalls', category: 'Container', id: 28, instruction: 'Use a restrictive seccomp profile to block dangerous syscalls', code: 'docker run --security-opt seccomp=openclaw-seccomp.json', risk: 'Dangerous syscalls enable kernel exploits and escapes', difficulty: 'hard', tags: ['Advanced', 'Kernel Protection'] },
+                { text: 'AppArmor/SELinux: Set profiles to Enforcing mode', category: 'Container', id: 29, instruction: 'Apply AppArmor or SELinux profile to the container', code: 'docker run --security-opt apparmor=openclaw-profile', risk: 'Without MAC, container has unrestricted file and process access', difficulty: 'hard', tags: ['Enterprise', 'MAC'] },
+                { text: 'Tmpfs Hardening: Mount /tmp as noexec,nosuid,nodev', category: 'Container', id: 30, instruction: 'Use tmpfs with security options for temporary files', code: 'docker run --tmpfs /tmp:noexec,nosuid,nodev,size=100m', risk: 'Executable /tmp allows payload staging and execution', difficulty: 'easy', tags: ['Payload Prevention'] },
+                { text: 'Binary Blocklist: Block nc, nmap, socat, tcpdump', category: 'Execution', id: 31, instruction: 'Remove or block dangerous network utilities from the container', code: 'rm /usr/bin/nc /usr/bin/nmap /usr/bin/socat', risk: 'Network tools enable lateral movement and data exfiltration', difficulty: 'medium', tags: ['Attack Tools', 'Defense'] },
+                { text: 'Shell Restricted Mode: Run shell tool in rbash', category: 'Execution', id: 32, instruction: 'Configure shell tool to use restricted bash mode', code: '"tools": { "shell": { "command": "/bin/rbash" } }', risk: 'Unrestricted shell enables arbitrary command execution', difficulty: 'medium', tags: ['Shell Hardening'] },
+                { text: 'Static PATH: Hardcode PATH to /usr/bin:/bin to prevent hijacking', category: 'Execution', id: 33, instruction: 'Set a fixed PATH environment variable in agent config', code: '"agents": { "defaults": { "env": { "PATH": "/usr/bin:/bin" } } }', risk: 'PATH injection executes malicious binaries instead of system ones', difficulty: 'easy', tags: ['Path Hijack'] },
+                { text: 'Execution Timeouts: Kill tool execution exceeding 60 seconds', category: 'Execution', id: 34, instruction: 'Set timeout limits for all tool executions', code: '"tools": { "timeout": 60000 }', risk: 'Long-running processes can mine crypto or maintain persistence', difficulty: 'easy', tags: ['Resource Control'] },
+                { text: 'Manual Approvals: Set exec.approvals: on for shell/file-write', category: 'Execution', id: 35, instruction: 'Require human approval for dangerous operations', code: '"agents": { "defaults": { "approvals": { "exec": true, "write": true } } }', risk: 'Auto-approved commands execute without human oversight', difficulty: 'easy', tags: ['Critical', 'Human-in-Loop'] },
+            ],
+            supply: [
+                { text: 'Skill Pre-Audit: Manually review all .md files in skills/ before loading', category: 'Skills', id: 36, instruction: 'Read and approve each skill file before enabling', code: 'cat ~/.openclaw/skills/*/SKILL.md | less', risk: 'Malicious skills can execute arbitrary code when loaded', difficulty: 'easy', tags: ['Critical', 'Code Review'] },
+                { text: 'Hash Verification: Maintain local manifest of skill hashes; alert on changes', category: 'Skills', id: 37, instruction: 'Create SHA256 hashes of skills and compare on startup', code: 'sha256sum ~/.openclaw/skills/*/*.md > skills.sha256', risk: 'Modified skills go undetected without integrity checking', difficulty: 'medium', tags: ['Integrity', 'Tampering'] },
+                { text: 'No Auto-Update: Disable self-updating features in community skills', category: 'Skills', id: 38, instruction: 'Disable automatic skill updates in settings', code: '"skills": { "autoUpdate": false }', risk: 'Auto-updates can silently introduce malicious code', difficulty: 'easy', tags: ['Supply Chain', 'Recommended'] },
+                { text: 'Regex Linter: Scan skills for base64, eval, osascript strings', category: 'Skills', id: 39, instruction: 'Run a security linter on all skill files', code: 'grep -rE "(eval|base64|osascript)" ~/.openclaw/skills/', risk: 'Obfuscated payloads hide malicious intent in skills', difficulty: 'easy', tags: ['Static Analysis'] },
+                { text: 'Domain Blacklist: Block skill-initiated calls to webhook.site, glot.io', category: 'Skills', id: 40, instruction: 'Add suspicious domains to firewall blocklist', code: 'echo "127.0.0.1 webhook.site" >> /etc/hosts', risk: 'Data exfiltration via external webhook services', difficulty: 'easy', tags: ['Exfiltration', 'Network'] },
+                { text: 'GPG Signing: Only allow skills signed by trusted developers', category: 'Skills', id: 41, instruction: 'Verify GPG signatures on skill packages before installation', code: 'gpg --verify skill.sig skill.tar.gz', risk: 'Unsigned skills could be from untrusted or compromised sources', difficulty: 'hard', tags: ['Enterprise', 'PKI'] },
+                { text: 'Sandbox-Only Tools: Force skills to run inside container, never host', category: 'Skills', id: 42, instruction: 'Configure skills to always execute within sandbox', code: '"skills": { "sandboxOnly": true }', risk: 'Host-executed skills have full system access', difficulty: 'medium', tags: ['Critical', 'Isolation'] },
+                { text: 'Dependency Pinning: Lock versions of Python/Node packages', category: 'Supply Chain', id: 43, instruction: 'Use lockfiles and pin exact versions', code: 'npm ci --ignore-scripts && pip install --require-hashes', risk: 'Unpinned deps vulnerable to dependency confusion attacks', difficulty: 'medium', tags: ['Supply Chain', 'Dependencies'] },
+                { text: 'Skill Quarantine: Move unverified skills to .suspect extension', category: 'Skills', id: 44, instruction: 'Automatically quarantine new skills until reviewed', code: 'mv new-skill.md new-skill.md.suspect', risk: 'New skills execute before security review', difficulty: 'easy', tags: ['Workflow', 'Review'] },
+                { text: 'Metadata Stripping: Remove GPS/EXIF data before agent processes files', category: 'Data Protection', id: 45, instruction: 'Use exiftool to strip metadata from uploaded files', code: 'exiftool -all= uploaded_file.jpg', risk: 'EXIF metadata leaks location and device information', difficulty: 'easy', tags: ['Privacy', 'OSINT'] },
+                { text: 'Prompt Guardrails: Use LLM Classifier to scan for "ignore previous instructions"', category: 'Prompt Security', id: 46, instruction: 'Add input filtering layer to detect injection attempts', code: 'if "ignore" in prompt.lower(): reject()', risk: 'Prompt injection bypasses system instructions', difficulty: 'medium', tags: ['Critical', 'Injection'] },
+                { text: 'Output Sanitization: Redact PII from agent responses', category: 'Data Protection', id: 47, instruction: 'Apply regex filters to remove emails, SSNs, etc.', code: 'response = re.sub(r"\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}\\b", "[REDACTED]", response)', risk: 'PII leakage in responses violates privacy regulations', difficulty: 'medium', tags: ['Privacy', 'GDPR'] },
+                { text: 'Context Minimization: Prune conversation history to remove old instructions', category: 'Prompt Security', id: 48, instruction: 'Limit context window and prune old messages', code: '"agents": { "defaults": { "contextLimit": 10 } }', risk: 'Long context increases injection attack surface', difficulty: 'easy', tags: ['Context', 'Memory'] },
+                { text: 'Dual LLM Pattern: Use Privileged LLM for planning, Quarantined for data', category: 'Architecture', id: 49, instruction: 'Route untrusted content through separate sandboxed LLM', code: 'Use "reader-agent" with tools.deny: ["write","exec"]', risk: 'Single LLM with untrusted data can be fully compromised', difficulty: 'hard', tags: ['Advanced', 'Architecture'] },
+                { text: 'Template-Only Prompts: Use structured templates instead of open-ended NL', category: 'Prompt Security', id: 50, instruction: 'Define strict prompt templates that limit injection surface', code: 'PROMPT = "Summarize this in {format}: {content}"', risk: 'Freeform prompts are easier to inject malicious instructions', difficulty: 'medium', tags: ['Templates', 'Hardening'] },
+            ],
+            monitoring: [
+                { text: 'Auditd Logging: Track every execve syscall made by agent', category: 'Logging', id: 51, instruction: 'Configure auditd rules to monitor process execution', code: 'auditctl -a always,exit -F arch=b64 -S execve -k openclaw', risk: 'Without logging, malicious commands go undetected', difficulty: 'medium', tags: ['Visibility', 'Forensics'] },
+                { text: 'Syslog Export: Send logs to external, immutable SIEM', category: 'Logging', id: 52, instruction: 'Configure rsyslog to forward to remote SIEM', code: '*.* @@siem.company.com:514', risk: 'Local logs can be deleted by attacker to cover tracks', difficulty: 'medium', tags: ['SIEM', 'Immutable'] },
+                { text: 'Anomaly Detection: Alert on spikes in file reads or network traffic', category: 'Detection', id: 53, instruction: 'Use tools like OSSEC or Wazuh for anomaly detection', code: 'ossec-control enable && systemctl start wazuh-agent', risk: 'Attacks blend in without baseline anomaly detection', difficulty: 'hard', tags: ['UEBA', 'ML'] },
+                { text: 'Clipboard Monitor: Block and alert if agent calls pbpaste or xclip', category: 'Detection', id: 54, instruction: 'Block clipboard access via AppArmor or audit clipboard commands', code: 'auditctl -w /usr/bin/pbpaste -p x -k clipboard', risk: 'Clipboard can contain passwords and sensitive data', difficulty: 'easy', tags: ['Data Theft', 'Monitoring'] },
+                { text: 'File Deletion Cap: Kill process if >5 files deleted in 1 minute', category: 'Detection', id: 55, instruction: 'Use inotify to monitor deletions and trigger killswitch', code: 'inotifywait -m -e delete --format "%f" /workspace', risk: 'Mass file deletion indicates ransomware or sabotage', difficulty: 'medium', tags: ['Ransomware', 'Kill Switch'] },
+                { text: 'Persistence Watch: Alert on changes to ~/.bashrc, .zshrc, LaunchAgents', category: 'Detection', id: 56, instruction: 'Monitor shell config files for unauthorized modifications', code: 'auditctl -w /home/*/.bashrc -p wa -k persistence', risk: 'Attackers maintain access via shell startup scripts', difficulty: 'easy', tags: ['Persistence', 'Critical'] },
+                { text: 'Snapshot-Before-Run: Take VM/Container snapshot before testing new skill', category: 'Recovery', id: 57, instruction: 'Create checkpoint before running untrusted code', code: 'docker commit openclaw-agent openclaw-backup', risk: 'No rollback option if skill causes damage', difficulty: 'easy', tags: ['Recovery', 'Recommended'] },
+                { text: 'Periodic Resets: Auto wipe and rebuild agent container every 24 hours', category: 'Recovery', id: 58, instruction: 'Schedule daily container recreation via cron', code: '0 0 * * * docker rm -f openclaw && docker run openclaw', risk: 'Long-lived containers accumulate compromises', difficulty: 'easy', tags: ['Ephemeral', 'Reset'] },
+                { text: 'Kill Switch: Map physical button to "killall -9 openclaw" script', category: 'Emergency', id: 59, instruction: 'Configure keyboard shortcut or physical button to emergency stop', code: 'alias panic="killall -9 openclaw node"', risk: 'Cannot quickly stop runaway agent in emergency', difficulty: 'easy', tags: ['Critical', 'Emergency'] },
+                { text: '"God Mode" Alert: Notify if exec.approvals toggled to off', category: 'Detection', id: 60, instruction: 'Monitor config file for changes to approval settings', code: 'inotifywait -m ~/.openclaw/openclaw.json | grep approvals', risk: 'Disabled approvals allow unsupervised dangerous actions', difficulty: 'easy', tags: ['Config Monitoring'] },
+                { text: 'Hidden File Audit: Scan for hidden .js/.py files in skills directory', category: 'Detection', id: 61, instruction: 'Regularly scan for suspicious hidden files', code: 'find ~/.openclaw/skills -name ".*" -type f', risk: 'Hidden files can contain backdoors and payloads', difficulty: 'easy', tags: ['Backdoor', 'Scanning'] },
+                { text: 'IMDS Access Block: Block access to cloud metadata IPs (169.254.169.254)', category: 'Cloud', id: 62, instruction: 'Add firewall rule to block metadata service access', code: 'iptables -A OUTPUT -d 169.254.169.254 -j DROP', risk: 'IMDS exposes cloud credentials and instance identity', difficulty: 'easy', tags: ['Critical', 'Cloud', 'SSRF'] },
+                { text: 'Browser History Check: Alert if agent visits known malicious URLs', category: 'Detection', id: 63, instruction: 'Monitor browser traffic against threat intelligence feeds', code: 'grep -f malicious-urls.txt ~/.openclaw/browser/history', risk: 'C2 communication via browser goes undetected', difficulty: 'medium', tags: ['Threat Intel', 'C2'] },
+                { text: 'Resource Quotas: Enforce disk space quotas to prevent Log Bombing', category: 'Resources', id: 64, instruction: 'Set filesystem quotas for the agent user', code: 'setquota -u openclaw 1G 2G 0 0 /home', risk: 'Disk exhaustion causes system-wide outage', difficulty: 'easy', tags: ['DoS', 'Quotas'] },
+                { text: 'Orphaned Proc Kill: Periodically kill zombie node processes', category: 'Resources', id: 65, instruction: 'Schedule cleanup of orphaned processes', code: '*/5 * * * * pkill -f "node.*orphaned"', risk: 'Zombie processes consume resources and may run malicious code', difficulty: 'easy', tags: ['Cleanup', 'Resources'] },
+                { text: 'TCC Permission Audit: Ensure no Accessibility/Screen Recording on Mac', category: 'Platform', id: 66, instruction: 'Check TCC database for unauthorized permissions', code: 'sqlite3 ~/Library/Application\\ Support/com.apple.TCC/TCC.db "SELECT * FROM access"', risk: 'TCC permissions enable keylogging and screen capture', difficulty: 'medium', tags: ['macOS', 'Permissions'] },
+                { text: 'Credential Swap: Use temporary AWS/GCP session tokens instead of static', category: 'Cloud', id: 67, instruction: 'Use STS assume-role for temporary credentials', code: 'aws sts assume-role --role-arn arn:aws:iam::123:role/Agent', risk: 'Static cloud keys have unlimited validity if leaked', difficulty: 'medium', tags: ['Cloud', 'STS'] },
+                { text: 'Memory Scraping Defense: Enable Ptrace protections', category: 'Platform', id: 68, instruction: 'Prevent memory debugging attacks via kernel settings', code: 'echo 1 > /proc/sys/kernel/yama/ptrace_scope', risk: 'Memory debugging exposes secrets and session tokens', difficulty: 'easy', tags: ['Memory', 'Kernel'] },
+            ]
+        };
+
+        // All known risks from OpenClaw security docs
+        const KNOWN_RISKS = {
+            critical: [
+                { id: 'prompt-injection', title: 'Prompt Injection Vulnerability', description: 'Model can be manipulated via messages or untrusted content to execute harmful actions', impact: 'Remote code execution, data exfiltration, unauthorized tool calls', path: 'Model interaction' },
+                { id: 'uncontrolled-shell', title: 'Uncontrolled Shell Access', description: 'Agents with system.run and exec tools can execute arbitrary commands on host or paired nodes', impact: 'Full system compromise', path: 'tools.allow / tools.elevated' },
+                { id: 'public-dm-exposure', title: 'Public DM/Group Exposure', description: 'Strangers can trigger bot if DM/group policies are open or misconfigured', impact: 'Unauthorized access to tools and filesystem', path: 'channels.*.dmPolicy' },
+                { id: 'token-leakage', title: 'Token/Credential Leakage', description: 'Secrets stored on disk accessible to any process with filesystem access', impact: 'Account compromise, authentication bypass', path: '~/.openclaw/' },
+                { id: 'unauthenticated-gateway', title: 'Unauthenticated Gateway', description: 'Gateway exposed without auth allows remote access to all agent capabilities', impact: 'Complete system takeover', path: 'gateway.auth.mode' },
+            ],
+            high: [
+                { id: 'browser-remote', title: 'Browser Control Remote Access', description: 'Exposing relay/CDP ports over LAN or public Internet', impact: 'Full browser profile access', path: 'gateway.nodes.browser' },
+                { id: 'plugin-code-exec', title: 'Plugin Code Execution', description: 'Plugins run in-process; npm installs execute lifecycle scripts', impact: 'Arbitrary code execution', path: '~/.openclaw/extensions/' },
+                { id: 'transcript-exposure', title: 'Session Transcript Exposure', description: 'Transcripts stored plaintext in ~/.openclaw/agents/*/sessions/*.jsonl', impact: 'Sensitive data leak', path: 'agents/*/sessions/*.jsonl' },
+                { id: 'weak-model', title: 'Weak Model Selection', description: 'Smaller models more susceptible to prompt injection and tool misuse', impact: 'Increased exploitation risk', path: 'agents.defaults.model' },
+                { id: 'insecure-proxy', title: 'Insecure Reverse Proxy', description: 'Proxy headers can be spoofed for auth bypass', impact: 'Authentication bypass', path: 'gateway.trustedProxies' },
+            ],
+            medium: [
+                { id: 'group-always-on', title: 'Group Chat Always-On', description: 'Bot responds without mention in public rooms', impact: 'Unintended command execution', path: 'groupChat.mentionPatterns' },
+                { id: 'mdns-disclosure', title: 'mDNS Information Disclosure', description: 'Default broadcasts filesystem paths, SSH port, hostname', impact: 'Information leakage', path: 'discovery.mdns.mode' },
+                { id: 'debug-public', title: 'Debugging Features in Public', description: '/reasoning and /verbose expose internal model logic and tool output', impact: 'Internal state exposure', path: 'Slash commands' },
+                { id: 'context-leakage', title: 'Cross-User Context Leakage', description: 'Multiple people DMing same bot share session context', impact: 'Privacy violation', path: 'session.dmScope' },
+                { id: 'sandbox-escape', title: 'Sandbox Escape via Elevated Tools', description: 'tools.elevated allows exec on host, bypassing sandbox', impact: 'Sandbox bypass', path: 'tools.elevated.allowFrom' },
+                { id: 'token-auth-only', title: 'Static Token Authentication', description: 'Using static token authentication instead of more robust methods', impact: 'Credential theft risk', path: 'gateway.auth.mode' },
+            ],
+            low: [
+                { id: 'legacy-model', title: 'Legacy Model Warnings', description: 'Audit flags outdated models; reduces capabilities', impact: 'Reduced security posture', path: 'agents.defaults.model' },
+                { id: 'plugin-management', title: 'No Plugin Allowlist', description: 'No explicit allowlist by default; recommend plugins.allow config', impact: 'Uncontrolled plugins', path: 'plugins.allow' },
+                { id: 'insecure-device-auth', title: 'Device Identity Fallback', description: 'allowInsecureAuth degrades to token-only auth', impact: 'Weaker authentication', path: 'gateway.controlUi.allowInsecureAuth' },
+                { id: 'compaction-mode', title: 'Safeguard Compaction Mode', description: 'Context compaction preserves more context but uses more resources', impact: 'Resource usage', path: 'agents.defaults.compaction.mode' },
+                { id: 'npm-manager', title: 'NPM Package Manager', description: 'Using npm for skill installation; consider pnpm or yarn', impact: 'Dependency resolution', path: 'skills.install.nodeManager' },
+                { id: 'tailscale-disabled', title: 'Tailscale Disabled', description: 'Tailscale mesh networking is disabled', impact: 'No secure remote access', path: 'gateway.tailscale.mode' },
+            ]
+        };
+
+        // Safe DOM helpers
+        function createElement(tag, className, textContent) {
+            const el = document.createElement(tag);
+            if (className) el.className = className;
+            if (textContent) el.textContent = textContent;
+            return el;
+        }
+
+        function clearElement(el) {
+            while (el.firstChild) {
+                el.removeChild(el.firstChild);
+            }
+        }
+
+        // Initialize UI
+        function initUI() {
+            renderSeverityFilters();
+            renderRecTabs();
+            renderEmptyState('risksContent', 'No configuration loaded', 'Import an OpenClaw configuration file to analyze');
+            renderRecommendations();
+            renderInitialExposureGraph();
+        }
+
+        // Render initial exposure graph (before config loaded)
+        function renderInitialExposureGraph() {
+            const container = document.getElementById('exposureNodes');
+            if (!container) return;
+            clearElement(container);
+
+            const nodes = [
+                { type: 'attacker', label: 'External Attacker', icon: '👤', status: 'exposed', statusText: 'Unknown' },
+                { type: 'network', label: 'Network Layer', icon: '🌐', status: 'partial', statusText: 'Not Analyzed' },
+                { type: 'gateway', label: 'Gateway / Auth', icon: '🚪', status: 'partial', statusText: 'Not Analyzed' },
+                { type: 'agent', label: 'Agent / Tools', icon: '🤖', status: 'partial', statusText: 'Not Analyzed' },
+                { type: 'data', label: 'Sensitive Data', icon: '🔐', status: 'partial', statusText: 'Not Analyzed' }
+            ];
+
+            nodes.forEach(function(node, index) {
+                if (index > 0) {
+                    const arrow = createElement('div', 'exposure-path');
+                    arrow.textContent = '↓';
+                    container.appendChild(arrow);
+                }
+
+                const nodeEl = createElement('div', 'exposure-node ' + node.type);
+                const iconEl = createElement('div', 'exposure-node-icon', node.icon);
+                const labelEl = createElement('div', 'exposure-node-label', node.label);
+                const statusEl = createElement('div', 'exposure-node-status ' + node.status, node.statusText);
+
+                nodeEl.appendChild(iconEl);
+                nodeEl.appendChild(labelEl);
+                nodeEl.appendChild(statusEl);
+                container.appendChild(nodeEl);
+            });
+        }
+
+        function renderSeverityFilters() {
+            const container = document.getElementById('severityFilter');
+            clearElement(container);
+
+            const severities = ['critical', 'high', 'medium', 'low', 'info'];
+            severities.forEach(severity => {
+                const tag = createElement('span', 'severity-tag ' + severity);
+                tag.textContent = severity.charAt(0).toUpperCase() + severity.slice(1);
+                tag.dataset.severity = severity;
+                tag.addEventListener('click', function() { toggleSeverity(severity); });
+                container.appendChild(tag);
+            });
+        }
+
+        function renderRecTabs() {
+            const container = document.getElementById('recTabs');
+            clearElement(container);
+
+            const tabs = [
+                { id: 'all', label: 'All (68)' },
+                { id: 'network', label: 'Network' },
+                { id: 'identity', label: 'Identity' },
+                { id: 'sandbox', label: 'Sandbox' },
+                { id: 'supply', label: 'Supply Chain' },
+                { id: 'monitoring', label: 'Monitoring' }
+            ];
+
+            tabs.forEach(tab => {
+                const btn = createElement('button', 'tab-btn' + (tab.id === activeRecTab ? ' active' : ''), tab.label);
+                btn.addEventListener('click', function() {
+                    activeRecTab = tab.id;
+                    renderRecTabs();
+                    renderRecommendations();
+                });
+                container.appendChild(btn);
+            });
+        }
+
+        function renderEmptyState(containerId, title, message) {
+            const container = document.getElementById(containerId);
+            clearElement(container);
+
+            const emptyState = createElement('div', 'empty-state');
+
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('fill', 'none');
+            svg.setAttribute('viewBox', '0 0 24 24');
+            svg.setAttribute('stroke', 'currentColor');
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('stroke-linecap', 'round');
+            path.setAttribute('stroke-linejoin', 'round');
+            path.setAttribute('stroke-width', '1.5');
+            path.setAttribute('d', 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z');
+            svg.appendChild(path);
+            emptyState.appendChild(svg);
+
+            if (title) {
+                const h3 = createElement('h3', null, title);
+                emptyState.appendChild(h3);
+            }
+
+            const p = createElement('p', null, message);
+            emptyState.appendChild(p);
+
+            container.appendChild(emptyState);
+        }
+
+        function promptFileType(type) {
+            currentFileType = type;
+            document.getElementById('fileInput').click();
+        }
+
+        function handleFileUpload(event) {
+            const files = Array.from(event.target.files);
+            if (!files.length) return;
+
+            let loadedCount = 0;
+            const fileNames = [];
+
+            files.forEach(function(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        let config;
+                        // Handle JSONL files (session logs)
+                        if (file.name.endsWith('.jsonl')) {
+                            const lines = e.target.result.trim().split('\n');
+                            config = { _type: 'session', entries: lines.map(l => JSON.parse(l)) };
+                        } else {
+                            config = JSON.parse(e.target.result);
+                        }
+                        config._fileType = currentFileType;
+                        config._fileName = file.name;
+                        loadedConfigs.push(config);
+                        fileNames.push(file.name);
+
+                        loadedCount++;
+                        // When all files are loaded, analyze them
+                        if (loadedCount === files.length) {
+                            currentConfig = loadedConfigs[0]; // Keep first for compatibility
+                            const totalFiles = loadedConfigs.length;
+                            if (totalFiles === 1) {
+                                document.getElementById('fileName').textContent = fileNames[0];
+                                document.getElementById('fileCount').textContent = '';
+                            } else {
+                                document.getElementById('fileName').textContent = fileNames.slice(0, 2).join(', ') + (totalFiles > 2 ? '...' : '');
+                                document.getElementById('fileCount').textContent = totalFiles + ' files';
+                            }
+                            document.getElementById('fileInfo').style.display = 'flex';
+                            analyzeAllConfigs();
+                        }
+                    } catch (err) {
+                        loadedCount++;
+                        alert('Invalid file ' + file.name + ': ' + err.message);
+                    }
+                };
+                reader.readAsText(file);
+            });
+            event.target.value = ''; // Reset for same file selection
+        }
+
+        function analyzeAllConfigs() {
+            currentFindings = [];
+            loadedConfigs.forEach(function(config) {
+                analyzeConfig(config, true); // Don't render yet
+            });
+            renderFindings();
+            updateStats();
+            renderExposureGraph();
+        }
+
+        function clearLoadedFiles() {
+            loadedConfigs = [];
+            currentConfig = null;
+            currentFindings = [];
+            document.getElementById('fileInfo').style.display = 'none';
+            document.getElementById('fileName').textContent = '';
+            document.getElementById('fileCount').textContent = '';
+            renderEmptyState('risksContent', 'No configuration loaded', 'Import an OpenClaw configuration file to analyze');
+            updateStats();
+            renderInitialExposureGraph();
+        }
+
+        function analyzeConfig(config, skipRender) {
+            // Only reset findings if not called from analyzeAllConfigs
+            if (!skipRender) {
+                currentFindings = [];
+            }
+
+            const checkSecrets = document.getElementById('checkSecrets').checked;
+            const checkNetwork = document.getElementById('checkNetwork').checked;
+            const checkAuth = document.getElementById('checkAuth').checked;
+            const checkSandbox = document.getElementById('checkSandbox').checked;
+            const checkChannels = document.getElementById('checkChannels').checked;
+            const checkDiscovery = document.getElementById('checkDiscovery').checked;
+
+            // ==================== CRITICAL RISKS ====================
+
+            // Hardcoded tokens/secrets
+            if (checkSecrets) {
+                if (config.gateway?.auth?.token) {
+                    currentFindings.push({
+                        severity: 'critical',
+                        title: 'Hardcoded Authentication Token',
+                        description: 'Authentication token is stored in plaintext. Should use environment variable OPENCLAW_GATEWAY_PASSWORD.',
+                        impact: 'Account compromise, authentication bypass',
+                        path: 'gateway.auth.token'
+                    });
+                }
+
+                if (config.gateway?.auth?.password && !config.gateway.auth.password.startsWith('$')) {
+                    currentFindings.push({
+                        severity: 'critical',
+                        title: 'Hardcoded Gateway Password',
+                        description: 'Password stored in plaintext instead of environment variable reference.',
+                        impact: 'Credential theft, unauthorized access',
+                        path: 'gateway.auth.password'
+                    });
+                }
+
+                // Check for API keys in config
+                const configStr = JSON.stringify(config);
+                if (/sk-[a-zA-Z0-9]{20,}/.test(configStr)) {
+                    currentFindings.push({
+                        severity: 'critical',
+                        title: 'API Key Detected in Config',
+                        description: 'OpenAI/Anthropic API key pattern detected in configuration file.',
+                        impact: 'API key theft, unauthorized usage',
+                        path: 'Various'
+                    });
+                }
+            }
+
+            // Unauthenticated gateway
+            if (checkAuth && config.gateway) {
+                if (!config.gateway.auth || !config.gateway.auth.mode) {
+                    currentFindings.push({
+                        severity: 'critical',
+                        title: 'Unauthenticated Gateway',
+                        description: 'Gateway exposed without authentication allows remote access to all agent capabilities.',
+                        impact: 'Complete system takeover',
+                        path: 'gateway.auth.mode'
+                    });
+                }
+
+                if (config.gateway.controlUi?.dangerouslyDisableDeviceAuth === true) {
+                    currentFindings.push({
+                        severity: 'critical',
+                        title: 'Device Auth Disabled',
+                        description: 'dangerouslyDisableDeviceAuth is enabled - severe security downgrade.',
+                        impact: 'Authentication bypass',
+                        path: 'gateway.controlUi.dangerouslyDisableDeviceAuth'
+                    });
+                }
+            }
+
+            // Public DM/Group exposure
+            if (checkChannels && config.channels) {
+                Object.keys(config.channels).forEach(channel => {
+                    const channelConfig = config.channels[channel];
+                    if (channelConfig.dmPolicy === 'open') {
+                        currentFindings.push({
+                            severity: 'critical',
+                            title: 'Open DM Policy: ' + channel,
+                            description: 'DM policy set to "open" allows strangers to interact with the bot.',
+                            impact: 'Unauthorized access to tools and filesystem',
+                            path: 'channels.' + channel + '.dmPolicy'
+                        });
+                    }
+                });
+
+                if (config.groupPolicy === 'open') {
+                    currentFindings.push({
+                        severity: 'critical',
+                        title: 'Open Group Policy',
+                        description: 'Group policy is set to "open" - anyone in groups can trigger the bot.',
+                        impact: 'Unauthorized command execution',
+                        path: 'groupPolicy'
+                    });
+                }
+            }
+
+            // ==================== HIGH RISKS ====================
+
+            // Network binding
+            if (checkNetwork && config.gateway) {
+                if (config.gateway.bind && config.gateway.bind !== 'loopback') {
+                    currentFindings.push({
+                        severity: 'high',
+                        title: 'Gateway Not Bound to Loopback',
+                        description: 'Gateway is accessible beyond localhost (' + config.gateway.bind + '), potentially exposing the service to network attacks.',
+                        impact: 'Remote exploitation',
+                        path: 'gateway.bind'
+                    });
+                }
+
+                if (config.gateway.nodes?.browser?.mode !== 'off') {
+                    currentFindings.push({
+                        severity: 'high',
+                        title: 'Browser Control Enabled',
+                        description: 'Browser proxy routing is enabled. If exposed, provides full browser profile access.',
+                        impact: 'Full operator access to browser profile',
+                        path: 'gateway.nodes.browser.mode'
+                    });
+                }
+            }
+
+            // Weak model selection
+            if (checkSandbox && config.agents?.defaults?.model?.primary) {
+                const model = config.agents.defaults.model.primary.toLowerCase();
+                if (model.includes('3.5') || model.includes('mini') || model.includes('small')) {
+                    currentFindings.push({
+                        severity: 'high',
+                        title: 'Weak Model Selection',
+                        description: 'Using smaller/older model: ' + config.agents.defaults.model.primary + '. More susceptible to prompt injection.',
+                        impact: 'Increased exploitation risk',
+                        path: 'agents.defaults.model.primary'
+                    });
+                }
+            }
+
+            // Reverse proxy without trusted proxies
+            if (checkNetwork && config.gateway?.mode === 'proxy' && !config.gateway.trustedProxies) {
+                currentFindings.push({
+                    severity: 'high',
+                    title: 'Insecure Reverse Proxy Config',
+                    description: 'Using proxy mode without configuring trustedProxies. Headers can be spoofed.',
+                    impact: 'Authentication bypass via header spoofing',
+                    path: 'gateway.trustedProxies'
+                });
+            }
+
+            // ==================== MEDIUM RISKS ====================
+
+            // Token-based auth (not critical but could be stronger)
+            if (checkAuth && config.gateway?.auth?.mode === 'token') {
+                currentFindings.push({
+                    severity: 'medium',
+                    title: 'Static Token Authentication',
+                    description: 'Using static token authentication. Consider OAuth2 or mTLS for production.',
+                    impact: 'Credential theft risk if token exposed',
+                    path: 'gateway.auth.mode'
+                });
+            }
+
+            // mDNS disclosure
+            if (checkDiscovery && config.discovery?.mdns?.mode !== 'off' && config.discovery?.mdns?.mode !== 'minimal') {
+                currentFindings.push({
+                    severity: 'medium',
+                    title: 'mDNS Information Disclosure',
+                    description: 'Default mDNS broadcasts filesystem paths, SSH port, and hostname. Set to "minimal" or "off".',
+                    impact: 'Network reconnaissance, path disclosure',
+                    path: 'discovery.mdns.mode'
+                });
+            }
+
+            // Group chat always-on
+            if (checkChannels && config.groupChat && !config.groupChat.mentionPatterns) {
+                currentFindings.push({
+                    severity: 'medium',
+                    title: 'Group Chat Always-On',
+                    description: 'Bot responds in groups without requiring mention. Set groupChat.mentionPatterns.',
+                    impact: 'Unintended command execution',
+                    path: 'groupChat.mentionPatterns'
+                });
+            }
+
+            // Cross-user context leakage
+            if (checkChannels && config.session?.dmScope !== 'per-channel-peer') {
+                currentFindings.push({
+                    severity: 'medium',
+                    title: 'Cross-User Context Leakage Risk',
+                    description: 'session.dmScope not set to "per-channel-peer". Multiple users may share session context.',
+                    impact: 'Privacy violation, data leakage',
+                    path: 'session.dmScope'
+                });
+            }
+
+            // Sandbox escape risk
+            if (checkSandbox && config.tools?.elevated?.allowFrom) {
+                const allowFrom = config.tools.elevated.allowFrom;
+                if (allowFrom === '*' || (Array.isArray(allowFrom) && allowFrom.includes('*'))) {
+                    currentFindings.push({
+                        severity: 'medium',
+                        title: 'Unrestricted Elevated Tools',
+                        description: 'tools.elevated.allowFrom allows all sources. Should be restricted.',
+                        impact: 'Sandbox bypass, host execution',
+                        path: 'tools.elevated.allowFrom'
+                    });
+                }
+            }
+
+            // Workspace in user directory
+            if (config.agents?.defaults?.workspace) {
+                const workspace = config.agents.defaults.workspace;
+                if (workspace.includes('/root') || workspace.includes('/home')) {
+                    currentFindings.push({
+                        severity: 'medium',
+                        title: 'Workspace in User Directory',
+                        description: 'Agent workspace is in a user home directory. Ensure proper permissions (700).',
+                        impact: 'Sensitive file access',
+                        path: 'agents.defaults.workspace'
+                    });
+                }
+            }
+
+            // Insecure auth fallback
+            if (checkAuth && config.gateway?.controlUi?.allowInsecureAuth === true) {
+                currentFindings.push({
+                    severity: 'medium',
+                    title: 'Insecure Auth Fallback Enabled',
+                    description: 'allowInsecureAuth degrades to token-only authentication.',
+                    impact: 'Weaker authentication',
+                    path: 'gateway.controlUi.allowInsecureAuth'
+                });
+            }
+
+            // ==================== JOBS.JSON SPECIFIC CHECKS ====================
+            if (config._fileType === 'jobs' || config.jobs || config.scheduled) {
+                // Check for scheduled jobs with shell access
+                const jobs = config.jobs || config.scheduled || [];
+                if (Array.isArray(jobs)) {
+                    jobs.forEach(function(job, idx) {
+                        if (job.command || job.exec || job.shell) {
+                            currentFindings.push({
+                                severity: 'high',
+                                title: 'Scheduled Job with Shell Access',
+                                description: 'Job #' + (idx + 1) + ' has shell/exec capabilities. Review command: ' + (job.command || job.exec || job.shell).substring(0, 50),
+                                impact: 'Automated command execution',
+                                path: 'jobs[' + idx + ']'
+                            });
+                        }
+                        if (job.interval && parseInt(job.interval) < 60000) {
+                            currentFindings.push({
+                                severity: 'medium',
+                                title: 'High-Frequency Scheduled Job',
+                                description: 'Job #' + (idx + 1) + ' runs more frequently than every minute',
+                                impact: 'Resource exhaustion, potential abuse',
+                                path: 'jobs[' + idx + '].interval'
+                            });
+                        }
+                    });
+                }
+            }
+
+            // ==================== DEVICE-AUTH.JSON SPECIFIC CHECKS ====================
+            if (config._fileType === 'device-auth' || config.deviceId || config.deviceToken) {
+                // Device ID exposure
+                if (config.deviceId) {
+                    currentFindings.push({
+                        severity: 'medium',
+                        title: 'Device ID Stored',
+                        description: 'Device identifier stored in configuration. Can be used for tracking.',
+                        impact: 'Device fingerprinting',
+                        path: 'deviceId'
+                    });
+                }
+                // Device token (credential)
+                if (config.deviceToken || config.device_token) {
+                    currentFindings.push({
+                        severity: 'critical',
+                        title: 'Device Authentication Token',
+                        description: 'Device authentication token stored in plaintext. This is a credential!',
+                        impact: 'Device impersonation, unauthorized access',
+                        path: 'deviceToken'
+                    });
+                }
+                // Refresh token
+                if (config.refreshToken || config.refresh_token) {
+                    currentFindings.push({
+                        severity: 'critical',
+                        title: 'Refresh Token Stored',
+                        description: 'Long-lived refresh token stored. Can be used to generate new access tokens.',
+                        impact: 'Persistent unauthorized access',
+                        path: 'refreshToken'
+                    });
+                }
+                // Certificate or key material
+                if (config.certificate || config.privateKey || config.private_key) {
+                    currentFindings.push({
+                        severity: 'critical',
+                        title: 'Cryptographic Key Material',
+                        description: 'Private key or certificate stored in device auth file.',
+                        impact: 'Identity theft, signing capability',
+                        path: 'privateKey/certificate'
+                    });
+                }
+            }
+
+            // ==================== LOW RISKS ====================
+
+            // Tailscale disabled
+            if (checkNetwork && config.gateway?.tailscale?.mode === 'off') {
+                currentFindings.push({
+                    severity: 'low',
+                    title: 'Tailscale Disabled',
+                    description: 'Tailscale mesh networking is disabled. Consider enabling for secure remote access.',
+                    impact: 'No secure remote access option',
+                    path: 'gateway.tailscale.mode'
+                });
+            }
+
+            // Compaction mode
+            if (config.agents?.defaults?.compaction?.mode === 'safeguard') {
+                currentFindings.push({
+                    severity: 'low',
+                    title: 'Safeguard Compaction Mode',
+                    description: 'Context compaction preserves more context but uses more resources.',
+                    impact: 'Resource usage increase',
+                    path: 'agents.defaults.compaction.mode'
+                });
+            }
+
+            // NPM package manager
+            if (config.skills?.install?.nodeManager === 'npm') {
+                currentFindings.push({
+                    severity: 'low',
+                    title: 'NPM Package Manager',
+                    description: 'Using npm for skill installation. Consider pnpm with strict mode.',
+                    impact: 'Dependency resolution security',
+                    path: 'skills.install.nodeManager'
+                });
+            }
+
+            // No plugin allowlist
+            if (checkSandbox && !config.plugins?.allow) {
+                currentFindings.push({
+                    severity: 'low',
+                    title: 'No Plugin Allowlist',
+                    description: 'No explicit plugin allowlist configured. Recommend setting plugins.allow.',
+                    impact: 'Uncontrolled plugin installation',
+                    path: 'plugins.allow'
+                });
+            }
+
+            // No log redaction patterns
+            if (config.logging && !config.logging.redactPatterns) {
+                currentFindings.push({
+                    severity: 'low',
+                    title: 'No Custom Log Redaction',
+                    description: 'No custom redaction patterns for logs. Consider adding token/URL patterns.',
+                    impact: 'Potential sensitive data in logs',
+                    path: 'logging.redactPatterns'
+                });
+            }
+
+            // ==================== INFO (Positive findings) ====================
+
+            // Good: Loopback binding
+            if (checkNetwork && config.gateway?.bind === 'loopback') {
+                currentFindings.push({
+                    severity: 'info',
+                    title: 'Gateway Bound to Loopback',
+                    description: 'Gateway is correctly restricted to localhost only.',
+                    path: 'gateway.bind'
+                });
+            }
+
+            // Good: Sandbox enabled
+            if (checkSandbox && config.agents?.defaults?.sandbox?.mode === 'all') {
+                currentFindings.push({
+                    severity: 'info',
+                    title: 'Full Sandboxing Enabled',
+                    description: 'Agent sandboxing is enabled for all operations.',
+                    path: 'agents.defaults.sandbox.mode'
+                });
+            }
+
+            // Model info
+            if (config.agents?.defaults?.model?.primary) {
+                currentFindings.push({
+                    severity: 'info',
+                    title: 'Model Configuration',
+                    description: 'Primary model: ' + config.agents.defaults.model.primary,
+                    path: 'agents.defaults.model.primary'
+                });
+            }
+
+            // Version info
+            if (config.meta?.lastTouchedVersion) {
+                currentFindings.push({
+                    severity: 'info',
+                    title: 'Configuration Version' + (config._fileName ? ' (' + config._fileName + ')' : ''),
+                    description: 'Config last modified by version ' + config.meta.lastTouchedVersion,
+                    path: 'meta.lastTouchedVersion'
+                });
+            }
+
+            // Only render if not called from analyzeAllConfigs
+            if (!skipRender) {
+                renderFindings();
+                updateStats();
+                renderExposureGraph();
+            }
+        }
+
+        // Render exposure graph showing attack path
+        function renderExposureGraph() {
+            const container = document.getElementById('exposureNodes');
+            if (!container) return;
+            clearElement(container);
+
+            // Determine exposure status based on findings
+            const hasUnauthGateway = currentFindings.some(f => f.title.includes('Unauthenticated'));
+            const hasOpenDM = currentFindings.some(f => f.title.includes('Open DM') || f.title.includes('Open Group'));
+            const hasHardcodedToken = currentFindings.some(f => f.title.includes('Hardcoded'));
+            const hasNetworkExposure = currentFindings.some(f => f.title.includes('Not Bound to Loopback'));
+            const hasSandboxIssue = currentFindings.some(f => f.title.includes('Sandbox') || f.title.includes('Elevated'));
+            const isLoopback = currentFindings.some(f => f.title === 'Gateway Bound to Loopback');
+
+            const exposureData = [
+                {
+                    type: 'attacker',
+                    label: 'External Attacker',
+                    icon: '👤',
+                    status: 'exposed',
+                    statusText: 'Active Threat'
+                },
+                {
+                    type: 'network',
+                    label: 'Network Layer',
+                    icon: '🌐',
+                    status: hasNetworkExposure ? 'exposed' : (isLoopback ? 'protected' : 'partial'),
+                    statusText: hasNetworkExposure ? 'Exposed' : (isLoopback ? 'Loopback Only' : 'Check Config')
+                },
+                {
+                    type: 'gateway',
+                    label: 'Gateway / Auth',
+                    icon: '🚪',
+                    status: hasUnauthGateway || hasHardcodedToken ? 'exposed' : (hasOpenDM ? 'partial' : 'protected'),
+                    statusText: hasUnauthGateway ? 'No Auth!' : (hasHardcodedToken ? 'Token Exposed' : (hasOpenDM ? 'Open Policy' : 'Protected'))
+                },
+                {
+                    type: 'agent',
+                    label: 'Agent / Tools',
+                    icon: '🤖',
+                    status: hasSandboxIssue ? 'partial' : 'protected',
+                    statusText: hasSandboxIssue ? 'Sandbox Risk' : 'Sandboxed'
+                },
+                {
+                    type: 'data',
+                    label: 'Sensitive Data',
+                    icon: '🔐',
+                    status: (hasHardcodedToken || hasUnauthGateway || hasNetworkExposure) ? 'exposed' : 'protected',
+                    statusText: (hasHardcodedToken || hasUnauthGateway) ? 'At Risk' : 'Protected'
+                }
+            ];
+
+            exposureData.forEach(function(node, index) {
+                // Add arrow between nodes
+                if (index > 0) {
+                    const arrow = createElement('div', 'exposure-path');
+                    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    svg.setAttribute('fill', 'none');
+                    svg.setAttribute('viewBox', '0 0 24 24');
+                    svg.setAttribute('stroke', 'currentColor');
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    path.setAttribute('stroke-linecap', 'round');
+                    path.setAttribute('stroke-linejoin', 'round');
+                    path.setAttribute('stroke-width', '2');
+                    path.setAttribute('d', 'M19 14l-7 7m0 0l-7-7m7 7V3');
+                    svg.appendChild(path);
+                    arrow.appendChild(svg);
+                    container.appendChild(arrow);
+                }
+
+                const nodeEl = createElement('div', 'exposure-node ' + node.type);
+
+                const iconEl = createElement('div', 'exposure-node-icon', node.icon);
+                const labelEl = createElement('div', 'exposure-node-label', node.label);
+                const statusEl = createElement('div', 'exposure-node-status ' + node.status, node.statusText);
+
+                nodeEl.appendChild(iconEl);
+                nodeEl.appendChild(labelEl);
+                nodeEl.appendChild(statusEl);
+                container.appendChild(nodeEl);
+            });
+        }
+
+        function renderFindings() {
+            const container = document.getElementById('risksContent');
+            clearElement(container);
+
+            const filteredFindings = currentFindings.filter(function(f) {
+                return activeSeverities.has(f.severity);
+            });
+
+            document.getElementById('riskCount').textContent = filteredFindings.length;
+
+            if (filteredFindings.length === 0) {
+                if (currentConfig) {
+                    renderEmptyState('risksContent', 'No findings match filters', 'Adjust severity filters to see results');
+                } else {
+                    renderEmptyState('risksContent', 'No configuration loaded', 'Import an OpenClaw configuration file to analyze');
+                }
+                return;
+            }
+
+            const severityOrder = { critical: 0, high: 1, medium: 2, low: 3, info: 4 };
+            filteredFindings.sort(function(a, b) {
+                return severityOrder[a.severity] - severityOrder[b.severity];
+            });
+
+            filteredFindings.forEach(function(finding) {
+                const item = createElement('div', 'risk-item ' + finding.severity);
+
+                const icon = createElement('div', 'risk-icon');
+                icon.textContent = (finding.severity === 'low' || finding.severity === 'info') ? 'i' : '!';
+
+                const details = createElement('div', 'risk-details');
+
+                const title = createElement('div', 'risk-title', finding.title);
+                const description = createElement('div', 'risk-description', finding.description);
+                const path = createElement('div', 'risk-path', finding.path);
+
+                details.appendChild(title);
+                details.appendChild(description);
+                if (finding.impact) {
+                    const impact = createElement('div', 'risk-impact', 'Impact: ' + finding.impact);
+                    details.appendChild(impact);
+                }
+                details.appendChild(path);
+
+                item.appendChild(icon);
+                item.appendChild(details);
+
+                container.appendChild(item);
+            });
+        }
+
+        function renderRecommendations() {
+            const container = document.getElementById('recommendationsContent');
+            clearElement(container);
+
+            let recommendations = [];
+
+            if (activeRecTab === 'all') {
+                Object.keys(RECOMMENDATIONS).forEach(function(key) {
+                    RECOMMENDATIONS[key].forEach(function(rec) {
+                        recommendations.push({ ...rec, priority: key });
+                    });
+                });
+            } else {
+                recommendations = RECOMMENDATIONS[activeRecTab].map(function(rec) {
+                    return { ...rec, priority: activeRecTab };
+                });
+            }
+
+            recommendations.forEach(function(rec, index) {
+                const item = createElement('div', 'recommendation-item tooltip-container');
+
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.className = 'rec-checkbox';
+                checkbox.addEventListener('change', function() {
+                    item.classList.toggle('completed', this.checked);
+                });
+
+                const priorityClasses = {
+                    network: 'immediate',
+                    identity: 'immediate',
+                    sandbox: 'ongoing',
+                    supply: 'ongoing',
+                    monitoring: 'best-practice'
+                };
+                const priorityLabels = {
+                    network: 'NET',
+                    identity: 'ID',
+                    sandbox: 'EXEC',
+                    supply: 'SUPPLY',
+                    monitoring: 'MON'
+                };
+                const priorityLabel = createElement('span', 'rec-priority ' + (priorityClasses[rec.priority] || 'best-practice'));
+                priorityLabel.textContent = priorityLabels[rec.priority] || rec.priority.toUpperCase().slice(0,4);
+
+                const textDiv = createElement('div', 'rec-text');
+                const idSpan = rec.id ? '#' + rec.id + ' ' : '';
+                textDiv.textContent = idSpan + rec.text;
+
+                const category = createElement('span', 'rec-category', rec.category);
+                textDiv.appendChild(category);
+
+                // Add rich tooltip with instruction, risk, difficulty, and tags
+                if (rec.instruction) {
+                    const tooltip = createElement('div', 'tooltip');
+
+                    // Header with icon
+                    const header = createElement('div', 'tooltip-header');
+                    const categoryIcons = {
+                        network: { icon: '🌐', class: 'network' },
+                        identity: { icon: '🔑', class: 'identity' },
+                        sandbox: { icon: '📦', class: 'sandbox' },
+                        supply: { icon: '🔗', class: 'supply' },
+                        monitoring: { icon: '👁️', class: 'monitoring' }
+                    };
+                    const catInfo = categoryIcons[rec.priority] || { icon: '⚙️', class: 'default' };
+                    const iconEl = createElement('span', 'tooltip-icon ' + catInfo.class, catInfo.icon);
+                    const titleEl = createElement('span', 'tooltip-title', rec.category + ' - #' + rec.id);
+                    header.appendChild(iconEl);
+                    header.appendChild(titleEl);
+                    tooltip.appendChild(header);
+
+                    // Risk warning if available
+                    if (rec.risk) {
+                        const riskEl = createElement('div', 'tooltip-risk');
+                        const riskIcon = createElement('span', null, '⚠️ ');
+                        const riskText = document.createTextNode(rec.risk);
+                        riskEl.appendChild(riskIcon);
+                        riskEl.appendChild(riskText);
+                        tooltip.appendChild(riskEl);
+                    }
+
+                    // Implementation instruction
+                    const instructionLabel = createElement('div', 'tooltip-label', 'How to implement:');
+                    tooltip.appendChild(instructionLabel);
+                    const instructionText = createElement('div', 'tooltip-instruction', rec.instruction);
+                    tooltip.appendChild(instructionText);
+
+                    // Code example
+                    if (rec.code) {
+                        const tooltipCode = createElement('code', 'tooltip-code', rec.code);
+                        tooltip.appendChild(tooltipCode);
+                    }
+
+                    // Tags section (difficulty + other tags)
+                    if (rec.difficulty || rec.tags) {
+                        const tagsEl = createElement('div', 'tooltip-tags');
+
+                        // Difficulty tag
+                        if (rec.difficulty) {
+                            const difficultyColors = {
+                                easy: 'difficulty-easy',
+                                medium: 'difficulty-medium',
+                                hard: 'difficulty-hard'
+                            };
+                            const diffTag = createElement('span', 'tooltip-tag ' + (difficultyColors[rec.difficulty] || ''));
+                            diffTag.textContent = rec.difficulty.charAt(0).toUpperCase() + rec.difficulty.slice(1);
+                            tagsEl.appendChild(diffTag);
+                        }
+
+                        // Other tags
+                        if (rec.tags && rec.tags.length > 0) {
+                            rec.tags.forEach(function(tag) {
+                                const tagEl = createElement('span', 'tooltip-tag');
+                                if (tag === 'Critical') tagEl.className += ' tag-critical';
+                                else if (tag === 'Recommended' || tag === 'Quick Win') tagEl.className += ' tag-recommended';
+                                else if (tag === 'Enterprise' || tag === 'Advanced') tagEl.className += ' tag-enterprise';
+                                tagEl.textContent = tag;
+                                tagsEl.appendChild(tagEl);
+                            });
+                        }
+
+                        tooltip.appendChild(tagsEl);
+                    }
+
+                    item.appendChild(tooltip);
+                }
+
+                item.appendChild(checkbox);
+                item.appendChild(priorityLabel);
+                item.appendChild(textDiv);
+                container.appendChild(item);
+            });
+        }
+
+        function updateStats() {
+            const counts = { critical: 0, high: 0, medium: 0, low: 0 };
+            currentFindings.forEach(function(f) {
+                if (counts.hasOwnProperty(f.severity)) {
+                    counts[f.severity]++;
+                }
+            });
+
+            document.getElementById('criticalCount').textContent = counts.critical;
+            document.getElementById('highCount').textContent = counts.high;
+            document.getElementById('mediumCount').textContent = counts.medium;
+            document.getElementById('lowCount').textContent = counts.low;
+        }
+
+        function toggleSeverity(severity) {
+            const tag = document.querySelector('.severity-tag[data-severity="' + severity + '"]');
+            if (activeSeverities.has(severity)) {
+                activeSeverities.delete(severity);
+                tag.classList.add('inactive');
+            } else {
+                activeSeverities.add(severity);
+                tag.classList.remove('inactive');
+            }
+            renderFindings();
+        }
+
+        function reanalyze() {
+            if (currentConfig) {
+                analyzeConfig(currentConfig);
+            }
+        }
+
+        function exportReport() {
+            if (currentFindings.length === 0) {
+                alert('No findings to export. Load a configuration first.');
+                return;
+            }
+
+            let report = '# OpenClaw Security Analysis Report\n';
+            report += 'Generated: ' + new Date().toISOString() + '\n\n';
+
+            const severityOrder = ['critical', 'high', 'medium', 'low', 'info'];
+            severityOrder.forEach(function(sev) {
+                const findings = currentFindings.filter(function(f) { return f.severity === sev; });
+                if (findings.length > 0) {
+                    report += '## ' + sev.toUpperCase() + ' (' + findings.length + ')\n\n';
+                    findings.forEach(function(f) {
+                        report += '### ' + f.title + '\n';
+                        report += '- **Path:** `' + f.path + '`\n';
+                        report += '- **Description:** ' + f.description + '\n';
+                        if (f.impact) report += '- **Impact:** ' + f.impact + '\n';
+                        report += '\n';
+                    });
+                }
+            });
+
+            const blob = new Blob([report], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'openclaw-security-report-' + new Date().toISOString().split('T')[0] + '.md';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', initUI);
+
+        // ==================== PROTECTION MEASURES ====================
+
+        // Disable keyboard shortcuts for dev tools and view source
+        document.addEventListener('keydown', function(e) {
+            // F12
+            if (e.key === 'F12') {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+I / Cmd+Option+I (Dev Tools)
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'I') {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+J / Cmd+Option+J (Console)
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'J') {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+U / Cmd+U (View Source)
+            if ((e.ctrlKey || e.metaKey) && e.key === 'u') {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+S / Cmd+S (Save)
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                return false;
+            }
+            // Ctrl+Shift+C (Inspect Element)
+            if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'C') {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Detect DevTools opening (basic detection)
+        (function() {
+            const threshold = 160;
+            const devtoolsCheck = function() {
+                const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+                const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+                if (widthThreshold || heightThreshold) {
+                    document.body.style.opacity = '0.1';
+                } else {
+                    document.body.style.opacity = '1';
+                }
+            };
+            setInterval(devtoolsCheck, 1000);
+        })();
+
+        // Disable print
+        window.addEventListener('beforeprint', function(e) {
+            e.preventDefault();
+            return false;
+        });
+
+        // Console warning
+        console.log('%c STOP!', 'color: red; font-size: 50px; font-weight: bold;');
+        console.log('%c This tool is for authorized security analysis only.', 'color: #f97316; font-size: 16px;');
+        console.log('%c Unauthorized access or modification is prohibited.', 'color: #8b949e; font-size: 14px;');
+    </script>
+</body>
+</html>
