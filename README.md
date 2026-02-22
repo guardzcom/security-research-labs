@@ -2,7 +2,6 @@
 
 **Tools, scripts, and research PoCs for Blue Team, Red Team, AI Security, Forensic, and Cloud security. Authorized use only.**
 
-[![CI](https://github.com/guardzcom/security-research-labs/actions/workflows/ci.yml/badge.svg)](https://github.com/guardzcom/security-research-labs/actions)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/guardzcom/security-research-labs)](https://github.com/guardzcom/security-research-labs/releases)
 [![Discord](https://img.shields.io/badge/Discord-Community-5865F2?logo=discord)](https://github.com/guardzcom/security-research-labs/discussions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
