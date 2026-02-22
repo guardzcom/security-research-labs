@@ -3,7 +3,7 @@
 PowerShell scripts for **authorized** Microsoft 365 / Entra ID reconnaissance, authentication, and integration with [GraphRunner](https://github.com/dafthack/GraphRunner). Each tool lives in its own folder with a dedicated README.
 
 > **Legal & operational notice**  
-> Use these scripts only on tenants and assets you **own** or have **explicit permission** to test. Unauthorized access may violate laws and organizational policies. Coordinate with stakeholders and follow change management where applicable. Output may contain sensitive data—handle per your classification and retention policies.
+> Use these scripts only on tenants and assets you **own** or have **explicit permission** to test. Unauthorized access may violate laws and organizational policies. Coordinate with stakeholders and follow change management where applicable. Output may contain sensitive data -handle per your classification and retention policies.
 
 ---
 
@@ -11,9 +11,9 @@ PowerShell scripts for **authorized** Microsoft 365 / Entra ID reconnaissance, a
 
 | Tool | Folder | Description |
 |------|--------|-------------|
-| **DeviceStrike** | [device-strike/](device-strike/) | OAuth2 device-code flow for Microsoft Graph; optional token caching and auto-refresh. |
-| **SPO Ext Recon** | [spo-ext-recon/](spo-ext-recon/) | SharePoint Online & OneDrive recon: common site paths, anonymous access, metadata API exposure. |
-| **GraphRunner QuickStart** | [graphrunner-quickstart/](graphrunner-quickstart/) | Cookbook for [dafthack/GraphRunner](https://github.com/dafthack/GraphRunner): auth, recon, CAPs, apps, mailbox/SP/Teams search. |
+| **DeviceStrike** | [device-strike/](device-strike/) | `DeviceStrike.ps1`  - OAuth2 device-code flow for Microsoft Graph; optional token caching and auto-refresh. |
+| **SPO Ext Recon** | [spo-ext-recon/](spo-ext-recon/) | `SPO_Ext_Recon.ps1`  - SharePoint Online & OneDrive recon: common site paths, anonymous access, metadata API exposure. |
+| **GraphRunner QuickStart** | [graphrunner-quickstart/](graphrunner-quickstart/) | `GraphRunner-QuickStart.ps1`  - Cookbook for [dafthack/GraphRunner](https://github.com/dafthack/GraphRunner): auth, recon, CAPs, apps, mailbox/SP/Teams search. |
 
 Open the folder link for usage, requirements, and file layout.
 
@@ -34,4 +34,4 @@ Script outputs (user lists, group members, search results, recon files) can be h
 
 ## License
 
-Same as the root repository — see [../LICENSE](../LICENSE).
+Same as the root repository  - see [../LICENSE](../LICENSE).

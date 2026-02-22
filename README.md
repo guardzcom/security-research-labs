@@ -1,4 +1,4 @@
-# 🛡️ Security Research Labs — Tools & Scripts
+# Security Research Labs - Tools & Scripts
 
 **Tools, scripts, and research PoCs for Blue Team, Red Team, AI Security, Forensic, and Cloud security. Authorized use only.**
 
@@ -8,20 +8,34 @@
 [![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-blue?logo=powershell)](https://docs.microsoft.com/powershell/)
 [![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Windows%20%7C%20macOS%20%7C%20Linux-green)](.)
 
-**Security Research Labs** is the official Guardz repo for open-source security tooling: config analyzers, Microsoft 365 / Entra recon scripts, and research proof-of-concepts. Everything is MIT-licensed and maintained for defenders, red teams, and incident responders.
+Security Research Labs is the official Guardz repo for open-source security tooling: config analyzers, Microsoft 365 / Entra recon scripts, and purple-team detection emulations. Everything is MIT-licensed and maintained for defenders, red teams, and incident responders. Each tool or script lives in a **dedicated folder with its own README**.
 
-Each tool or script lives in a **dedicated folder with its own README** (description, usage, requirements).
+---
+
+## Repository layout
+
+| Folder | Contents |
+|--------|----------|
+| [AI-Tools/](AI-Tools/) | AI security: OpenClaw Analyzer (config analysis), SkillScan (skill file/URL security scanning). |
+| [BlueTeam-Emulation/](BlueTeam-Emulation/) | Purple team / detection testing: Endpoint (certutil, EDR telemetry simulator, Office macro tampering emulation). |
+| [M365/](M365/) | Microsoft 365 / Entra: DeviceStrike, SPO Ext Recon, GraphRunner QuickStart. |
+| [Cloud-Tools-Scrips/](Cloud-Tools-Scrips/) | Cloud security tools and scripts (placeholder). |
+| [GWS/](GWS/) | Google Workspace security tools (placeholder). |
 
 ---
 
 ## All tools and scripts
 
-| Tool / script | Folder | Description |
-|---------------|--------|-------------|
-| **OpenClaw Security Analyzer** | [AI-Tools/openclaw-security-analyzer/](AI-Tools/openclaw-security-analyzer/) | `openclaw-analyzer.html` — Analyze OpenClaw configs: 68-point checklist, risk detection, attack path viz. Single HTML file, client-side. |
-| **DeviceStrike** | [M365/device-strike/](M365/device-strike/) | `DeviceStrike.ps1` — OAuth2 device-code flow for Microsoft Graph; optional token refresh. |
-| **SPO Ext Recon** | [M365/spo-ext-recon/](M365/spo-ext-recon/) | `SPO_Ext_Recon.ps1` — SharePoint Online & OneDrive recon: site paths, anonymous access, metadata API. |
-| **GraphRunner QuickStart** | [M365/graphrunner-quickstart/](M365/graphrunner-quickstart/) | `GraphRunner-QuickStart.ps1` — Cookbook for [GraphRunner](https://github.com/dafthack/GraphRunner): auth, recon, CAPs, search. |
+| Tool | Description |
+|------|-------------|
+| [OpenClaw Analyzer](AI-Tools/OpenClaw-Analyzer/openclaw-security-analyzer/) | Analyze OpenClaw configs: 68-point checklist, risk detection, attack path viz. Single HTML file, client-side. |
+| [SkillScan](AI-Tools/skillscan/) | Scan skill files and URLs for malicious patterns: prompt injection, suspicious URLs, code execution, obfuscation. CLI and web. |
+| [Certutil Emulation](BlueTeam-Emulation/Endpoint/certutil-emulation/) | Emulate certutil -encode for EDR/SIEM detection testing; output to %TEMP%, refuses admin. |
+| [EDR Telemetry Simulator](BlueTeam-Emulation/Endpoint/edr-telemetry-simulator/) | Controlled API telemetry for EDR/AV/SIEM validation; harmless keylogger/process/network patterns. |
+| [Office Macro Emulation](BlueTeam-Emulation/Endpoint/office-macro-tampering-emulation/) | Registry activity mimicking Office macro-security tampering (sandbox path) for detection testing. |
+| [DeviceStrike](M365/device-strike/) | OAuth2 device-code flow for Microsoft Graph; optional token refresh. |
+| [SPO Ext Recon](M365/spo-ext-recon/) | SharePoint Online & OneDrive recon: site paths, anonymous access, metadata API. |
+| [GraphRunner QuickStart](M365/graphrunner-quickstart/) | Cookbook for [GraphRunner](https://github.com/dafthack/GraphRunner): auth, recon, CAPs, search. |
 
 ---
 

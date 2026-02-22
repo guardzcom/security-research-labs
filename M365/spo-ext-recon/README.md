@@ -1,9 +1,9 @@
-# SPO Ext Recon — SharePoint Online & OneDrive Reconnaissance
+# SPO Ext Recon  - SharePoint Online & OneDrive Reconnaissance
 
 PowerShell script to automate reconnaissance of SharePoint Online and OneDrive for Business: enumerate common site paths, check for anonymous access, metadata API exposure, and shared document visibility. For red team, blue team, and DFIR use in authorized testing only.
 
 > **Legal & operational notice**  
-> Use only on tenants and assets you **own** or have **explicit permission** to test. Recon can trigger alerts or rate limits—coordinate with stakeholders. Output may contain sensitive data; handle per your classification and retention policies.
+> Use only on tenants and assets you **own** or have **explicit permission** to test. Recon can trigger alerts or rate limits -coordinate with stakeholders. Output may contain sensitive data; handle per your classification and retention policies.
 
 ---
 
@@ -27,9 +27,9 @@ PowerShell script to automate reconnaissance of SharePoint Online and OneDrive f
 ## Usage
 
 1. **Edit the script** (or set variables before dot-sourcing):
-   - `$domain` — Your tenant’s SharePoint domain (e.g. `contoso.sharepoint.com`).
-   - `$onedriveDomain` — Your tenant’s OneDrive domain (e.g. `contoso-my.sharepoint.com`).
-   - Optionally, `$usernames` — Array of usernames to build OneDrive personal URLs (e.g. `"john", "alice"`).
+   - `$domain`  - Your tenant’s SharePoint domain (e.g. `contoso.sharepoint.com`).
+   - `$onedriveDomain`  - Your tenant’s OneDrive domain (e.g. `contoso-my.sharepoint.com`).
+   - Optionally, `$usernames`  - Array of usernames to build OneDrive personal URLs (e.g. `"john", "alice"`).
 2. Run the script:
    ```powershell
    .\SPO_Ext_Recon.ps1
@@ -58,4 +58,4 @@ This file is listed in the repository `.gitignore`; do not commit it.
 
 ## License
 
-Same as the root repository — see [../../LICENSE](../../LICENSE).
+Same as the root repository  - see [../../LICENSE](../../LICENSE).

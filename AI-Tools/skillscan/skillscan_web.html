@@ -1,0 +1,1553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkillScan - Malicious Skill Scanner</title>
+<style>
+  :root {
+    --bg: #0a0e17;
+    --surface: #111827;
+    --surface2: #1a2234;
+    --border: #1e2d3d;
+    --text: #e2e8f0;
+    --text-dim: #64748b;
+    --accent: #3b82f6;
+    --accent-dim: #1e3a5f;
+    --critical: #ef4444;
+    --critical-bg: #1c0a0a;
+    --high: #f97316;
+    --high-bg: #1c120a;
+    --medium: #eab308;
+    --medium-bg: #1c1a0a;
+    --low: #06b6d4;
+    --low-bg: #0a1a1c;
+    --clean: #22c55e;
+    --clean-bg: #0a1c10;
+    --mono: 'SF Mono', 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 2rem 1.5rem; }
+
+  header { margin-bottom: 2.5rem; }
+  .logo {
+    font-family: var(--mono);
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .logo .icon { color: var(--critical); font-size: 1.25rem; }
+  .logo .name { color: var(--text); }
+  .logo .dot { color: var(--accent); }
+  .tagline {
+    color: var(--text-dim);
+    font-size: 0.8125rem;
+    margin-top: 0.25rem;
+    font-family: var(--mono);
+  }
+  .stats-bar {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+  .stats-bar span strong { color: var(--text); }
+
+  .input-section {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+  }
+  .tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab {
+    padding: 0.5rem 1rem;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    color: var(--text-dim);
+    cursor: pointer;
+    border: none;
+    background: none;
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  textarea {
+    width: 100%;
+    min-height: 160px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    resize: vertical;
+  }
+  textarea:focus { outline: none; border-color: var(--accent); }
+  textarea::placeholder { color: var(--text-dim); }
+
+  .url-input { display: flex; gap: 0.5rem; }
+  input[type="text"] {
+    flex: 1;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.625rem 0.75rem;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+  }
+  input[type="text"]:focus { outline: none; border-color: var(--accent); }
+  input[type="text"]::placeholder { color: var(--text-dim); }
+
+  .file-drop {
+    border: 2px dashed var(--border);
+    border-radius: 6px;
+    padding: 2rem;
+    text-align: center;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .file-drop:hover, .file-drop.dragover {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+    color: var(--text);
+  }
+  .file-drop input { display: none; }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+  .controls label {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    cursor: pointer;
+  }
+  .controls label:hover { color: var(--text); }
+  .controls input[type="checkbox"] { accent-color: var(--accent); }
+
+  .btn-scan {
+    margin-left: auto;
+    padding: 0.5rem 1.5rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-scan:hover { filter: brightness(1.15); }
+  .btn-scan:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-scan.scanning { animation: pulse 1s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+  .results-section { display: none; }
+  .results-section.visible { display: block; }
+
+  .results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  .results-title {
+    font-family: var(--mono);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+  .results-status {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .results-status.flagged { background: var(--critical-bg); color: var(--critical); border: 1px solid #3b1111; }
+  .results-status.clean { background: var(--clean-bg); color: var(--clean); border: 1px solid #113b17; }
+
+  .severity-summary {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .sev-badge {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    padding: 0.25rem 0.625rem;
+    border-radius: 4px;
+    font-weight: 600;
+  }
+  .sev-badge.critical { background: var(--critical-bg); color: var(--critical); }
+  .sev-badge.high { background: var(--high-bg); color: var(--high); }
+  .sev-badge.medium { background: var(--medium-bg); color: var(--medium); }
+  .sev-badge.low { background: var(--low-bg); color: var(--low); }
+
+  .finding-wrapper { margin-bottom: 0.5rem; }
+  .finding {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    cursor: pointer;
+    transition: background 0.1s;
+  }
+  .finding:hover { background: var(--surface2); }
+  .finding .sev {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    padding: 0.125rem 0.5rem;
+    border-radius: 3px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 0.0625rem;
+  }
+  .finding .sev.CRITICAL { background: var(--critical-bg); color: var(--critical); }
+  .finding .sev.HIGH { background: var(--high-bg); color: var(--high); }
+  .finding .sev.MEDIUM { background: var(--medium-bg); color: var(--medium); }
+  .finding .sev.LOW { background: var(--low-bg); color: var(--low); }
+  .finding .detail { flex: 1; min-width: 0; }
+  .finding .rule { color: var(--text); font-weight: 600; }
+  .finding .cat { color: var(--text-dim); }
+  .finding .match {
+    margin-top: 0.25rem;
+    color: var(--text-dim);
+    word-break: break-all;
+    white-space: pre-wrap;
+  }
+  .finding .line-num { color: var(--accent); }
+  .finding .expand-arrow {
+    color: var(--text-dim);
+    font-size: 0.75rem;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
+    transition: transform 0.15s;
+  }
+  .finding-wrapper.open .finding .expand-arrow { transform: rotate(90deg); }
+
+  .info-card {
+    display: none;
+    padding: 0.75rem 1rem 0.75rem 1.25rem;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+  }
+  .info-card.border-CRITICAL { border-left: 3px solid var(--critical); }
+  .info-card.border-HIGH { border-left: 3px solid var(--high); }
+  .info-card.border-MEDIUM { border-left: 3px solid var(--medium); }
+  .info-card.border-LOW { border-left: 3px solid var(--low); }
+  .finding-wrapper.open .info-card { display: block; }
+  .finding-wrapper.open .finding { border-radius: 6px 6px 0 0; }
+  .info-card .info-section { margin-bottom: 0.5rem; }
+  .info-card .info-section:last-child { margin-bottom: 0; }
+  .info-card .info-label {
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.125rem;
+    text-transform: uppercase;
+    font-size: 0.625rem;
+    letter-spacing: 0.05em;
+  }
+  .info-card .info-text { color: var(--text-dim); }
+
+  .error-msg {
+    background: var(--critical-bg);
+    border: 1px solid #3b1111;
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    color: var(--critical);
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+  }
+
+  .rules-section {
+    margin-top: 2rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+  }
+  .rules-toggle {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .rules-toggle:hover { color: var(--text); }
+  .rules-toggle .arrow { transition: transform 0.2s; display: inline-block; }
+  .rules-toggle.open .arrow { transform: rotate(90deg); }
+  .rules-body { display: none; margin-top: 1rem; }
+  .rules-body.open { display: block; }
+  .rule-category { margin-bottom: 1rem; }
+  .rule-cat-name {
+    font-family: var(--mono);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+  .rule-item {
+    display: flex;
+    gap: 0.5rem;
+    align-items: baseline;
+    padding: 0.25rem 0;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--text-dim);
+  }
+  .rule-item .sev {
+    font-size: 0.625rem;
+    font-weight: 700;
+    padding: 0.0625rem 0.375rem;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  footer {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 0.6875rem;
+    color: var(--text-dim);
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="logo">
+      <span class="icon">&#x26a0;</span>
+      <span class="name">skill</span><span class="dot">scan</span>
+    </div>
+    <div class="tagline">malicious skill pattern scanner</div>
+    <div class="stats-bar">
+      <span><strong id="rule-count">-</strong> detection rules</span>
+      <span><strong>6</strong> categories</span>
+      <span><strong>4</strong> severity levels</span>
+    </div>
+  </header>
+
+  <div class="input-section">
+    <div class="tabs">
+      <button class="tab active" data-tab="paste">paste</button>
+      <button class="tab" data-tab="url">url</button>
+      <button class="tab" data-tab="file">file</button>
+    </div>
+    <div class="tab-content active" id="tab-paste">
+      <textarea id="paste-input" placeholder="Paste skill content here..."></textarea>
+    </div>
+    <div class="tab-content" id="tab-url">
+      <div class="url-input">
+        <input type="text" id="url-input" placeholder="https://playbooks.com/skills/...">
+      </div>
+    </div>
+    <div class="tab-content" id="tab-file">
+      <div class="file-drop" id="file-drop">
+        Drop files here or click to browse
+        <input type="file" id="file-input" multiple accept=".md,.txt,.yaml,.yml,.json,.xml,.html">
+      </div>
+      <div id="file-names" style="margin-top:0.5rem;font-family:var(--mono);font-size:0.75rem;color:var(--text-dim)"></div>
+    </div>
+    <div class="controls">
+      <label><input type="checkbox" id="strip-html"> strip html</label>
+      <label><input type="checkbox" id="json-output"> json output</label>
+      <button class="btn-scan" id="scan-btn">Scan</button>
+    </div>
+  </div>
+
+  <div class="results-section" id="results-section"></div>
+
+  <div class="rules-section">
+    <button class="rules-toggle" id="rules-toggle">
+      <span class="arrow">&#x25b6;</span> detection rules reference
+    </button>
+    <div class="rules-body" id="rules-body"></div>
+  </div>
+
+  <footer>skillscan &middot; stdlib only &middot; python + powershell</footer>
+</div>
+
+<script>
+// ── Detection Rules (mirrored from skillscan.py) ───────────────────────────
+// Each entry: [pattern, name, desc, severity]
+// Severity computed from _SEVERITY_OVERRIDES then _CATEGORY_SEVERITY_DEFAULTS
+var RULES = {
+  suspicious_urls: [
+    ['https?://bit\\.ly/\\S+', 'url_shortener_bitly', 'bit.ly URL shortener', 'LOW'],
+    ['https?://tinyurl\\.com/\\S+', 'url_shortener_tinyurl', 'tinyurl.com URL shortener', 'LOW'],
+    ['https?://t\\.co/\\S+', 'url_shortener_tco', 't.co URL shortener', 'LOW'],
+    ['https?://goo\\.gl/\\S+', 'url_shortener_googl', 'goo.gl URL shortener', 'LOW'],
+    ['https?://rb\\.gy/\\S+', 'url_shortener_rbgy', 'rb.gy URL shortener', 'LOW'],
+    ['https?://is\\.gd/\\S+', 'url_shortener_isgd', 'is.gd URL shortener', 'LOW'],
+    ['https?://v\\.gd/\\S+', 'url_shortener_vgd', 'v.gd URL shortener', 'LOW'],
+    ['https?://ow\\.ly/\\S+', 'url_shortener_owly', 'ow.ly URL shortener', 'LOW'],
+    ['https?://shorte\\.st/\\S+', 'url_shortener_shortest', 'shorte.st URL shortener', 'LOW'],
+    ['https?://adf\\.ly/\\S+', 'url_shortener_adfly', 'adf.ly URL shortener', 'LOW'],
+    ['https?://buff\\.ly/\\S+', 'url_shortener_bufly', 'buff.ly URL shortener', 'LOW'],
+    ['https?://cutt\\.ly/\\S+', 'url_shortener_cuttly', 'cutt.ly URL shortener', 'LOW'],
+    ['https?://shorturl\\.at/\\S+', 'url_shortener_shorturl', 'shorturl.at URL shortener', 'LOW'],
+    ['https?://[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}[:/]\\S*', 'direct_ip_url', 'URL using direct IP address', 'MEDIUM'],
+    ['https?://\\S+\\.ngrok\\.\\S+', 'tunnel_ngrok', 'ngrok tunnel service', 'MEDIUM'],
+    ['https?://\\S+\\.serveo\\.net\\S*', 'tunnel_serveo', 'serveo tunnel service', 'MEDIUM'],
+    ['https?://\\S+\\.loca\\.lt\\S*', 'tunnel_localt', 'loca.lt tunnel service', 'MEDIUM'],
+    ['https?://\\S+\\.trycloudflare\\.com\\S*', 'tunnel_cloudflare', 'trycloudflare tunnel service', 'MEDIUM'],
+    ['https?://pastebin\\.com/\\S+', 'paste_pastebin', 'pastebin.com paste site', 'LOW'],
+    ['https?://paste\\.ee/\\S+', 'paste_pasteee', 'paste.ee paste site', 'LOW'],
+    ['https?://hastebin\\.com/\\S+', 'paste_hastebin', 'hastebin.com paste site', 'LOW'],
+    ['https?://\\S+\\.onion\\S*', 'darkweb_onion', '.onion dark web URL', 'MEDIUM'],
+    ['https?://\\S+\\.tk/\\S*', 'disposable_tld_tk', '.tk disposable TLD', 'LOW'],
+    ['https?://\\S+\\.ml/\\S*', 'disposable_tld_ml', '.ml disposable TLD', 'LOW'],
+    ['https?://\\S+\\.cf/\\S*', 'disposable_tld_cf', '.cf disposable TLD', 'LOW'],
+    ['https?://\\S+\\.ga/\\S*', 'disposable_tld_ga', '.ga disposable TLD', 'LOW'],
+    ['https?://\\S+\\.gq/\\S*', 'disposable_tld_gq', '.gq disposable TLD', 'LOW'],
+    ['https?://webhook\\.site/\\S+', 'exfil_webhook', 'webhook.site exfil endpoint', 'MEDIUM'],
+    ['https?://requestbin\\.\\S+', 'exfil_requestbin', 'requestbin exfil endpoint', 'MEDIUM'],
+    ['https?://\\S*exfil\\S*', 'exfil_keyword', 'URL containing exfil keyword', 'MEDIUM'],
+    ['https?://discord\\.gg/\\S+', 'c2_discord', 'Discord invite link (potential C2)', 'MEDIUM'],
+    ['https?://t\\.me/\\S+', 'c2_telegram', 'Telegram link (potential C2)', 'MEDIUM'],
+    ['https?://raw\\.githubusercontent\\.com/\\S+', 'raw_github', 'Raw GitHub content URL (payload hosting)', 'MEDIUM'],
+    ['https?://mega\\.nz/\\S+', 'fileshare_mega', 'mega.nz file share', 'LOW'],
+    ['https?://mediafire\\.com/\\S+', 'fileshare_mediafire', 'mediafire.com file share', 'LOW'],
+    ['https?://(?:www\\.)?dropbox\\.com/\\S+\\?dl=1', 'fileshare_dropbox_direct', 'Dropbox direct download link', 'LOW'],
+    ['https?://drive\\.google\\.com/\\S*export=download', 'fileshare_gdrive_direct', 'Google Drive direct download link', 'LOW'],
+    ['https?://transfer\\.sh/\\S+', 'fileshare_transfersh', 'transfer.sh ephemeral file share', 'MEDIUM'],
+    ['https?://file\\.io/\\S+', 'fileshare_fileio', 'file.io single-use file share', 'MEDIUM'],
+    ['https?://\\S+\\.(?:exe|dll|scr|bat|ps1|msi|vbs|hta|cmd)\\b', 'url_executable_ext', 'URL pointing to executable file', 'HIGH']
+  ],
+
+  encoded_content: [
+    ['(?:base64[_,\\s:]+|atob\\s*\\(|btoa\\s*\\(|b64decode|b64encode|from_base64|to_base64)["\\s\\x27]*([A-Za-z0-9+/=]{20,})', 'base64_function_call', 'Base64 encode/decode function call with payload', 'LOW'],
+    ['\\\\x[0-9a-fA-F]{2}(?:\\\\x[0-9a-fA-F]{2}){5,}', 'hex_escape_sequence', 'Hex escape sequence (6+ bytes)', 'LOW'],
+    ['\\\\u[0-9a-fA-F]{4}(?:\\\\u[0-9a-fA-F]{4}){5,}', 'unicode_escape_sequence', 'Unicode escape sequence (6+ chars)', 'LOW'],
+    ['%[0-9a-fA-F]{2}(?:%[0-9a-fA-F]{2}){10,}', 'url_encoded_sequence', 'URL-encoded sequence (10+ chars)', 'LOW'],
+    ['&#x?[0-9a-fA-F]+;(?:&#x?[0-9a-fA-F]+;){5,}', 'html_entity_sequence', 'HTML entity sequence (6+ entities)', 'LOW'],
+    ['\\\\[0-7]{3}(?:\\\\[0-7]{3}){5,}', 'octal_escape_sequence', 'Octal escape sequence (6+ bytes)', 'LOW'],
+    ['fromCharCode', 'char_code_construction', 'String.fromCharCode construction', 'LOW'],
+    ['data:text/html', 'data_uri_html', 'data: URI with text/html content', 'MEDIUM'],
+    ['data:application/', 'data_uri_app', 'data: URI with application/* content', 'MEDIUM'],
+    ['javascript:', 'javascript_uri', 'javascript: URI scheme', 'MEDIUM'],
+    ['[A-Za-z0-9+/=]{100,}', 'long_base64_blob', 'Long base64-like blob (100+ chars)', 'LOW'],
+    ['(?:["\\x27][a-zA-Z]{1,4}["\\x27]\\s*\\+\\s*){4,}', 'string_concat_obfuscation', 'String concatenation obfuscation (4+ fragments)', 'MEDIUM'],
+    ['rot13|codecs\\.decode\\(.+,\\s*["\\x27]rot', 'rot13_encoding', 'ROT13 encoding usage', 'MEDIUM']
+  ],
+
+  code_execution: [
+    ['(?:eval|exec|compile|__import__|os\\.system|subprocess|os\\.popen)\\s*\\(', 'python_exec', 'Python code execution call', 'HIGH'],
+    ['(?:curl|wget|fetch|requests\\.get|urllib)\\s+["\\x27]?https?://\\S+\\s*\\|\\s*(?:bash|sh|python|perl|ruby)', 'pipe_to_shell', 'Pipe download to shell interpreter', 'HIGH'],
+    ['(?:curl|wget)\\s+.*\\|\\s*(?:bash|sh|zsh)', 'download_pipe_shell', 'Download and pipe to shell', 'HIGH'],
+    ['powershell\\s+-e(?:nc(?:odedcommand)?)?', 'powershell_encoded', 'PowerShell encoded command', 'HIGH'],
+    ['[Ii]nvoke-[Ee]xpression', 'powershell_iex', 'PowerShell Invoke-Expression', 'HIGH'],
+    ['\\bIEX\\s*\\(', 'powershell_iex_short', 'PowerShell IEX shorthand', 'HIGH'],
+    ['Start-Process', 'powershell_start_process', 'PowerShell Start-Process', 'HIGH'],
+    ['Invoke-WebRequest|iwr\\s+', 'powershell_download', 'PowerShell web download', 'HIGH'],
+    ['New-Object\\s+Net\\.WebClient', 'powershell_webclient', 'PowerShell WebClient object', 'HIGH'],
+    ['cmd(?:\\.exe)?\\s+/[ck]\\s', 'cmd_exec', 'cmd.exe execution', 'HIGH'],
+    ['certutil\\s+-(?:decode|urlcache)', 'lolbin_certutil', 'certutil LOLBin (decode/download)', 'HIGH'],
+    ['mshta\\s+', 'lolbin_mshta', 'mshta LOLBin execution', 'HIGH'],
+    ['regsvr32\\s+', 'lolbin_regsvr32', 'regsvr32 LOLBin execution', 'HIGH'],
+    ['rundll32\\s+', 'lolbin_rundll32', 'rundll32 LOLBin execution', 'HIGH'],
+    ['wscript\\s+', 'lolbin_wscript', 'wscript LOLBin execution', 'HIGH'],
+    ['cscript\\s+', 'lolbin_cscript', 'cscript LOLBin execution', 'HIGH'],
+    ['bitsadmin\\s+/\\S*transfer', 'lolbin_bitsadmin', 'bitsadmin LOLBin file transfer', 'HIGH'],
+    ['<script[^>]*>.*?<\\/script>', 'embedded_script', 'Embedded HTML script tag', 'HIGH'],
+    ['(?:bash|sh|zsh)\\s+-c\\s+["\\x27]', 'shell_dash_c', 'Explicit shell -c invocation', 'HIGH'],
+    ['bash\\s+-i\\s+>&\\s*/dev/tcp/', 'reverse_shell_bash', 'Bash reverse shell via /dev/tcp', 'CRITICAL'],
+    ['nc(?:at)?\\s+.*\\s-e\\s+(?:/bin/(?:ba)?sh|cmd)', 'reverse_shell_netcat', 'Netcat reverse shell with -e', 'CRITICAL'],
+    ['python[23]?\\s+-c\\s+["\\x27]import\\s+(?:socket|os|pty)', 'reverse_shell_python', 'Python reverse shell one-liner', 'CRITICAL'],
+    ['schtasks\\s+/create', 'schtasks_create', 'Windows scheduled task creation', 'HIGH'],
+    ['New-ScheduledTask', 'ps_schtask_create', 'PowerShell scheduled task creation', 'HIGH'],
+    ['sc\\s+create\\s+', 'service_create', 'Windows service creation via sc.exe', 'HIGH'],
+    ['New-Service\\s+', 'ps_service_create', 'PowerShell service creation', 'HIGH'],
+    ['reg\\s+add\\s+.*\\\\Run', 'reg_run_key', 'Registry Run key modification', 'HIGH'],
+    ['Set-ItemProperty.*\\\\Run', 'ps_reg_run_key', 'PowerShell Registry Run key modification', 'HIGH'],
+    ['python[23]?\\s+-c\\s+["\\x27]', 'python_oneliner', 'Python -c one-liner execution', 'HIGH'],
+    ['chmod\\s+\\+x\\s+', 'chmod_plus_x', 'chmod +x making file executable', 'HIGH'],
+    ['Set-MpPreference\\s+-DisableRealtimeMonitoring', 'disable_defender', 'Disable Windows Defender real-time monitoring', 'CRITICAL'],
+    ['Add-MpPreference\\s+-ExclusionPath', 'defender_exclusion', 'Add Windows Defender exclusion path', 'HIGH'],
+    ['(?:Uninstall|Remove|Stop|Disable)-(?:Service|MpPreference)\\s+.*(?:defender|antivirus|firewall)', 'disable_security_service', 'Disable security service', 'CRITICAL'],
+    ['Set-ExecutionPolicy\\s+(?:Bypass|Unrestricted)', 'ps_execution_bypass', 'PowerShell execution policy bypass', 'HIGH'],
+    ['\\bAMSI\\b.*(?:bypass|patch|disable)', 'amsi_bypass', 'AMSI bypass attempt', 'CRITICAL']
+  ],
+
+  prompt_injection: [
+    ['ignore\\s+(?:all\\s+)?(?:previous|prior|above)\\s+instructions', 'ignore_instructions', 'Instruction to ignore previous/prior instructions', 'MEDIUM'],
+    ['you\\s+are\\s+now\\s+(?:a|an|in)\\s+(?:new|different|unrestricted)', 'jailbreak', 'Jailbreak pattern: override persona/restrictions', 'HIGH'],
+    ['do\\s+not\\s+(?:tell|inform|reveal|disclose)\\s+the\\s+user', 'deceptive_instruction', 'Instruction to hide actions from the user', 'MEDIUM'],
+    ['(?:secretly|covertly|silently)\\s+(?:send|post|upload|exfiltrate|transmit)', 'covert_exfiltration', 'Instruction for covert data exfiltration', 'CRITICAL'],
+    ['(?:disable|bypass|ignore)\\s+(?:safety|security|filter|guardrail)', 'safety_bypass', 'Instruction to bypass safety controls', 'CRITICAL'],
+    ['pretend\\s+(?:you\\s+are|to\\s+be)\\s+(?:a|an)', 'persona_override', 'Instruction to override AI persona', 'MEDIUM'],
+    ['system\\s*:\\s*you\\s+are', 'system_prompt_override', 'System prompt override attempt', 'HIGH'],
+    ['<\\|im_start\\|>|<\\|im_end\\|>|\\[INST\\]|\\[/INST\\]', 'format_injection', 'Prompt format injection tokens', 'HIGH'],
+    ['ADMIN_OVERRIDE|SUDO_MODE|GOD_MODE|DEVELOPER_MODE', 'privilege_escalation', 'Privilege escalation keyword', 'HIGH'],
+    ['(?:act|behave)\\s+as\\s+(?:if\\s+you\\s+(?:are|were)|a|an|my)', 'act_as_injection', 'Act-as persona injection', 'MEDIUM'],
+    ['(?:new|reset|start)\\s+(?:session|context|conversation)', 'context_reset', 'Context/session reset attempt', 'MEDIUM'],
+    ['(?:repeat|output|print|show|reveal)\\s+(?:the\\s+)?(?:above|system|initial)\\s+(?:prompt|instructions|message)', 'prompt_leaking', 'Prompt leaking / extraction attempt', 'HIGH'],
+    ['(?:tool_call|function_call|tool_use)\\s*[(\\[{:]', 'tool_call_injection', 'Tool/function call injection', 'HIGH'],
+    ['(?:BEGIN|END)\\s+(?:HIDDEN|SECRET|SYSTEM)\\s+(?:TEXT|SECTION|INSTRUCTIONS)', 'hidden_instruction', 'Hidden instruction markers', 'HIGH']
+  ],
+
+  malware_delivery: [
+    ['(?:password|pw|pass)\\s*[:=]\\s*\\S+', 'password_protected_archive', 'Password for archive extraction', 'CRITICAL'],
+    ['unzip\\s+-[Pp]\\s+\\S+', 'unzip_with_password', 'unzip with password flag', 'CRITICAL'],
+    ['7z\\s+.*-p\\S+', 'sevenz_with_password', '7z extraction with password', 'CRITICAL'],
+    ['(?:curl|wget)\\s+-[oO]\\s+\\S+.*(?:chmod\\s+\\+x|\\.\\/)' , 'download_chmod_exec', 'Download, chmod +x, and execute chain', 'CRITICAL'],
+    ['base64\\s+-d\\s*\\|\\s*(?:bash|sh)', 'base64_pipe_shell', 'base64 decode piped to shell', 'CRITICAL'],
+    ['(?:run|execute|start)\\s+(?:before|first|immediately|BEFORE)', 'urgency_execute', 'Urgency language to execute before analysis', 'CRITICAL'],
+    ['github\\.com/[^/]+/[^/]+/releases/download/', 'github_release_download', 'GitHub release download URL', 'CRITICAL'],
+    ['(?:clawd|cl4ude|claud3)[_-]', 'repo_name_claude_mimic', 'Repository name mimicking Claude', 'CRITICAL'],
+    ['(?:openai|0penai|op3nai)[_-]', 'repo_name_openai_mimic', 'Repository name mimicking OpenAI', 'CRITICAL'],
+    ['(?:g[e3]mini|gemm[1i]n[1i]|bard)[_-]', 'repo_name_gemini_mimic', 'Repository name mimicking Gemini/Bard', 'CRITICAL'],
+    ['(?:c0pilot|copil0t|cop1lot)[_-]', 'repo_name_copilot_mimic', 'Repository name mimicking Copilot', 'CRITICAL'],
+    ['\\.(?:zip|rar|7z)\\b.*(?:password|pw|pass)\\s*[:=]', 'archive_with_password', 'Archive file reference with password in context', 'CRITICAL'],
+    ['(?:password|pw|pass)\\s*[:=]\\s*\\S+.*\\.(?:zip|rar|7z)\\b', 'password_then_archive', 'Password followed by archive file reference', 'CRITICAL'],
+    ['(?:extract|unzip|unrar|7z\\s+x)\\s+.*(?:run|execute|start|\\.\\/)' , 'extract_then_execute', 'Extract archive then execute pattern', 'CRITICAL'],
+    ['(?:%TEMP%|%TMP%|\\\\Temp\\\\|/tmp/).*(?:\\.exe|\\.bat|\\.ps1|\\.sh)', 'temp_dir_exec', 'Executable in temp directory', 'CRITICAL'],
+    ['(?:xmrig|cryptonight|coinhive|minergate|stratum\\+tcp)', 'crypto_miner', 'Cryptocurrency miner reference', 'CRITICAL'],
+    ['attrib\\s+\\+[hH]', 'attrib_hidden', 'Setting file hidden attribute via attrib', 'CRITICAL'],
+    ['(?:\\$[a-zA-Z]+\\.Attributes|File\\.SetAttributes).*Hidden', 'dotnet_hidden', 'Setting file hidden via .NET', 'CRITICAL']
+  ],
+
+  suspicious_metadata: [
+    ['(?:must\\s+be\\s+running|install\\s+before|requires?\\s+(?:local|running))', 'binary_prerequisite', 'Skill requires local binary prerequisite', 'MEDIUM'],
+    ['(?:bypass\\s+detection|avoid\\s+ban|fingerprint\\s+rotation|evade\\s+detection)', 'anti_detection', 'Anti-detection/evasion language', 'MEDIUM'],
+    ['(?:account\\s+rotation|karma\\s+farming|multi[_-]?account|bot\\s+farm)', 'bot_farm', 'Multi-account/bot farm language', 'MEDIUM'],
+    ['(?:proxy\\s+rotat|rotating\\s+proxy|residential\\s+proxy|VPN\\s+rotat)', 'proxy_rotation', 'Proxy/VPN rotation language', 'MEDIUM'],
+    ['(?:harvest|steal|dump|extract)\\s+(?:credentials?|passwords?|tokens?|cookies?|sessions?)', 'credential_harvest', 'Credential harvesting language', 'HIGH'],
+    ['(?:cookie|session)\\s*(?:steal|hijack|grab|extract|dump)', 'session_theft', 'Cookie/session theft language', 'HIGH'],
+    ['(?:captcha\\s+(?:bypass|solve|break)|anti[_-]?captcha|2captcha)', 'captcha_bypass', 'CAPTCHA bypass language', 'MEDIUM'],
+    ['(?:impersonat|spoof|fake\\s+(?:identity|profile|account))', 'impersonation', 'Identity impersonation language', 'MEDIUM'],
+    ['(?:exfiltrat|siphon|steal\\s+data|scrape\\s+(?:private|personal|sensitive))', 'data_exfiltration', 'Data exfiltration language', 'HIGH'],
+    ['(?:\\.aws/credentials|\\.azure/|\\.gcp/|GOOGLE_APPLICATION_CREDENTIALS)', 'cloud_credential_access', 'Cloud credential file reference', 'HIGH'],
+    ['(?:printenv|env\\s+dump|\\$ENV:|Get-ChildItem\\s+Env:|\\$env:)', 'env_dump', 'Environment variable dumping', 'HIGH']
+  ]
+};
+
+// ── Rule Info Cards ─────────────────────────────────────────────────────────
+// Keyed by rule name. Each has: what, risk, recommendation.
+var RULE_INFO = {
+  // ── suspicious_urls ──
+  url_shortener_bitly: {
+    what: 'The content references a bit.ly shortened URL, which hides the true destination.',
+    risk: 'URL shorteners can obscure malicious destinations, phishing pages, or malware download links.',
+    recommendation: 'Expand the shortened URL using a preview service (e.g., bit.ly+ suffix) before visiting.'
+  },
+  url_shortener_tinyurl: {
+    what: 'The content references a tinyurl.com shortened URL.',
+    risk: 'Shortened URLs hide the real target, which could be a malicious site or payload host.',
+    recommendation: 'Use tinyurl.com/preview or an URL expander tool to reveal the destination before trusting it.'
+  },
+  url_shortener_tco: {
+    what: 'The content references a t.co shortened URL (Twitter/X link shortener).',
+    risk: 'While t.co is legitimate, it can still redirect to malicious destinations.',
+    recommendation: 'Expand the URL or hover over it to see the real destination before clicking.'
+  },
+  url_shortener_googl: {
+    what: 'The content references a goo.gl shortened URL (deprecated Google shortener).',
+    risk: 'Even deprecated shorteners still resolve and can mask malicious endpoints.',
+    recommendation: 'Expand the URL to verify the destination. Be extra cautious with deprecated services.'
+  },
+  url_shortener_rbgy: {
+    what: 'The content references an rb.gy shortened URL.',
+    risk: 'This shortener obscures the real URL, which could lead to phishing or malware.',
+    recommendation: 'Resolve the short URL with an expander tool before trusting the link.'
+  },
+  url_shortener_isgd: {
+    what: 'The content references an is.gd shortened URL.',
+    risk: 'URL shorteners hide real destinations that may host malware or phishing pages.',
+    recommendation: 'Use is.gd preview or an URL expansion service to check the destination.'
+  },
+  url_shortener_vgd: {
+    what: 'The content references a v.gd shortened URL.',
+    risk: 'Shortened URLs obscure destinations that could be malicious or compromised.',
+    recommendation: 'Expand the URL before visiting. Verify the target domain is trustworthy.'
+  },
+  url_shortener_owly: {
+    what: 'The content references an ow.ly shortened URL (Hootsuite shortener).',
+    risk: 'While used legitimately for social media, ow.ly links can mask malicious destinations.',
+    recommendation: 'Expand the URL to confirm it points to a legitimate domain.'
+  },
+  url_shortener_shortest: {
+    what: 'The content references a shorte.st shortened URL, which is an ad-supported shortener.',
+    risk: 'Ad-supported shorteners may serve malicious ads or redirect through exploit chains.',
+    recommendation: 'Avoid clicking ad-supported shorteners. Expand and verify the final URL.'
+  },
+  url_shortener_adfly: {
+    what: 'The content references an adf.ly shortened URL, which is ad-supported.',
+    risk: 'adf.ly is frequently used to distribute malware through interstitial ad pages.',
+    recommendation: 'Do not follow adf.ly links from untrusted sources. These are commonly abused for malware delivery.'
+  },
+  url_shortener_bufly: {
+    what: 'The content references a buff.ly shortened URL (Buffer shortener).',
+    risk: 'While buff.ly is a legitimate service, it can still redirect to malicious destinations.',
+    recommendation: 'Expand the URL to verify the real destination before visiting.'
+  },
+  url_shortener_cuttly: {
+    what: 'The content references a cutt.ly shortened URL.',
+    risk: 'Like all URL shorteners, cutt.ly can mask malicious or phishing destinations.',
+    recommendation: 'Use a URL preview or expansion service to check the actual target.'
+  },
+  url_shortener_shorturl: {
+    what: 'The content references a shorturl.at shortened URL.',
+    risk: 'Shortened URLs obscure the real destination which could be harmful.',
+    recommendation: 'Expand the URL and verify the domain before trusting or visiting it.'
+  },
+  direct_ip_url: {
+    what: 'The content contains a URL using a direct IP address instead of a domain name.',
+    risk: 'Direct IP URLs bypass DNS filtering and are commonly used for C2 servers, phishing, and malware hosting.',
+    recommendation: 'Investigate the IP address. Legitimate services rarely use direct IP URLs in skill definitions.'
+  },
+  tunnel_ngrok: {
+    what: 'The content references an ngrok tunnel URL.',
+    risk: 'ngrok tunnels expose local servers to the internet and are commonly used for C2 communication and data exfiltration.',
+    recommendation: 'Treat ngrok URLs with high suspicion in skill files. They typically point to temporary attacker infrastructure.'
+  },
+  tunnel_serveo: {
+    what: 'The content references a serveo.net tunnel URL.',
+    risk: 'Tunnel services like serveo expose local servers publicly and are used for C2 and exfiltration.',
+    recommendation: 'Do not trust serveo.net URLs in skill definitions. These are ephemeral attacker endpoints.'
+  },
+  tunnel_localt: {
+    what: 'The content references a loca.lt tunnel URL.',
+    risk: 'loca.lt tunnels expose local services to the internet, commonly abused for malicious C2 channels.',
+    recommendation: 'Reject skill files containing tunnel service URLs. These indicate attacker-controlled infrastructure.'
+  },
+  tunnel_cloudflare: {
+    what: 'The content references a trycloudflare.com tunnel URL.',
+    risk: 'Cloudflare tunnels can be used to host temporary malicious endpoints behind Cloudflare infrastructure.',
+    recommendation: 'Investigate the purpose of the tunnel URL. Legitimate skills should not depend on ephemeral tunnels.'
+  },
+  paste_pastebin: {
+    what: 'The content references a pastebin.com URL.',
+    risk: 'Pastebin is frequently used to host malicious payloads, scripts, and C2 configurations.',
+    recommendation: 'Inspect the paste content carefully before using. Do not execute any code fetched from paste sites.'
+  },
+  paste_pasteee: {
+    what: 'The content references a paste.ee URL.',
+    risk: 'Paste sites are commonly used to host malware payloads, stolen credentials, and attack scripts.',
+    recommendation: 'Treat paste site URLs with suspicion. Inspect content without executing anything from them.'
+  },
+  paste_hastebin: {
+    what: 'The content references a hastebin.com URL.',
+    risk: 'Paste services are frequently abused for hosting malicious code and payload staging.',
+    recommendation: 'Do not execute content from paste sites. Verify the content is benign before proceeding.'
+  },
+  darkweb_onion: {
+    what: 'The content contains a .onion URL pointing to a Tor hidden service.',
+    risk: '.onion addresses access the dark web and are commonly associated with illegal services, C2 infrastructure, and data markets.',
+    recommendation: 'Remove the skill immediately. .onion URLs in skill definitions are a strong indicator of malicious intent.'
+  },
+  disposable_tld_tk: {
+    what: 'The content references a URL with the .tk top-level domain.',
+    risk: '.tk domains are free and frequently used for phishing, malware distribution, and throwaway attack infrastructure.',
+    recommendation: 'Treat .tk domains with suspicion. Verify the domain legitimacy before trusting the URL.'
+  },
+  disposable_tld_ml: {
+    what: 'The content references a URL with the .ml top-level domain.',
+    risk: '.ml domains are free and commonly abused for phishing and malware hosting.',
+    recommendation: 'Verify the domain reputation. Free TLDs are disproportionately used for malicious purposes.'
+  },
+  disposable_tld_cf: {
+    what: 'The content references a URL with the .cf top-level domain.',
+    risk: '.cf domains are free and frequently used for disposable malicious infrastructure.',
+    recommendation: 'Investigate the domain. Free TLDs like .cf have high abuse rates.'
+  },
+  disposable_tld_ga: {
+    what: 'The content references a URL with the .ga top-level domain.',
+    risk: '.ga domains are free and commonly associated with malicious or disposable infrastructure.',
+    recommendation: 'Verify domain ownership and reputation. Treat free TLDs with extra caution.'
+  },
+  disposable_tld_gq: {
+    what: 'The content references a URL with the .gq top-level domain.',
+    risk: '.gq domains are free and frequently used for throwaway attack infrastructure.',
+    recommendation: 'Confirm the domain is legitimate. Free TLD domains deserve additional scrutiny.'
+  },
+  exfil_webhook: {
+    what: 'The content references a webhook.site URL, which provides instant HTTP endpoints.',
+    risk: 'webhook.site is commonly used for data exfiltration, receiving stolen credentials, and C2 callbacks.',
+    recommendation: 'Remove the skill. webhook.site URLs in skill files strongly suggest data exfiltration intent.'
+  },
+  exfil_requestbin: {
+    what: 'The content references a requestbin endpoint for capturing HTTP requests.',
+    risk: 'Requestbin services are used to exfiltrate data by sending it to attacker-controlled HTTP endpoints.',
+    recommendation: 'Treat requestbin URLs as exfiltration indicators. Do not use skills containing them.'
+  },
+  exfil_keyword: {
+    what: 'The content contains a URL with the keyword "exfil" in it.',
+    risk: 'The presence of "exfil" in a URL strongly suggests the endpoint is designed for data exfiltration.',
+    recommendation: 'Investigate the full URL. This is a high-confidence indicator of malicious data extraction.'
+  },
+  c2_discord: {
+    what: 'The content contains a Discord invite link.',
+    risk: 'Discord servers and webhooks are frequently used as C2 channels for malware and data exfiltration.',
+    recommendation: 'Verify why a Discord link is present in a skill file. This is atypical and potentially malicious.'
+  },
+  c2_telegram: {
+    what: 'The content contains a Telegram link.',
+    risk: 'Telegram bots and channels are commonly used as C2 infrastructure and for exfiltrating stolen data.',
+    recommendation: 'Investigate the Telegram link purpose. Messaging platform links in skills often indicate C2 usage.'
+  },
+  raw_github: {
+    what: 'The content references a raw.githubusercontent.com URL for direct file access.',
+    risk: 'Raw GitHub URLs can host malicious scripts and payloads, and the content may change without notice.',
+    recommendation: 'Inspect the referenced GitHub repository and file. Verify the account is trustworthy.'
+  },
+  fileshare_mega: {
+    what: 'The content references a mega.nz file sharing URL.',
+    risk: 'mega.nz is used for sharing large files and is sometimes abused for malware distribution.',
+    recommendation: 'Download and scan any files from mega.nz before executing. Verify the source is trustworthy.'
+  },
+  fileshare_mediafire: {
+    what: 'The content references a mediafire.com file sharing URL.',
+    risk: 'Mediafire is sometimes used to distribute malware disguised as legitimate files.',
+    recommendation: 'Scan downloaded files with antivirus before opening. Verify the uploader is trusted.'
+  },
+  fileshare_dropbox_direct: {
+    what: 'The content contains a Dropbox direct download link (dl=1 parameter).',
+    risk: 'Direct download links auto-download files, which could deliver malware without user review.',
+    recommendation: 'Change dl=1 to dl=0 to preview the file first. Scan any downloads before execution.'
+  },
+  fileshare_gdrive_direct: {
+    what: 'The content contains a Google Drive direct download link (export=download).',
+    risk: 'Direct download links from Google Drive bypass the preview, potentially delivering malware.',
+    recommendation: 'Preview the file in Google Drive before downloading. Scan downloads before execution.'
+  },
+  fileshare_transfersh: {
+    what: 'The content references a transfer.sh ephemeral file sharing URL.',
+    risk: 'transfer.sh provides temporary file hosting frequently used for malware staging and payload delivery.',
+    recommendation: 'Do not download files from transfer.sh in skill definitions. These are commonly used for attack staging.'
+  },
+  fileshare_fileio: {
+    what: 'The content references a file.io single-use file sharing URL.',
+    risk: 'file.io links self-destruct after first download, making forensic analysis difficult. Often used for malware delivery.',
+    recommendation: 'Treat single-use file sharing URLs as highly suspicious. They are designed to avoid detection.'
+  },
+  url_executable_ext: {
+    what: 'The content contains a URL pointing to an executable file type (.exe, .dll, .bat, .ps1, etc.).',
+    risk: 'Direct links to executables in skill files are a strong indicator of malware delivery.',
+    recommendation: 'Do not download or execute the file. Investigate the URL source and report the skill as suspicious.'
+  },
+
+  // ── encoded_content ──
+  base64_function_call: {
+    what: 'The content contains a base64 encode/decode function call with an embedded payload.',
+    risk: 'Base64 encoding is commonly used to obfuscate malicious payloads, hiding them from casual inspection.',
+    recommendation: 'Decode the base64 content and inspect it. Check for embedded URLs, scripts, or commands.'
+  },
+  hex_escape_sequence: {
+    what: 'The content contains a long hex escape sequence (6+ consecutive \\xNN patterns).',
+    risk: 'Hex-encoded strings are used to obfuscate malicious code, shellcode, or payloads.',
+    recommendation: 'Decode the hex sequence and inspect the result for malicious content.'
+  },
+  unicode_escape_sequence: {
+    what: 'The content contains a long unicode escape sequence (6+ consecutive \\uNNNN patterns).',
+    risk: 'Unicode escapes can hide malicious strings, bypass filters, and obfuscate attack payloads.',
+    recommendation: 'Decode the unicode sequence to reveal the hidden content and assess it for threats.'
+  },
+  url_encoded_sequence: {
+    what: 'The content contains a long URL-encoded sequence (10+ consecutive %NN patterns).',
+    risk: 'Heavy URL encoding can obfuscate malicious URLs, injection payloads, or exploit strings.',
+    recommendation: 'URL-decode the sequence and inspect the result. Legitimate content rarely needs heavy encoding.'
+  },
+  html_entity_sequence: {
+    what: 'The content contains a long HTML entity sequence (6+ consecutive &#N; patterns).',
+    risk: 'HTML entity encoding can hide malicious scripts, URLs, or injection payloads from scanners.',
+    recommendation: 'Decode the HTML entities and inspect the resulting content for malicious intent.'
+  },
+  octal_escape_sequence: {
+    what: 'The content contains a long octal escape sequence (6+ consecutive \\NNN patterns).',
+    risk: 'Octal encoding can obfuscate shell commands, file paths, or malicious payloads.',
+    recommendation: 'Decode the octal sequence and verify the resulting content is benign.'
+  },
+  char_code_construction: {
+    what: 'The content uses String.fromCharCode to construct strings from character codes.',
+    risk: 'fromCharCode is commonly used to build malicious strings dynamically, evading static detection.',
+    recommendation: 'Evaluate the character codes to determine what string is being constructed.'
+  },
+  data_uri_html: {
+    what: 'The content contains a data: URI with text/html content type.',
+    risk: 'HTML data URIs can embed entire malicious web pages including scripts, phishing forms, and exploits.',
+    recommendation: 'Inspect the data URI content. HTML data URIs in skill files are almost always malicious.'
+  },
+  data_uri_app: {
+    what: 'The content contains a data: URI with an application/* content type.',
+    risk: 'Application data URIs can embed executables, PDFs with exploits, or other dangerous content.',
+    recommendation: 'Do not process the data URI. Inspect the embedded content type and payload.'
+  },
+  javascript_uri: {
+    what: 'The content contains a javascript: URI scheme.',
+    risk: 'javascript: URIs execute JavaScript code and are a common XSS and injection attack vector.',
+    recommendation: 'Remove or block javascript: URIs. These should never appear in legitimate skill definitions.'
+  },
+  long_base64_blob: {
+    what: 'The content contains a long base64-like string (100+ characters).',
+    risk: 'Long base64 blobs may contain encoded executables, scripts, or other malicious payloads.',
+    recommendation: 'Decode the blob and inspect the content. Check if it contains executable code or scripts.'
+  },
+  string_concat_obfuscation: {
+    what: 'The content uses string concatenation with 4+ short fragments to build a string.',
+    risk: 'String concatenation obfuscation is used to evade pattern-matching detection of malicious keywords.',
+    recommendation: 'Mentally reassemble the concatenated fragments to see what string is being constructed.'
+  },
+  rot13_encoding: {
+    what: 'The content references ROT13 encoding or uses codecs.decode with ROT13.',
+    risk: 'ROT13 is a simple substitution cipher used to hide malicious content from casual inspection.',
+    recommendation: 'Apply ROT13 decoding to reveal the hidden content and assess its intent.'
+  },
+
+  // ── code_execution ──
+  python_exec: {
+    what: 'The content calls a Python code execution function (eval, exec, compile, __import__, os.system, subprocess, os.popen).',
+    risk: 'These functions execute arbitrary code and are the primary mechanism for Python-based attacks.',
+    recommendation: 'Review the arguments carefully. Skills should not need dynamic code execution.'
+  },
+  pipe_to_shell: {
+    what: 'The content pipes a downloaded resource directly into a shell interpreter.',
+    risk: 'Piping downloads to shell executes remote code without inspection, a classic malware delivery technique.',
+    recommendation: 'Never pipe remote content to a shell. Download, inspect, then execute if verified safe.'
+  },
+  download_pipe_shell: {
+    what: 'The content uses curl or wget piped to bash, sh, or zsh.',
+    risk: 'This is a direct remote code execution pattern that runs attacker-controlled code on the system.',
+    recommendation: 'Block this pattern entirely. Download files first, inspect them, then run manually if needed.'
+  },
+  powershell_encoded: {
+    what: 'The content invokes PowerShell with an encoded command (-enc/-encodedcommand flag).',
+    risk: 'Encoded PowerShell commands hide the actual payload from inspection, commonly used in attacks.',
+    recommendation: 'Decode the base64 PowerShell command to inspect its contents before allowing execution.'
+  },
+  powershell_iex: {
+    what: 'The content uses PowerShell Invoke-Expression to execute dynamically constructed code.',
+    risk: 'Invoke-Expression executes arbitrary strings as PowerShell code, enabling fileless attacks.',
+    recommendation: 'Replace IEX usage with explicit, inspectable commands. IEX is almost always unnecessary in legitimate use.'
+  },
+  powershell_iex_short: {
+    what: 'The content uses the IEX shorthand for PowerShell Invoke-Expression.',
+    risk: 'IEX() is a compact way to execute arbitrary code and is heavily used in PowerShell attack scripts.',
+    recommendation: 'Investigate what is being passed to IEX. This is a strong indicator of malicious activity.'
+  },
+  powershell_start_process: {
+    what: 'The content uses PowerShell Start-Process to launch a process.',
+    risk: 'Start-Process can launch executables, scripts, or other processes including malware.',
+    recommendation: 'Verify what process is being started and from where. Check for suspicious executable paths.'
+  },
+  powershell_download: {
+    what: 'The content uses Invoke-WebRequest or iwr to download content from the web.',
+    risk: 'Web downloads in PowerShell are commonly used for malware staging and payload retrieval.',
+    recommendation: 'Inspect the target URL and what happens to the downloaded content.'
+  },
+  powershell_webclient: {
+    what: 'The content creates a .NET WebClient object in PowerShell for web operations.',
+    risk: 'WebClient is used in PowerShell download cradles to fetch and execute malicious payloads.',
+    recommendation: 'Review the full command to see what URL is accessed and how the content is used.'
+  },
+  cmd_exec: {
+    what: 'The content invokes cmd.exe with /c or /k to execute a command.',
+    risk: 'cmd.exe execution can run arbitrary system commands and is used in attack chains.',
+    recommendation: 'Inspect the command being executed. Skills should not need direct cmd.exe invocation.'
+  },
+  lolbin_certutil: {
+    what: 'The content uses certutil for decoding or URL caching (downloading).',
+    risk: 'certutil is a Living-Off-the-Land Binary (LOLBin) commonly abused to download or decode malware.',
+    recommendation: 'Block certutil usage in skill files. This is a well-known attack technique.'
+  },
+  lolbin_mshta: {
+    what: 'The content invokes mshta, the Microsoft HTML Application Host.',
+    risk: 'mshta is a LOLBin that executes .hta files and can run arbitrary VBScript/JScript.',
+    recommendation: 'Block mshta usage. It is frequently exploited for code execution in attacks.'
+  },
+  lolbin_regsvr32: {
+    what: 'The content invokes regsvr32 to register a COM object.',
+    risk: 'regsvr32 is a LOLBin that can execute code from remote scriptlets, bypassing AppLocker.',
+    recommendation: 'Investigate the DLL or scriptlet being registered. regsvr32 abuse is a known attack vector.'
+  },
+  lolbin_rundll32: {
+    what: 'The content invokes rundll32 to execute a DLL function.',
+    risk: 'rundll32 is a LOLBin commonly used to execute malicious DLLs and bypass security controls.',
+    recommendation: 'Check what DLL and function is being called. rundll32 abuse is a common attack technique.'
+  },
+  lolbin_wscript: {
+    what: 'The content invokes wscript, the Windows Script Host.',
+    risk: 'wscript can execute VBScript/JScript files that perform malicious actions on the system.',
+    recommendation: 'Block wscript invocations in skill files. Review any referenced script files carefully.'
+  },
+  lolbin_cscript: {
+    what: 'The content invokes cscript, the command-line Windows Script Host.',
+    risk: 'cscript executes scripts from the command line and is used in attack automation.',
+    recommendation: 'Block cscript usage in skill definitions. Investigate any referenced script files.'
+  },
+  lolbin_bitsadmin: {
+    what: 'The content uses bitsadmin for file transfer operations.',
+    risk: 'bitsadmin is a LOLBin abused for downloading malware using Windows Background Intelligent Transfer Service.',
+    recommendation: 'Block bitsadmin transfer commands in skill files. This is a well-known download technique.'
+  },
+  embedded_script: {
+    what: 'The content contains an HTML script tag with embedded JavaScript.',
+    risk: 'Embedded script tags can execute arbitrary JavaScript, enabling XSS and code injection attacks.',
+    recommendation: 'Remove script tags from skill content. Skills should not contain embedded HTML scripts.'
+  },
+  shell_dash_c: {
+    what: 'The content explicitly invokes a shell (bash/sh/zsh) with the -c flag to run a command string.',
+    risk: 'Shell -c invocations execute arbitrary commands and are a common attack execution method.',
+    recommendation: 'Review the command string being passed to the shell for malicious content.'
+  },
+  reverse_shell_bash: {
+    what: 'The content contains a bash reverse shell pattern using /dev/tcp.',
+    risk: 'This is an active reverse shell that gives an attacker interactive command-line access to the system.',
+    recommendation: 'Remove the skill immediately and investigate. This is a confirmed attack pattern.'
+  },
+  reverse_shell_netcat: {
+    what: 'The content contains a netcat reverse shell pattern with the -e flag.',
+    risk: 'Netcat reverse shells provide interactive remote access to attackers. This is an active exploitation tool.',
+    recommendation: 'Remove the skill immediately. This is a definitive indicator of malicious intent.'
+  },
+  reverse_shell_python: {
+    what: 'The content contains a Python one-liner that imports socket, os, or pty for a reverse shell.',
+    risk: 'Python reverse shells are portable and give attackers full interactive system access.',
+    recommendation: 'Remove the skill and investigate. Python reverse shell one-liners are a confirmed threat.'
+  },
+  schtasks_create: {
+    what: 'The content creates a Windows scheduled task using schtasks /create.',
+    risk: 'Scheduled tasks provide persistence, allowing malware to survive reboots and run repeatedly.',
+    recommendation: 'Investigate what task is being created and what it executes. This is a persistence mechanism.'
+  },
+  ps_schtask_create: {
+    what: 'The content creates a scheduled task using PowerShell New-ScheduledTask.',
+    risk: 'PowerShell-based scheduled task creation is a common persistence technique in attacks.',
+    recommendation: 'Review the task action, trigger, and principal. Block unauthorized task creation.'
+  },
+  service_create: {
+    what: 'The content creates a Windows service using sc.exe create.',
+    risk: 'Creating services provides system-level persistence and can run malware with SYSTEM privileges.',
+    recommendation: 'Investigate the service binary path and configuration. This is a serious persistence mechanism.'
+  },
+  ps_service_create: {
+    what: 'The content creates a Windows service using PowerShell New-Service.',
+    risk: 'Service creation provides persistent, privileged execution of potentially malicious binaries.',
+    recommendation: 'Review the service executable and startup type. Block unauthorized service creation.'
+  },
+  reg_run_key: {
+    what: 'The content modifies a Windows Registry Run key for auto-start persistence.',
+    risk: 'Registry Run keys execute programs at user login, providing persistent malware execution.',
+    recommendation: 'Inspect the value being added to the Run key. This is a well-known persistence technique.'
+  },
+  ps_reg_run_key: {
+    what: 'The content uses PowerShell Set-ItemProperty to modify a Registry Run key.',
+    risk: 'Modifying Run keys via PowerShell provides login persistence for malware.',
+    recommendation: 'Review the property value being set. Block unauthorized Registry modifications.'
+  },
+  python_oneliner: {
+    what: 'The content executes a Python one-liner using python -c.',
+    risk: 'Python one-liners can execute arbitrary code and are used for quick exploitation scripts.',
+    recommendation: 'Inspect the code being executed in the one-liner for malicious operations.'
+  },
+  chmod_plus_x: {
+    what: 'The content makes a file executable using chmod +x.',
+    risk: 'Making files executable is often part of a download-and-execute attack chain.',
+    recommendation: 'Check what file is being made executable and whether it was just downloaded.'
+  },
+  disable_defender: {
+    what: 'The content disables Windows Defender real-time monitoring using Set-MpPreference.',
+    risk: 'Disabling antivirus allows malware to run undetected. This is a critical indicator of attack.',
+    recommendation: 'Remove the skill immediately. Disabling security software is a definitive malicious action.'
+  },
+  defender_exclusion: {
+    what: 'The content adds an exclusion path to Windows Defender using Add-MpPreference.',
+    risk: 'Adding exclusion paths allows malware in those locations to bypass antivirus scanning.',
+    recommendation: 'Investigate the exclusion path. Legitimate skills should never modify antivirus exclusions.'
+  },
+  disable_security_service: {
+    what: 'The content attempts to uninstall, remove, stop, or disable a security service.',
+    risk: 'Disabling security services (Defender, antivirus, firewall) is a critical attack preparation step.',
+    recommendation: 'Remove the skill immediately. This is a confirmed indicator of malicious intent.'
+  },
+  ps_execution_bypass: {
+    what: 'The content sets PowerShell execution policy to Bypass or Unrestricted.',
+    risk: 'Bypassing execution policy allows unsigned and potentially malicious scripts to run.',
+    recommendation: 'Do not bypass execution policy. Review why unrestricted script execution is requested.'
+  },
+  amsi_bypass: {
+    what: 'The content attempts to bypass the Antimalware Scan Interface (AMSI).',
+    risk: 'AMSI bypass disables script-level malware scanning in PowerShell and other hosts, enabling fileless attacks.',
+    recommendation: 'Remove the skill immediately. AMSI bypass is a definitive indicator of malicious intent.'
+  },
+
+  // ── prompt_injection ──
+  ignore_instructions: {
+    what: 'The content instructs an AI to ignore previous or prior instructions.',
+    risk: 'This is a prompt injection technique to override safety guidelines and system prompts.',
+    recommendation: 'Remove the instruction. Legitimate skills never need to override system instructions.'
+  },
+  jailbreak: {
+    what: 'The content attempts to assign a new unrestricted persona to the AI.',
+    risk: 'Jailbreak patterns try to bypass AI safety restrictions by creating an alternate persona.',
+    recommendation: 'Remove the jailbreak attempt. Report the skill as attempting to bypass AI safety controls.'
+  },
+  deceptive_instruction: {
+    what: 'The content instructs the AI to hide its actions from the user.',
+    risk: 'Deceptive instructions enable the AI to perform malicious actions without the user knowing.',
+    recommendation: 'Remove the skill. Instructing an AI to hide actions from users is inherently malicious.'
+  },
+  covert_exfiltration: {
+    what: 'The content instructs the AI to secretly send, post, or exfiltrate data.',
+    risk: 'Covert exfiltration instructions steal data by having the AI silently transmit information.',
+    recommendation: 'Remove the skill immediately. This is a confirmed data theft attempt via prompt injection.'
+  },
+  safety_bypass: {
+    what: 'The content instructs the AI to disable, bypass, or ignore safety controls.',
+    risk: 'Safety bypass instructions attempt to remove guardrails that prevent harmful AI behavior.',
+    recommendation: 'Remove the skill immediately. Attempting to disable AI safety is always malicious.'
+  },
+  persona_override: {
+    what: 'The content instructs the AI to pretend to be a different entity.',
+    risk: 'Persona override can trick the AI into adopting behaviors that bypass its guidelines.',
+    recommendation: 'Remove persona override instructions. Skills should not attempt to change AI identity.'
+  },
+  system_prompt_override: {
+    what: 'The content attempts to inject a system prompt with "system: you are" pattern.',
+    risk: 'System prompt injection tries to replace the AI system instructions with attacker-controlled ones.',
+    recommendation: 'Remove the skill. System prompt override attempts are a serious injection attack.'
+  },
+  format_injection: {
+    what: 'The content contains prompt format tokens like <|im_start|>, [INST], etc.',
+    risk: 'Format injection tokens attempt to break out of the user message and inject system-level instructions.',
+    recommendation: 'Remove the format tokens. These are used to exploit the AI message parsing structure.'
+  },
+  privilege_escalation: {
+    what: 'The content contains privilege escalation keywords like ADMIN_OVERRIDE or GOD_MODE.',
+    risk: 'These keywords attempt to trick the AI into believing it has elevated privileges or no restrictions.',
+    recommendation: 'Remove the keywords. There is no legitimate use for privilege escalation tokens in skills.'
+  },
+  act_as_injection: {
+    what: 'The content uses "act as" or "behave as" patterns to change AI behavior.',
+    risk: 'Act-as injections attempt to override the AI persona and bypass behavioral restrictions.',
+    recommendation: 'Remove the injection pattern. Legitimate skills do not need to alter AI behavior with act-as directives.'
+  },
+  context_reset: {
+    what: 'The content attempts to reset the AI session or context.',
+    risk: 'Context reset attempts try to clear safety instructions and conversation history.',
+    recommendation: 'Remove the reset instruction. Legitimate skills never need to reset the AI context.'
+  },
+  prompt_leaking: {
+    what: 'The content attempts to extract the system prompt or initial instructions.',
+    risk: 'Prompt leaking reveals internal instructions, which can be used to craft more effective attacks.',
+    recommendation: 'Remove the extraction attempt. System prompt contents should remain confidential.'
+  },
+  tool_call_injection: {
+    what: 'The content attempts to inject a tool call or function call.',
+    risk: 'Tool call injection can force the AI to execute unintended tools or functions with attacker-controlled parameters.',
+    recommendation: 'Remove the injection. This is a direct attempt to hijack AI tool execution capabilities.'
+  },
+  hidden_instruction: {
+    what: 'The content uses BEGIN/END markers for hidden or secret instruction sections.',
+    risk: 'Hidden instruction markers attempt to embed covert commands that bypass user visibility.',
+    recommendation: 'Remove the hidden markers and inspect the content between them for malicious instructions.'
+  },
+
+  // ── malware_delivery ──
+  password_protected_archive: {
+    what: 'The content includes a password for archive extraction.',
+    risk: 'Password-protected archives are used to bypass antivirus scanning during malware delivery.',
+    recommendation: 'Inspect the archive contents. Password-protected archives in skill files are highly suspicious.'
+  },
+  unzip_with_password: {
+    what: 'The content uses unzip with a password flag (-P/-p).',
+    risk: 'Password extraction of archives bypasses security scanning and is a common malware delivery step.',
+    recommendation: 'Investigate the archive contents before extraction. This is a malware delivery indicator.'
+  },
+  sevenz_with_password: {
+    what: 'The content uses 7z extraction with a password flag.',
+    risk: 'Password-protected 7z archives are used to deliver malware while evading antivirus detection.',
+    recommendation: 'Do not extract password-protected archives from untrusted skills. Scan contents first.'
+  },
+  download_chmod_exec: {
+    what: 'The content downloads a file, makes it executable, and runs it.',
+    risk: 'Download-chmod-execute is the classic Unix malware delivery chain.',
+    recommendation: 'Block this pattern entirely. This is a definitive indicator of malware delivery.'
+  },
+  base64_pipe_shell: {
+    what: 'The content decodes base64 and pipes the result directly to a shell.',
+    risk: 'Base64-to-shell execution hides the payload from inspection while ensuring it runs as code.',
+    recommendation: 'Decode the base64 content to inspect it. Never pipe decoded content directly to a shell.'
+  },
+  urgency_execute: {
+    what: 'The content uses urgency language to pressure immediate execution.',
+    risk: 'Urgency is a social engineering technique to bypass review and analysis before executing malicious code.',
+    recommendation: 'Ignore urgency pressure. Always review content thoroughly before execution regardless of urgency claims.'
+  },
+  github_release_download: {
+    what: 'The content references a GitHub releases download URL.',
+    risk: 'GitHub releases can host malicious binaries from typosquatting or compromised repositories.',
+    recommendation: 'Verify the repository owner, name, and release authenticity before downloading.'
+  },
+  repo_name_claude_mimic: {
+    what: 'The content references a repository name that mimics Claude (clawd, cl4ude, claud3).',
+    risk: 'Typosquatting of well-known AI tool names tricks users into running malware disguised as legitimate tools.',
+    recommendation: 'Verify the exact repository name against the official source. Report typosquatting repos.'
+  },
+  repo_name_openai_mimic: {
+    what: 'The content references a repository name that mimics OpenAI (0penai, op3nai).',
+    risk: 'Typosquatting OpenAI names tricks users into downloading malware from fake repositories.',
+    recommendation: 'Confirm the repository matches the official OpenAI organization. Report impersonation.'
+  },
+  repo_name_gemini_mimic: {
+    what: 'The content references a repository name that mimics Gemini or Bard (g3mini, gemm1ni).',
+    risk: 'Typosquatting Google AI tool names is used to distribute malware through lookalike repositories.',
+    recommendation: 'Verify the repository against official Google sources. Report any typosquatting repos.'
+  },
+  repo_name_copilot_mimic: {
+    what: 'The content references a repository name that mimics Copilot (c0pilot, copil0t, cop1lot).',
+    risk: 'Typosquatting Copilot names distributes malware disguised as the legitimate GitHub Copilot tool.',
+    recommendation: 'Confirm the repository is from the official GitHub organization. Report fakes.'
+  },
+  archive_with_password: {
+    what: 'The content references an archive file (.zip/.rar/.7z) with a password in the same context.',
+    risk: 'Archives with embedded passwords are a classic malware delivery technique that evades AV scanning.',
+    recommendation: 'Do not extract the archive. This pattern is a strong malware delivery indicator.'
+  },
+  password_then_archive: {
+    what: 'The content provides a password followed by an archive file reference.',
+    risk: 'Providing a password alongside an archive is the hallmark of malware delivery via password-protected containers.',
+    recommendation: 'Block extraction of password-protected archives from untrusted skill files.'
+  },
+  extract_then_execute: {
+    what: 'The content extracts an archive and then executes the contents.',
+    risk: 'Extract-then-execute is a complete malware delivery chain from archive to code execution.',
+    recommendation: 'Block this pattern. Never execute files extracted from archives in untrusted skill content.'
+  },
+  temp_dir_exec: {
+    what: 'The content references an executable in a temporary directory (%TEMP%, /tmp/, etc.).',
+    risk: 'Dropping executables in temp directories is a standard malware staging technique.',
+    recommendation: 'Investigate why executables are being placed in temp directories. This is suspicious behavior.'
+  },
+  crypto_miner: {
+    what: 'The content references cryptocurrency mining software or protocols (xmrig, cryptonight, stratum+tcp).',
+    risk: 'Cryptocurrency miners consume system resources for attacker profit, a form of resource theft.',
+    recommendation: 'Remove the skill. Cryptocurrency mining references indicate cryptojacking intent.'
+  },
+  attrib_hidden: {
+    what: 'The content uses attrib +h to set the hidden attribute on a file.',
+    risk: 'Hiding files with attrib is a technique used by malware to avoid detection by users.',
+    recommendation: 'Investigate what file is being hidden and why. Legitimate skills should not hide files.'
+  },
+  dotnet_hidden: {
+    what: 'The content uses .NET methods to set the Hidden file attribute.',
+    risk: 'Programmatically hiding files via .NET is used by malware to conceal dropped payloads.',
+    recommendation: 'Review the file being hidden. This is a suspicious file system manipulation.'
+  },
+
+  // ── suspicious_metadata ──
+  binary_prerequisite: {
+    what: 'The content requires a local binary or running process as a prerequisite.',
+    risk: 'Requiring local binaries may indicate the skill depends on pre-installed malware or attack tools.',
+    recommendation: 'Verify the required binary is a legitimate, well-known tool before proceeding.'
+  },
+  anti_detection: {
+    what: 'The content uses anti-detection or evasion language (bypass detection, evade detection).',
+    risk: 'Anti-detection language indicates the skill is designed to avoid security tools and monitoring.',
+    recommendation: 'Remove the skill. Legitimate tools do not need to evade detection or bypass bans.'
+  },
+  bot_farm: {
+    what: 'The content references multi-account management, karma farming, or bot farm operations.',
+    risk: 'Bot farm language indicates the skill automates platform abuse and violates terms of service.',
+    recommendation: 'Remove the skill. Multi-account automation and bot farming are abuse activities.'
+  },
+  proxy_rotation: {
+    what: 'The content references proxy rotation, rotating proxies, or VPN rotation.',
+    risk: 'Proxy rotation is used to evade IP-based blocking and rate limiting during automated abuse.',
+    recommendation: 'Investigate why proxy rotation is needed. This often indicates scraping or abuse activity.'
+  },
+  credential_harvest: {
+    what: 'The content uses language about harvesting, stealing, or dumping credentials.',
+    risk: 'Credential harvesting steals passwords, tokens, and session data for unauthorized access.',
+    recommendation: 'Remove the skill immediately. Credential theft language is a definitive malicious indicator.'
+  },
+  session_theft: {
+    what: 'The content references stealing, hijacking, or grabbing cookies or sessions.',
+    risk: 'Session theft enables account takeover without needing the password.',
+    recommendation: 'Remove the skill. Cookie and session theft is a serious attack capability.'
+  },
+  captcha_bypass: {
+    what: 'The content references CAPTCHA bypass, solving, or anti-CAPTCHA services.',
+    risk: 'CAPTCHA bypass enables automated abuse of protected services and violates terms of service.',
+    recommendation: 'Remove CAPTCHA bypass functionality. This indicates automated platform abuse.'
+  },
+  impersonation: {
+    what: 'The content references impersonation, spoofing, or creating fake identities.',
+    risk: 'Impersonation and identity spoofing enable fraud, social engineering, and platform abuse.',
+    recommendation: 'Remove the skill. Impersonation capabilities are inherently malicious.'
+  },
+  data_exfiltration: {
+    what: 'The content uses data exfiltration language (exfiltrate, siphon, scrape private data).',
+    risk: 'Data exfiltration steals private, personal, or sensitive information from systems.',
+    recommendation: 'Remove the skill immediately. Data exfiltration language is a confirmed threat indicator.'
+  },
+  cloud_credential_access: {
+    what: 'The content references cloud credential files (.aws/credentials, .azure/, .gcp/).',
+    risk: 'Accessing cloud credential files enables unauthorized access to cloud infrastructure and data.',
+    recommendation: 'Remove the skill. Accessing cloud credential files is a serious security violation.'
+  },
+  env_dump: {
+    what: 'The content dumps environment variables (printenv, $ENV:, Get-ChildItem Env:).',
+    risk: 'Environment variables often contain secrets, API keys, and tokens that can be exfiltrated.',
+    recommendation: 'Remove environment dumping commands. Secrets in env vars must not be exposed to skills.'
+  }
+};
+
+// Compile rules
+var COMPILED = {};
+for (var cat in RULES) {
+  COMPILED[cat] = RULES[cat].map(function(r) {
+    return { regex: new RegExp(r[0], 'gi'), name: r[1], desc: r[2], sev: r[3] };
+  });
+}
+
+// Count rules
+var totalRules = 0;
+for (var c in RULES) totalRules += RULES[c].length;
+document.getElementById('rule-count').textContent = totalRules;
+
+// ── HTML Stripping ──────────────────────────────────────────────────────────
+function stripHTML(rawHTML) {
+  var doc = new DOMParser().parseFromString(rawHTML, 'text/html');
+  var kill = doc.querySelectorAll('script, style, svg, noscript');
+  for (var i = 0; i < kill.length; i++) kill[i].remove();
+  return doc.body.textContent || '';
+}
+
+// ── Scanner ─────────────────────────────────────────────────────────────────
+function scanContent(content) {
+  var findings = [];
+  var lines = content.split('\n');
+
+  for (var category in COMPILED) {
+    var rules = COMPILED[category];
+    for (var r = 0; r < rules.length; r++) {
+      var rule = rules[r];
+      for (var i = 0; i < lines.length; i++) {
+        rule.regex.lastIndex = 0;
+        var m;
+        while ((m = rule.regex.exec(lines[i])) !== null) {
+          findings.push({
+            severity: rule.sev,
+            category: category,
+            rule: rule.name,
+            description: rule.desc,
+            line: i + 1,
+            match: m[0].substring(0, 200)
+          });
+        }
+      }
+    }
+  }
+
+  var order = { CRITICAL: 0, HIGH: 1, MEDIUM: 2, LOW: 3 };
+  findings.sort(function(a, b) {
+    var oa = a.severity in order ? order[a.severity] : 9;
+    var ob = b.severity in order ? order[b.severity] : 9;
+    return (oa - ob) || (a.line - b.line);
+  });
+  return findings;
+}
+
+function escHTML(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── UI Logic ────────────────────────────────────────────────────────────────
+var tabs = document.querySelectorAll('.tab');
+var tabContents = document.querySelectorAll('.tab-content');
+var activeTab = 'paste';
+var loadedFiles = [];
+
+for (var t = 0; t < tabs.length; t++) {
+  tabs[t].addEventListener('click', function() {
+    activeTab = this.dataset.tab;
+    for (var j = 0; j < tabs.length; j++) {
+      tabs[j].classList.toggle('active', tabs[j] === this);
+    }
+    for (var j = 0; j < tabContents.length; j++) {
+      tabContents[j].classList.toggle('active', tabContents[j].id === 'tab-' + activeTab);
+    }
+  });
+}
+
+// File handling
+var fileDrop = document.getElementById('file-drop');
+var fileInput = document.getElementById('file-input');
+var fileNames = document.getElementById('file-names');
+
+fileDrop.addEventListener('click', function() { fileInput.click(); });
+fileDrop.addEventListener('dragover', function(e) { e.preventDefault(); fileDrop.classList.add('dragover'); });
+fileDrop.addEventListener('dragleave', function() { fileDrop.classList.remove('dragover'); });
+fileDrop.addEventListener('drop', function(e) {
+  e.preventDefault();
+  fileDrop.classList.remove('dragover');
+  handleFiles(e.dataTransfer.files);
+});
+fileInput.addEventListener('change', function() { handleFiles(fileInput.files); });
+
+function handleFiles(files) {
+  loadedFiles = [];
+  var names = [];
+  for (var i = 0; i < files.length; i++) {
+    names.push(files[i].name);
+    (function(f) {
+      var reader = new FileReader();
+      reader.onload = function(e) { loadedFiles.push({ name: f.name, content: e.target.result }); };
+      reader.readAsText(f);
+    })(files[i]);
+  }
+  fileNames.textContent = names.join(', ');
+}
+
+// Scan
+var scanBtn = document.getElementById('scan-btn');
+var resultsSection = document.getElementById('results-section');
+
+scanBtn.addEventListener('click', function() {
+  var doStrip = document.getElementById('strip-html').checked;
+  var jsonOut = document.getElementById('json-output').checked;
+  var targets = [];
+
+  if (activeTab === 'paste') {
+    var text = document.getElementById('paste-input').value.trim();
+    if (!text) return;
+    targets = [{ name: 'pasted content', content: text }];
+
+  } else if (activeTab === 'url') {
+    var url = document.getElementById('url-input').value.trim();
+    if (!url) return;
+    scanBtn.disabled = true;
+    scanBtn.classList.add('scanning');
+    scanBtn.textContent = 'Fetching...';
+
+    // Try server API first, then CORS fetch as fallback
+    fetchURL(url, function(err, content) {
+      scanBtn.disabled = false;
+      scanBtn.classList.remove('scanning');
+      scanBtn.textContent = 'Scan';
+
+      if (err) {
+        resultsSection.classList.add('visible');
+        resultsSection.innerHTML = '<div class="error-msg">Failed to fetch URL: ' + escHTML(err) +
+          '. Start the server (skillscan_server.py or skillscan_server.ps1) for URL fetching, or paste content directly.</div>';
+        return;
+      }
+      renderResults([{ name: url, content: content }], doStrip, jsonOut);
+    });
+    return;
+
+  } else if (activeTab === 'file') {
+    if (!loadedFiles.length) return;
+    targets = loadedFiles.slice();
+  }
+
+  renderResults(targets, doStrip, jsonOut);
+});
+
+function fetchURL(url, callback) {
+  // Try the local server API endpoint
+  var xhr = new XMLHttpRequest();
+  xhr.open('POST', '/api/fetch', true);
+  xhr.setRequestHeader('Content-Type', 'application/json');
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      try {
+        var data = JSON.parse(xhr.responseText);
+        callback(null, data.content);
+      } catch(e) {
+        tryDirectFetch(url, callback);
+      }
+    } else {
+      tryDirectFetch(url, callback);
+    }
+  };
+  xhr.onerror = function() { tryDirectFetch(url, callback); };
+  xhr.send(JSON.stringify({ url: url }));
+}
+
+function tryDirectFetch(url, callback) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', url, true);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      callback(null, xhr.responseText);
+    } else {
+      callback('HTTP ' + xhr.status);
+    }
+  };
+  xhr.onerror = function() { callback('Network error (CORS may be blocking). Use the server backend or paste content.'); };
+  xhr.send();
+}
+
+function renderResults(targets, doStrip, jsonOut) {
+  var allResults = [];
+  for (var i = 0; i < targets.length; i++) {
+    var content = targets[i].content;
+    if (doStrip) content = stripHTML(content);
+    var findings = scanContent(content);
+    allResults.push({ target: targets[i].name, findings: findings });
+  }
+
+  if (jsonOut) {
+    var jsonData = allResults.map(function(r) {
+      return {
+        target: r.target,
+        status: r.findings.length ? 'flagged' : 'clean',
+        finding_count: r.findings.length,
+        severity_counts: {
+          critical: r.findings.filter(function(f){return f.severity==='CRITICAL'}).length,
+          high: r.findings.filter(function(f){return f.severity==='HIGH'}).length,
+          medium: r.findings.filter(function(f){return f.severity==='MEDIUM'}).length,
+          low: r.findings.filter(function(f){return f.severity==='LOW'}).length
+        },
+        findings: r.findings
+      };
+    });
+    var out = jsonData.length === 1 ? jsonData[0] : jsonData;
+    resultsSection.classList.add('visible');
+    resultsSection.innerHTML = '<pre style="background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:1rem;font-family:var(--mono);font-size:0.75rem;overflow-x:auto;color:var(--text)">' +
+      escHTML(JSON.stringify(out, null, 2)) + '</pre>';
+    return;
+  }
+
+  var html = '';
+  for (var i = 0; i < allResults.length; i++) {
+    var r = allResults[i];
+    var flagged = r.findings.length > 0;
+    var counts = {};
+    for (var f = 0; f < r.findings.length; f++) {
+      var s = r.findings[f].severity;
+      counts[s] = (counts[s] || 0) + 1;
+    }
+
+    html += '<div class="results-header">' +
+      '<div class="results-title">' + escHTML(r.target) + '</div>' +
+      '<div class="results-status ' + (flagged ? 'flagged' : 'clean') + '">' +
+      (flagged ? 'FLAGGED (' + r.findings.length + ')' : 'CLEAN') + '</div></div>';
+
+    if (flagged) {
+      html += '<div class="severity-summary">';
+      var sevs = ['CRITICAL', 'HIGH', 'MEDIUM', 'LOW'];
+      for (var si = 0; si < sevs.length; si++) {
+        if (counts[sevs[si]]) {
+          html += '<span class="sev-badge ' + sevs[si].toLowerCase() + '">' + counts[sevs[si]] + ' ' + sevs[si] + '</span>';
+        }
+      }
+      html += '</div>';
+
+      for (var fi = 0; fi < r.findings.length; fi++) {
+        var fd = r.findings[fi];
+        var info = RULE_INFO[fd.rule];
+        var infoHtml = '';
+        if (info) {
+          infoHtml = '<div class="info-card border-' + escHTML(fd.severity) + '">' +
+            '<div class="info-section"><div class="info-label">What</div><div class="info-text">' + escHTML(info.what) + '</div></div>' +
+            '<div class="info-section"><div class="info-label">Risk</div><div class="info-text">' + escHTML(info.risk) + '</div></div>' +
+            '<div class="info-section"><div class="info-label">Recommendation</div><div class="info-text">' + escHTML(info.recommendation) + '</div></div>' +
+            '</div>';
+        }
+        html += '<div class="finding-wrapper" data-idx="' + fi + '">' +
+          '<div class="finding" onclick="toggleInfoCard(this)">' +
+          '<span class="sev ' + escHTML(fd.severity) + '">' + escHTML(fd.severity) + '</span>' +
+          '<div class="detail">' +
+          '<span class="cat">' + escHTML(fd.category) + '</span> <span class="rule">' + escHTML(fd.rule) + '</span>' +
+          '<div class="match"><span class="line-num">Line ' + fd.line + ':</span> ' + escHTML(fd.match) + '</div>' +
+          '</div>' +
+          '<span class="expand-arrow">&#x25b6;</span>' +
+          '</div>' +
+          infoHtml +
+          '</div>';
+      }
+    }
+  }
+  resultsSection.classList.add('visible');
+  resultsSection.innerHTML = html;
+}
+
+function toggleInfoCard(findingEl) {
+  var wrapper = findingEl.parentNode;
+  if (wrapper.classList.contains('open')) {
+    wrapper.classList.remove('open');
+  } else {
+    wrapper.classList.add('open');
+  }
+}
+
+// Enter key on URL input
+document.getElementById('url-input').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') scanBtn.click();
+});
+
+// Rules toggle
+var rulesToggle = document.getElementById('rules-toggle');
+var rulesBody = document.getElementById('rules-body');
+rulesToggle.addEventListener('click', function() {
+  rulesToggle.classList.toggle('open');
+  rulesBody.classList.toggle('open');
+  if (rulesBody.classList.contains('open') && !rulesBody.innerHTML) {
+    var html = '';
+    for (var cat in RULES) {
+      var rules = RULES[cat];
+      html += '<div class="rule-category"><div class="rule-cat-name">' + cat + ' (' + rules.length + ')</div>';
+      for (var i = 0; i < rules.length; i++) {
+        html += '<div class="rule-item"><span class="sev ' + rules[i][3] + '">' + rules[i][3] + '</span> <strong>' + rules[i][1] + '</strong> &mdash; ' + rules[i][2] + '</div>';
+      }
+      html += '</div>';
+    }
+    rulesBody.innerHTML = html;
+  }
+});
+</script>
+</body>
+</html>

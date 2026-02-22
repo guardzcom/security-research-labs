@@ -1,8 +1,8 @@
-# DeviceStrike — Device Code Flow for Microsoft Graph
+# DeviceStrike  - Device Code Flow for Microsoft Graph
 
 OAuth2 device-code authentication for Microsoft Graph with optional automatic token refresh. Use with Entra ID (Azure AD) tenants and apps you control.
 
-> **Authorized use only.** Use this script only with apps and tenants you own or have explicit permission to test. Storing tokens on disk increases risk—use encrypted storage and restrict permissions if you enable caching.
+> **Authorized use only.** Use this script only with apps and tenants you own or have explicit permission to test. Storing tokens on disk increases risk -use encrypted storage and restrict permissions if you enable caching.
 
 ---
 
@@ -49,4 +49,4 @@ OAuth2 device-code authentication for Microsoft Graph with optional automatic to
 
 ## License
 
-Same as the root repository — see [../../LICENSE](../../LICENSE).
+Same as the root repository  - see [../../LICENSE](../../LICENSE).
