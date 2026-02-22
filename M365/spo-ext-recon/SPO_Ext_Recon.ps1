@@ -9,7 +9,7 @@
 # WARNING:
 #   - Legal Notice: Use this script only on assets you own or have explicit permission to test. Unauthorized use may violate laws and organizational policies.
 #   - Operational Risk: Recon modules may trigger alerts or rate limits. Always coordinate with stakeholders and follow change management protocols.
-#   - Data Sensitivity: Output may contain sensitive information. Handle results per your organization’s data classification and retention policies.
+#   - Data Sensitivity: Output may contain sensitive information. Handle results per your organization's data classification and retention policies.
 #
 # Usage:
 #   1. Edit $domain and $onedriveDomain to match your target tenant.
@@ -140,5 +140,3 @@ foreach ($path in $paths) {
 
 
 Write-Host "`n[+] Scan completed. Results saved to: $outputFile" -ForegroundColor Cyan
-
-

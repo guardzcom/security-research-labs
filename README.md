@@ -10,6 +10,19 @@
 
 **Security Research Labs** is the official Guardz repo for open-source security tooling: config analyzers, Microsoft 365 / Entra recon scripts, and research proof-of-concepts. Everything is MIT-licensed and maintained for defenders, red teams, and incident responders.
 
+Each tool or script lives in a **dedicated folder with its own README** (description, usage, requirements).
+
+---
+
+## All tools and scripts
+
+| Tool / script | Folder | Description |
+|---------------|--------|-------------|
+| **OpenClaw Security Analyzer** | [AI-Tools/openclaw-security-analyzer/](AI-Tools/openclaw-security-analyzer/) | `openclaw-analyzer.html` — Analyze OpenClaw configs: 68-point checklist, risk detection, attack path viz. Single HTML file, client-side. |
+| **DeviceStrike** | [M365/device-strike/](M365/device-strike/) | `DeviceStrike.ps1` — OAuth2 device-code flow for Microsoft Graph; optional token refresh. |
+| **SPO Ext Recon** | [M365/spo-ext-recon/](M365/spo-ext-recon/) | `SPO_Ext_Recon.ps1` — SharePoint Online & OneDrive recon: site paths, anonymous access, metadata API. |
+| **GraphRunner QuickStart** | [M365/graphrunner-quickstart/](M365/graphrunner-quickstart/) | `GraphRunner-QuickStart.ps1` — Cookbook for [GraphRunner](https://github.com/dafthack/GraphRunner): auth, recon, CAPs, search. |
+
 ---
 
 ## Who it's for
