@@ -11,9 +11,16 @@
 
 Security Research Labs is the official Guardz repo for open-source security tooling: config analyzers, Microsoft 365 / Entra recon scripts, purple-team detection emulations, and AI skill security. MIT-licensed; each tool lives in a **dedicated folder with its own README**.
 
+## GitHub Stats
+
+Dynamic badges from the GitHub API (via [Shields.io](https://shields.io)) update automatically.
+
+[![GitHub stars](https://img.shields.io/github/stars/guardzcom/security-research-labs?style=flat-square)](https://github.com/guardzcom/security-research-labs/stargazers) [![GitHub forks](https://img.shields.io/github/forks/guardzcom/security-research-labs?style=flat-square)](https://github.com/guardzcom/security-research-labs/forks) [![GitHub issues](https://img.shields.io/github/issues/guardzcom/security-research-labs?style=flat-square)](https://github.com/guardzcom/security-research-labs/issues) [![GitHub language count](https://img.shields.io/github/languages/count/guardzcom/security-research-labs?style=flat-square)](https://github.com/guardzcom/security-research-labs)
+
 <details>
 <summary><b>Contents</b></summary>
 
+- <a href="#github-stats" target="_blank" rel="noopener noreferrer">GitHub Stats</a>
 - <a href="#repository-layout" target="_blank" rel="noopener noreferrer">Repository layout</a>
 - <a href="#who-its-for" target="_blank" rel="noopener noreferrer">Who it's for</a>
 - <a href="#security-model-important" target="_blank" rel="noopener noreferrer">Security model</a>
