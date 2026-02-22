@@ -14,7 +14,6 @@ Security Research Labs is the official Guardz repo for open-source security tool
 <details>
 <summary><b>Contents</b></summary>
 
-- <a href="#status" target="_blank" rel="noopener noreferrer">Status</a>
 - <a href="#repository-layout" target="_blank" rel="noopener noreferrer">Repository layout</a>
 - <a href="#who-its-for" target="_blank" rel="noopener noreferrer">Who it's for</a>
 - <a href="#security-model-important" target="_blank" rel="noopener noreferrer">Security model</a>
@@ -22,14 +21,6 @@ Security Research Labs is the official Guardz repo for open-source security tool
 - <a href="#license" target="_blank" rel="noopener noreferrer">License</a>
 
 </details>
-
----
-
-## Status
-
-Repository activity (commits, issues, PRs) — updates automatically.
-
-[![Contribution graph](https://github-readme-activity-graph.vercel.app/graph?username=guardzcom&repo=security-research-labs&theme=default&area=true)](https://github.com/guardzcom/security-research-labs)
 
 ---
 
