@@ -4,7 +4,7 @@
 #   1. Automates reconnaissance of SharePoint Online and OneDrive for Business sites to identify exposed or misconfigured resources.
 #   2. Enumerates common business, engineering, collaboration, and admin site paths, including potential test, public, and partner/client exposures.
 #   3. Checks for anonymous access, metadata API exposure, and shared document visibility.
-#   4. Designed for red team, blue team, and DFIR use in hybrid and cloud environments.
+#   4. Designed for red team, purple team, and DFIR use in hybrid and cloud environments.
 #
 # WARNING:
 #   - Legal Notice: Use this script only on assets you own or have explicit permission to test. Unauthorized use may violate laws and organizational policies.

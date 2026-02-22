@@ -1,4 +1,4 @@
-# Endpoint (Blue Team Emulation)
+# Endpoint (Purple Team Emulation)
 
 Endpoint-level detection testing: emulate living-off-the-land and API patterns in a safe way to validate EDR, AV, and SIEM rules. Each tool has its own folder with a README.
 

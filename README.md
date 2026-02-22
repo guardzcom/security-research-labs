@@ -1,6 +1,6 @@
 # Security Research Labs - Tools & Scripts
 
-**Tools, scripts, and research PoCs for Blue Team, Red Team, AI Security, Forensic, and Cloud security. Authorized use only.**
+**Tools, scripts, and research PoCs for Purple Team, Red Team, AI Security, Forensic, and Cloud security. Authorized use only.**
 
 [![GitHub stars](https://img.shields.io/github/stars/guardzcom/security-research-labs)](https://github.com/guardzcom/security-research-labs/stargazers)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/guardzcom/security-research-labs)](https://github.com/guardzcom/security-research-labs/releases)
@@ -14,6 +14,7 @@ Security Research Labs is the official Guardz repo for open-source security tool
 <details>
 <summary><b>Contents</b></summary>
 
+- <a href="#status" target="_blank" rel="noopener noreferrer">Status</a>
 - <a href="#repository-layout" target="_blank" rel="noopener noreferrer">Repository layout</a>
 - <a href="#who-its-for" target="_blank" rel="noopener noreferrer">Who it's for</a>
 - <a href="#security-model-important" target="_blank" rel="noopener noreferrer">Security model</a>
@@ -24,12 +25,20 @@ Security Research Labs is the official Guardz repo for open-source security tool
 
 ---
 
+## Status
+
+Repository activity (commits, issues, PRs) — updates automatically.
+
+[![Contribution graph](https://github-readme-activity-graph.vercel.app/graph?username=guardzcom&repo=security-research-labs&theme=default&area=true)](https://github.com/guardzcom/security-research-labs)
+
+---
+
 ## Repository layout
 
 | Folder | Contents |
 |--------|----------|
 | <a href="AI-Tools/" target="_blank" rel="noopener noreferrer">AI-Tools/</a> | AI security: OpenClaw Analyzer (config analysis), SkillScan (skill file/URL security scanning). |
-| <a href="BlueTeam-Emulation/" target="_blank" rel="noopener noreferrer">BlueTeam-Emulation/</a> | Purple team / detection testing: Endpoint (certutil, EDR telemetry simulator, Office macro tampering emulation). |
+| <a href="PurpleTeam-Emulation/" target="_blank" rel="noopener noreferrer">PurpleTeam-Emulation/</a> | Purple team / detection testing: Endpoint (certutil, EDR telemetry simulator, Office macro tampering emulation). |
 | <a href="M365/" target="_blank" rel="noopener noreferrer">M365/</a> | Microsoft 365 / Entra: DeviceStrike, SPO Ext Recon, GraphRunner QuickStart. |
 | <a href="GWS/" target="_blank" rel="noopener noreferrer">GWS/</a> | Google Workspace security tools (placeholder). |
 | <a href="Threat-Hunting/" target="_blank" rel="noopener noreferrer">Threat-Hunting/</a> | IOCs, detection artifacts, threat intelligence (IOCs placeholder). |
@@ -44,7 +53,7 @@ Security Research Labs is the official Guardz repo for open-source security tool
 |----------|----------|
 | **Cloud Security** | Microsoft 365 and Google Workspace. |
 | **AI security** | Securing AI assistants and agents: config hardening, exposure detection, supply-chain and skill safety. |
-| **Blue team** | Hardening checks, config review, detection-oriented recon. |
+| **Purple team** | Hardening checks, config review, detection-oriented recon. |
 | **Red team** | Authorized recon, token flows, M365/cloud attack-surface mapping. |
 | **Forensic** | Evidence gathering, mailbox/SharePoint/Teams search patterns, audit trails. |
 

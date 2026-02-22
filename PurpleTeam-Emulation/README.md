@@ -1,6 +1,6 @@
-# Blue Team Emulation
+# Purple Team Emulation
 
-Scripts and tools for **blue team / purple team** detection testing: emulate attacker behaviors (e.g. living-off-the-land) in a safe, controlled way to validate EDR, SIEM, and detection rules. Tools are grouped by area (e.g. Endpoint); each tool lives in its own dedicated folder with a README.
+Scripts and tools for **purple team** detection testing: emulate attacker behaviors (e.g. living-off-the-land) in a safe, controlled way to validate EDR, SIEM, and detection rules. Tools are grouped by area (e.g. Endpoint); each tool lives in its own dedicated folder with a README.
 
 > **Authorized use only.** Run only in test environments or with explicit approval. Do not run as Administrator unless the tool documentation explicitly allows it.
 
