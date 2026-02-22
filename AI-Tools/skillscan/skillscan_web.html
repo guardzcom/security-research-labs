@@ -1379,8 +1379,7 @@ scanBtn.addEventListener('click', function() {
 
       if (err) {
         resultsSection.classList.add('visible');
-        resultsSection.innerHTML = '<div class="error-msg">Failed to fetch URL: ' + escHTML(err) +
-          '. Start the server (skillscan_server.py or skillscan_server.ps1) for URL fetching, or paste content directly.</div>';
+        resultsSection.innerHTML = '<div class="error-msg">Failed to fetch URL: ' + escHTML(err) + '</div>';
         return;
       }
       renderResults([{ name: url, content: content }], doStrip, jsonOut);
@@ -1423,11 +1422,40 @@ function tryDirectFetch(url, callback) {
     if (xhr.status === 200) {
       callback(null, xhr.responseText);
     } else {
-      callback('HTTP ' + xhr.status);
+      tryCorsProxies(url, callback);
     }
   };
-  xhr.onerror = function() { callback('Network error (CORS may be blocking). Use the server backend or paste content.'); };
+  xhr.onerror = function() { tryCorsProxies(url, callback); };
   xhr.send();
+}
+
+function tryCorsProxies(url, callback) {
+  var proxies = [
+    { name: 'allorigins', build: function(u) { return 'https://api.allorigins.win/get?url=' + encodeURIComponent(u); }, parse: function(text) { return JSON.parse(text).contents; } },
+    { name: 'codetabs', build: function(u) { return 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(u); }, parse: function(text) { return text; } }
+  ];
+  var idx = 0;
+  function tryNext() {
+    if (idx >= proxies.length) {
+      callback('All fetch methods failed (CORS). Start the server or paste content directly.');
+      return;
+    }
+    var proxy = proxies[idx++];
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', proxy.build(url), true);
+    xhr.timeout = 15000;
+    xhr.onload = function() {
+      if (xhr.status === 200) {
+        try {
+          callback(null, proxy.parse(xhr.responseText));
+        } catch(e) { tryNext(); }
+      } else { tryNext(); }
+    };
+    xhr.onerror = function() { tryNext(); };
+    xhr.ontimeout = function() { tryNext(); };
+    xhr.send();
+  }
+  tryNext();
 }
 
 function renderResults(targets, doStrip, jsonOut) {
