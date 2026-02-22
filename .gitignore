@@ -1,0 +1,41 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Secrets and tokens (never commit)
+*.token
+*tokens*.json
+*.credentials
+.env
+.env.local
+.env.*.local
+
+# M365 / GraphRunner outputs (often sensitive)
+Exposed_SharePoint_Sites.txt
+users.txt
+security_groups.csv
+mail.csv
+sp_hits.csv
+teams_hits.csv
+out/
+*.csv
+graph_recon.json
+conditional_access.json
+apps.json
+
+# Logs and temp
+*.log
+tmp/
+temp/
+.cache/
+
+# Optional
+*.bak
+*.orig
