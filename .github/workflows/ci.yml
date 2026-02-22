@@ -1,0 +1,19 @@
+# Minimal CI for badge and branch hygiene (lint / basic checks can be added later)
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check repo structure
+        run: |
+          test -f README.md
+          test -f LICENSE
+          echo "CI check passed"
