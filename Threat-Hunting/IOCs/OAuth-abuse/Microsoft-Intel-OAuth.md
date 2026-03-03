@@ -1,0 +1,89 @@
+### Malicious OAuth Client IDs
+- 9a36eaa2-cf9d-4e50-ad3e-58c9b5c04255
+- 89430f84-6c29-43f8-9b23-62871a314417
+- 440f4886-2c3a-4269-a78c-088b3b521e02
+- c752e1ef-e475-43c0-9b97-9c9832dd3755
+- 6755c710-194d-464f-9365-7d89d773b443
+- 3cc07cb4-dba8-4051-82cd-93250a43b53b
+- 8c659c19-8a90-49b0-a9f1-15aeba3bb449
+- bc618bf4-c6d1-4653-8c4d-c6036001b226
+- 6efe57d9-b00a-4091-b861-a16b7368ab11
+- f73c6332-4618-4b9d-bcd4-c77726581acd
+- 6fae87b3-3a0f-4519-8b56-006ba50f62c4
+- 1b6f59dd-45da-4ff7-9b70-36fb780f855b
+- 00afba72-9008-454f-bbe6-d24e743fbe73
+- a68c61ee-6185-4b36-bc59-1dca946d95cb
+
+### Initial Redirection URLs (Malicious Landing Pages)
+
+- hxxps://dynamic-entry[.]powerappsportals[.]com/dynamics/
+- hxxps://login-web-auth[.]github[.]io/red-auth/
+- hxxps://westsecure[.]powerappsportals[.]com/security/
+- hxxps://gbm234[.]powerappsportals[.]com/auth/
+- hxxps://email-services[.]powerappsportals[.]com/divisor/
+- hxxps://memointernals[.]powerappsportals[.]com/auth/
+- hxxps://calltask[.]im/cpcounting/via-secureplatform/quick/
+- hxxps://ouviraparelhosauditivos[.]com[.]br/auth/entry[.]php
+- hxxps://abv-abc3[.]top/abv2/css/red[.]html
+- hxxps://weds101[.]siriusmarine-sg[.]com/minerwebmailsecure101/
+- hxxps://mweb-ssm[.]surge[.]sh
+- hxxps://ssmapp[.]github[.]io/web
+- hxxps://ssmview-group[.]gitlab[.]io/ssmview
+
+### Malicious Files Observed
+
+#### ZIP archives containing:
+- .lnk malicious shortcut
+- HTML smuggling loaders
+
+#### Extracted Files
+
+- steam_monitor.exe
+- crashhandler.dll
+- crashlog.dat
+
+### Behavioral Indicators (Endpoint)
+
+#### PowerShell Activity Patterns
+
+- ipconfig /all
+- tasklist
+- .zip
+- Get-ChildItem
+- ::OpenRead
+- .Length
+- .Read
+- byte[]
+- Sleep
+- TaR
+
+#### DLL Side-Loading Pattern
+
+- steam_monitor.exe loading crashhandler.dll
+- DLL loaded outside:
+- \Windows\System32
+- \Windows\SysWOW64
+- \winsxs\
+- \Program Files
+
+### Phishing Themes Observed
+
+- Document sharing
+- Social Security
+- Teams meeting
+- Password reset
+- Employee report
+- E-signature request
+- Financial themes
+- Political themes
+- Fake calendar invites (.ics)
+
+### Hunting Signals
+
+- OAuth URLs containing prompt=none
+- OAuth URLs containing scope=invalid
+- OAuth URL with encoded email inside state
+- Redirect from login.microsoftonline.com → unknown domain
+- ZIP auto-download immediately after OAuth error redirect
+- LNK → PowerShell → DLL sideload chain
+- steam_monitor.exe spawning outbound C2 connection

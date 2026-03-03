@@ -4,8 +4,6 @@ Placeholder for **indicators of compromise**: hashes, domains, IPs, URLs, file n
 
 **Authorized use only.** Do not add IOCs from ongoing investigations without proper authorization. Handle per your classification and sharing policies.
 
-No IOC collections in this folder yet. Contributions welcome - see <a href="../../CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">CONTRIBUTING.md</a>.
-
 ---
 
 ## License
