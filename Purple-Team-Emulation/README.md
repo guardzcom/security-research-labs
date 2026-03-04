@@ -4,6 +4,8 @@ Scripts and tools for **purple team** detection testing: emulate attacker behavi
 
 > **Authorized use only.** Run only in test environments or with explicit approval. Do not run as Administrator unless the tool documentation explicitly allows it.
 
+**Note:** Some scripts are **soft emulation** (lightweight, safe signals) to verify EDR/SIEM detection, while others can be **stronger** (more realistic or invasive). Check each tool’s README for scope and run only in approved test environments.
+
 ---
 
 ## Tools (dedicated folders)

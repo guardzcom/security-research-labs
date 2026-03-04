@@ -31,8 +31,6 @@ Dynamic badges from the GitHub API (via [Shields.io](https://shields.io)) update
 | [![GWS](https://img.shields.io/badge/GWS-green?style=flat-square)](Purple-Team-Emulation/GWS/) | [Purple-Team-Emulation/GWS/](Purple-Team-Emulation/GWS/) | Google Workspace security tools (placeholder). |
 | [![Threat Intel](https://img.shields.io/badge/Threat%20Intel-red?style=flat-square)](Threat-Intel/) | [Threat-Intel/](Threat-Intel/) | IOCs, detection artifacts, threat intelligence. |
 
-**For teams that rely on the same caliber of intelligence and tooling as** <a href="https://www.microsoft.com/en-us/security/business/threat-intelligence" target="_blank" rel="noopener noreferrer">Microsoft Threat Intelligence</a> <a href="https://github.com/microsoft/msticpy" target="_blank" rel="noopener noreferrer">GitHub</a>, <a href="https://www.mandiant.com/" target="_blank" rel="noopener noreferrer">Mandiant</a> Google Cloud <a href="https://github.com/google/mandiant-ti-client" target="_blank" rel="noopener noreferrer">GitHub</a>, and <a href="https://www.anthropic.com/" target="_blank" rel="noopener noreferrer">Anthropic</a> <a href="https://github.com/anthropics" target="_blank" rel="noopener noreferrer">GitHub</a> open, actionable tools for defenders, red teams, and AI security.
-
 ---
 
 ## Who it's for

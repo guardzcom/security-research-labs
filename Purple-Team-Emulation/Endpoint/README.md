@@ -11,6 +11,8 @@ Endpoint-level detection testing: emulate living-off-the-land and API patterns i
 | **Certutil Encode Emulation** | [certutil-emulation/](certutil-emulation/) | `Certutil-Encode-Emulation.ps1`  - Emulate certutil.exe -encode for detection testing; output only to %TEMP%, refuses admin. |
 | **EDR Telemetry Simulator** | [edr-telemetry-simulator/](edr-telemetry-simulator/) | `EDR-Telemetry-Simulator.ps1`  - Controlled API telemetry (keylogger/process/network patterns) for EDR/AV/SIEM validation. |
 | **Office Macro-Security Tampering Emulation** | [office-macro-tampering-emulation/](office-macro-tampering-emulation/) | `Office-Macro-Tampering-Emulation.ps1`  - Registry noise mimicking Office macro-security tampering (sandbox path only). |
+| **BloodHound Adversary Emulation** | [BloodHound-adversary-emulation/](BloodHound-adversary-emulation/) | `bloodhound-validation.ps1`  - Emulate BloodHound-style process/command patterns for EDR detection validation; no real AD enumeration. |
+| **Nmap Scanning Emulation** | [Nmap-scanning/](Nmap-scanning/) | `Namp-scanning.ps1`  - Simulate nmap.exe process/command-line patterns for EDR detection validation; no real network scanning. |
 
 ---
 
