@@ -9,7 +9,7 @@
 [![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Windows%20%7C%20macOS%20%7C%20Linux-green)](.)
 [![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-blue?logo=powershell)](https://docs.microsoft.com/powershell/)
 
-[![AI Security](https://img.shields.io/badge/AI%20Security-OpenClaw%20%7C%20SkillScan-orange?style=flat-square)](AI-Tools/) [![Purple Team](https://img.shields.io/badge/Purple%20Team-Detection%20testing-purple?style=flat-square)](Purple-Team-Emulation/) [![M365](https://img.shields.io/badge/M365-Entra%20%7C%20Graph-blue?style=flat-square)](CloudAdversary/M365/) [![Threat Intel](https://img.shields.io/badge/Threat%20Intel-IOCs%20%7C%20Hunting-red?style=flat-square)](Threat-Intel/) [![GWS](https://img.shields.io/badge/GWS-Google%20Workspace-green?style=flat-square)](Purple-Team-Emulation/GWS/)
+[![AI & Cloud](https://img.shields.io/badge/AI%20%26%20Cloud-OpenClaw%20%7C%20SkillScan%20%7C%20IOCs-orange?style=flat-square)](AI-Cloud-Tools/) [![Purple Team](https://img.shields.io/badge/Purple%20Team-Detection%20testing-purple?style=flat-square)](Purple-Team-Emulation/) [![M365](https://img.shields.io/badge/M365-Entra%20%7C%20Graph-blue?style=flat-square)](CloudAdversary/M365/) [![Threat Intel](https://img.shields.io/badge/Threat%20Intel-IOCs%20%7C%20Hunting-red?style=flat-square)](Threat-Intel/) [![GWS](https://img.shields.io/badge/GWS-Google%20Workspace-green?style=flat-square)](Purple-Team-Emulation/GWS/)
 
 Security Research Labs is the official Guardz repo for open-source security tooling: config analyzers, Microsoft 365 / Entra recon scripts, purple-team detection emulations, and AI skill security. MIT-licensed; each tool lives in a **dedicated folder with its own README**.
 
@@ -25,8 +25,8 @@ Dynamic badges from the GitHub API (via [Shields.io](https://shields.io)) update
 
 | Category | Folder | Contents |
 |----------|--------|----------|
-| [![AI](https://img.shields.io/badge/AI-orange?style=flat-square)](AI-Tools/) | [AI-Tools/](AI-Tools/) | OpenClaw Analyzer (config analysis), SkillScan (skill file/URL security scanning). |
-| [![Purple](https://img.shields.io/badge/Purple-purple?style=flat-square)](Purple-Team-Emulation/) | [Purple-Team-Emulation/](Purple-Team-Emulation/) | Endpoint: certutil emulation, EDR telemetry simulator, Office macro tampering emulation. |
+| [![AI](https://img.shields.io/badge/AI-orange?style=flat-square)](AI-Cloud-Tools/) | [AI-Cloud-Tools/](AI-Cloud-Tools/) | AI: OpenClaw Analyzer, SkillScan. M365-Tools: OAuth IOCs checker. |
+| [![Purple](https://img.shields.io/badge/Purple-purple?style=flat-square)](Purple-Team-Emulation/) | [Purple-Team-Emulation/](Purple-Team-Emulation/) | Endpoint: certutil, EDR telemetry simulator, Office macro tampering, BloodHound emulation, Nmap scanning emulation. |
 | [![M365](https://img.shields.io/badge/M365-blue?style=flat-square)](CloudAdversary/M365/) | [CloudAdversary/M365/](CloudAdversary/M365/) | DeviceStrike, SPO Ext Recon, GraphRunner QuickStart. |
 | [![GWS](https://img.shields.io/badge/GWS-green?style=flat-square)](Purple-Team-Emulation/GWS/) | [Purple-Team-Emulation/GWS/](Purple-Team-Emulation/GWS/) | Google Workspace security tools (placeholder). |
 | [![Threat Intel](https://img.shields.io/badge/Threat%20Intel-red?style=flat-square)](Threat-Intel/) | [Threat-Intel/](Threat-Intel/) | IOCs, detection artifacts, threat intelligence. |

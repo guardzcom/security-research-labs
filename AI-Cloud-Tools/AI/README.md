@@ -1,10 +1,10 @@
 # AI Tools
 
-Security tools for **AI assistants, agents, and AI-powered deployments**: configuration analysis, risk detection, and supply-chain safety. Each tool lives in its own dedicated folder with a README.
+**Goal:** Security tooling for AI assistants, agents, and AI-powered deployments: configuration analysis, risk detection, and supply-chain safety. Each tool has its own folder with a README.
 
 ---
 
-## Tools
+## Contents
 
 | Tool | Folder | Description |
 |------|--------|-------------|
@@ -15,4 +15,4 @@ Security tools for **AI assistants, agents, and AI-powered deployments**: config
 
 ## License
 
-Same as the root repository  - see [../LICENSE](../LICENSE).
+Same as the root repository — see [../../LICENSE](../../LICENSE).

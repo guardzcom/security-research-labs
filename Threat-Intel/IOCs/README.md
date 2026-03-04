@@ -1,11 +1,19 @@
 # IOCs (Indicators of Compromise)
 
-Placeholder for **indicators of compromise**: hashes, domains, IPs, URLs, file names, or other artifacts from research and investigations. Use for sharing threat intelligence, detection rules, or sample sets in a structured way. Each collection or feed can live in its own subfolder with a README.
+**Goal:** Indicators of compromise—hashes, domains, IPs, URLs, file names, or other artifacts from research and investigations—for threat intelligence, detection rules, and sample sets. Each collection lives in its own subfolder with a README.
 
 **Authorized use only.** Do not add IOCs from ongoing investigations without proper authorization. Handle per your classification and sharing policies.
 
 ---
 
+## Contents
+
+| Folder | Description |
+|--------|-------------|
+| [OAuth-abuse/](OAuth-abuse/) | OAuth consent phishing and token-theft IOCs: malicious app IDs, redirect URLs, file/behavior indicators, hunting signals (Microsoft-Intel-OAuth.md). |
+
+---
+
 ## License
 
-Same as the root repository - see <a href="../../LICENSE" target="_blank" rel="noopener noreferrer">../../LICENSE</a>.
+Same as the root repository — see [../../LICENSE](../../LICENSE).
