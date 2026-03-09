@@ -1,5 +1,0 @@
-blank_issues_enabled: true
-contact_links:
-  - name: Security vulnerability
-    url: https://github.com/guardzcom/security-research-labs/security/advisories/new
-    about: Report a security vulnerability privately (do not open a public issue).
