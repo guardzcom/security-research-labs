@@ -21,7 +21,7 @@ Security Research Labs is the official Guardz repo for open-source security tool
 |----------|--------|----------|
 | [![AI](https://img.shields.io/badge/AI-orange?style=flat-square)](AI-Cloud-Tools/) | [AI-Cloud-Tools/](AI-Cloud-Tools/) | AI: OpenClaw Analyzer, SkillScan. M365-Tools: OAuth IOCs checker. |
 | [![Purple](https://img.shields.io/badge/Purple-purple?style=flat-square)](Purple-Team-Emulation/) | [Purple-Team-Emulation/](Purple-Team-Emulation/) | Endpoint: certutil, EDR telemetry simulator, Office macro tampering, BloodHound emulation, Nmap scanning emulation. |
-| [![M365](https://img.shields.io/badge/M365-blue?style=flat-square)](CloudAdversary/M365/) | [CloudAdversary/M365/](CloudAdversary/M365/) | DeviceStrike, SPO Ext Recon, GraphRunner QuickStart. |
+| [![M365](https://img.shields.io/badge/M365-blue?style=flat-square)](CloudAdversary/M365/) | [CloudAdversary/M365/](CloudAdversary/M365/) | DeviceStrike, Entra ID Smart Lockout (Entra-ID-DOS), SPO Ext Recon, GraphRunner QuickStart. |
 | [![GWS](https://img.shields.io/badge/GWS-green?style=flat-square)](Purple-Team-Emulation/GWS/) | [Purple-Team-Emulation/GWS/](Purple-Team-Emulation/GWS/) | Google Workspace security tools (placeholder). |
 | [![Threat Intel](https://img.shields.io/badge/Threat%20Intel-red?style=flat-square)](Threat-Intel/) | [Threat-Intel/](Threat-Intel/) | IOCs, detection artifacts, threat intelligence. |
 | [![Research](https://img.shields.io/badge/Research-gray?style=flat-square)](Research/) | [Research/](Research/) | Research outputs, landscape studies, and reference materials (e.g. AiTM tools). |

@@ -12,6 +12,7 @@ PowerShell scripts for **authorized** Microsoft 365 / Entra ID reconnaissance, a
 | Tool | Folder | Description |
 |------|--------|-------------|
 | **DeviceStrike** | [device-strike/](device-strike/) | `DeviceStrike.ps1`  - OAuth2 device-code flow for Microsoft Graph; optional token caching and auto-refresh. |
+| **Entra ID Smart Lockout** | [Entra-ID-DOS/](Entra-ID-DOS/) | `Entra-ID-DOS.ps1`  - Validates Entra ID Smart Lockout in cloud-only and hybrid (PHS/PTA) environments; auto-detects deployment type and runs threshold/duration compliance checks. |
 | **SPO Ext Recon** | [spo-ext-recon/](spo-ext-recon/) | `SPO_Ext_Recon.ps1`  - SharePoint Online & OneDrive recon: common site paths, anonymous access, metadata API exposure. |
 | **GraphRunner QuickStart** | [graphrunner-quickstart/](graphrunner-quickstart/) | `GraphRunner-QuickStart.ps1`  - Cookbook for [dafthack/GraphRunner](https://github.com/dafthack/GraphRunner): auth, recon, CAPs, apps, mailbox/SP/Teams search. |
 
