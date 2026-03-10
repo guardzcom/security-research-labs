@@ -10,4 +10,4 @@ Microsoft 365 and Entra ID–focused research: landscape studies, tool taxonomie
 
 ## Related repo areas
 
-- **Purple-team & tools:** [Purple-Team-Emulation/M365/](../../Purple-Team-Emulation/M365/), [CloudAdversary/M365/](../../CloudAdversary/M365/).
+- **M365 tools:** [CloudAdversary/M365/](../../CloudAdversary/M365/) — DeviceStrike, SPO Ext Recon, GraphRunner QuickStart.

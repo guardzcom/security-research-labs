@@ -13,12 +13,6 @@
 
 Security Research Labs is the official Guardz repo for open-source security tooling: config analyzers, Microsoft 365 / Entra recon scripts, purple-team detection emulations, and AI skill security. MIT-licensed; each tool lives in a **dedicated folder with its own README**.
 
-## GitHub Stats
-
-Dynamic badges from the GitHub API (via [Shields.io](https://shields.io)) update automatically.
-
-[![GitHub stars](https://img.shields.io/github/stars/guardzcom/security-research-labs?style=flat-square)](https://github.com/guardzcom/security-research-labs/stargazers) [![GitHub forks](https://img.shields.io/github/forks/guardzcom/security-research-labs?style=flat-square)](https://github.com/guardzcom/security-research-labs/forks) [![GitHub issues](https://img.shields.io/github/issues/guardzcom/security-research-labs?style=flat-square)](https://github.com/guardzcom/security-research-labs/issues) [![GitHub language count](https://img.shields.io/github/languages/count/guardzcom/security-research-labs?style=flat-square)](https://github.com/guardzcom/security-research-labs)
-
 ---
 
 ## Repository layout
@@ -30,6 +24,7 @@ Dynamic badges from the GitHub API (via [Shields.io](https://shields.io)) update
 | [![M365](https://img.shields.io/badge/M365-blue?style=flat-square)](CloudAdversary/M365/) | [CloudAdversary/M365/](CloudAdversary/M365/) | DeviceStrike, SPO Ext Recon, GraphRunner QuickStart. |
 | [![GWS](https://img.shields.io/badge/GWS-green?style=flat-square)](Purple-Team-Emulation/GWS/) | [Purple-Team-Emulation/GWS/](Purple-Team-Emulation/GWS/) | Google Workspace security tools (placeholder). |
 | [![Threat Intel](https://img.shields.io/badge/Threat%20Intel-red?style=flat-square)](Threat-Intel/) | [Threat-Intel/](Threat-Intel/) | IOCs, detection artifacts, threat intelligence. |
+| [![Research](https://img.shields.io/badge/Research-gray?style=flat-square)](Research/) | [Research/](Research/) | Research outputs, landscape studies, and reference materials (e.g. AiTM tools). |
 
 ---
 

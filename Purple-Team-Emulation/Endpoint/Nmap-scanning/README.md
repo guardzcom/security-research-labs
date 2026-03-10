@@ -20,7 +20,7 @@
 
 ```powershell
 # From this folder. Run as a standard user (not SYSTEM).
-.\Namp-scanning.ps1
+.\Nmap-scanning.ps1
 ```
 
 ---

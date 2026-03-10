@@ -16,7 +16,7 @@ Scripts and tools for **purple team** detection testing: emulate attacker behavi
 | **EDR Telemetry Simulator** | [Endpoint/edr-telemetry-simulator/](Endpoint/edr-telemetry-simulator/) | `EDR-Telemetry-Simulator.ps1` — Controlled API telemetry (keylogger/process/network patterns) for EDR/AV/SIEM detection validation; harmless API calls only. |
 | **Office Macro-Security Tampering Emulation** | [Endpoint/office-macro-tampering-emulation/](Endpoint/office-macro-tampering-emulation/) | `Office-Macro-Tampering-Emulation.ps1` — Registry activity mimicking AccessVBOM/VbaWarnings/macro-policy tampering under sandbox path for detection testing. |
 | **BloodHound Adversary Emulation** | [Endpoint/BloodHound-adversary-emulation/](Endpoint/BloodHound-adversary-emulation/) | `bloodhound-validation.ps1` — Emulate BloodHound-style process/command patterns for EDR detection validation; no real AD enumeration. |
-| **Nmap Scanning Emulation** | [Endpoint/Nmap-scanning/](Endpoint/Nmap-scanning/) | `Namp-scanning.ps1` — Simulate nmap.exe process/command-line patterns for EDR detection validation; no real network scanning. |
+| **Nmap Scanning Emulation** | [Endpoint/Nmap-scanning/](Endpoint/Nmap-scanning/) | `Nmap-scanning.ps1` — Simulate nmap.exe process/command-line patterns for EDR detection validation; no real network scanning. |
 
 ---
 
