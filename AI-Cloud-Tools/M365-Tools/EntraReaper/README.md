@@ -1,5 +1,7 @@
 # EntraReaper
 
+![EntraReaper — autonomous red team platform for Microsoft Entra ID](assets/entra-reaper-banner.png)
+
 **Autonomous Red Team Platform for Microsoft Entra ID**
 
 Part of **[M365 Red Agents](../README.md)**.
