@@ -5,11 +5,11 @@
 [![GitHub stars](https://img.shields.io/github/stars/guardzcom/security-research-labs)](https://github.com/guardzcom/security-research-labs/stargazers)
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/guardzcom/security-research-labs)](https://github.com/guardzcom/security-research-labs/releases)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Tools](https://img.shields.io/badge/tools-8-orange)](.)
+[![Tools](https://img.shields.io/badge/tools-9-orange)](.)
 [![Platform](https://img.shields.io/badge/Platform-Web%20%7C%20Windows%20%7C%20macOS%20%7C%20Linux-green)](.)
 [![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-blue?logo=powershell)](https://docs.microsoft.com/powershell/)
 
-[![AI & Cloud](https://img.shields.io/badge/AI%20%26%20Cloud-OpenClaw%20%7C%20SkillScan%20%7C%20IOCs-orange?style=flat-square)](AI-Cloud-Tools/) [![Purple Team](https://img.shields.io/badge/Purple%20Team-Detection%20testing-purple?style=flat-square)](Purple-Team-Emulation/) [![M365](https://img.shields.io/badge/M365-Entra%20%7C%20Graph-blue?style=flat-square)](CloudAdversary/M365/) [![Threat Intel](https://img.shields.io/badge/Threat%20Intel-IOCs%20%7C%20Hunting-red?style=flat-square)](Threat-Intel/) [![GWS](https://img.shields.io/badge/GWS-Google%20Workspace-green?style=flat-square)](Purple-Team-Emulation/GWS/)
+[![AI & Cloud](https://img.shields.io/badge/AI%20%26%20Cloud-OpenClaw%20%7C%20SkillScan%20%7C%20IOCs%20%7C%20EntraReaper-orange?style=flat-square)](AI-Cloud-Tools/) [![Purple Team](https://img.shields.io/badge/Purple%20Team-Detection%20testing-purple?style=flat-square)](Purple-Team-Emulation/) [![M365](https://img.shields.io/badge/M365-Entra%20%7C%20Graph-blue?style=flat-square)](CloudAdversary/M365/) [![Threat Intel](https://img.shields.io/badge/Threat%20Intel-IOCs%20%7C%20Hunting-red?style=flat-square)](Threat-Intel/) [![GWS](https://img.shields.io/badge/GWS-Google%20Workspace-green?style=flat-square)](Purple-Team-Emulation/GWS/)
 
 Security Research Labs is the official Guardz repo for open-source security tooling: config analyzers, Microsoft 365 / Entra recon scripts, purple-team detection emulations, and AI skill security. MIT-licensed; each tool lives in a **dedicated folder with its own README**.
 
@@ -19,7 +19,7 @@ Security Research Labs is the official Guardz repo for open-source security tool
 
 | Category | Folder | Contents |
 |----------|--------|----------|
-| [![AI](https://img.shields.io/badge/AI-orange?style=flat-square)](AI-Cloud-Tools/) | [AI-Cloud-Tools/](AI-Cloud-Tools/) | AI: OpenClaw Analyzer, SkillScan. M365-Tools: OAuth IOCs checker. |
+| [![AI](https://img.shields.io/badge/AI-orange?style=flat-square)](AI-Cloud-Tools/) | [AI-Cloud-Tools/](AI-Cloud-Tools/) | AI: OpenClaw Analyzer, SkillScan. M365-Tools: OAuth IOCs checker, [EntraReaper](AI-Cloud-Tools/M365-Tools/EntraReaper/) (MCP + AADInternals for authorized Entra ID red team). |
 | [![Purple](https://img.shields.io/badge/Purple-purple?style=flat-square)](Purple-Team-Emulation/) | [Purple-Team-Emulation/](Purple-Team-Emulation/) | Endpoint: certutil, EDR telemetry simulator, Office macro tampering, BloodHound emulation, Nmap scanning emulation. |
 | [![M365](https://img.shields.io/badge/M365-blue?style=flat-square)](CloudAdversary/M365/) | [CloudAdversary/M365/](CloudAdversary/M365/) | DeviceStrike, Entra ID Smart Lockout (Entra-ID-DOS), SPO Ext Recon, GraphRunner QuickStart. |
 | [![GWS](https://img.shields.io/badge/GWS-green?style=flat-square)](Purple-Team-Emulation/GWS/) | [Purple-Team-Emulation/GWS/](Purple-Team-Emulation/GWS/) | Google Workspace security tools (placeholder). |

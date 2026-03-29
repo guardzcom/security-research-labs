@@ -1,0 +1,119 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environment
+.venv/
+venv/
+env/
+
+# uv
+uv.lock
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ============================================================
+# SENSITIVE ENGAGEMENT DATA — NEVER COMMIT
+# ============================================================
+
+# Tokens (JWT, refresh, PRT, SAML)
+engagement/credentials/tokens/**
+!engagement/credentials/tokens/README.md
+
+# Credentials (NT hashes, MFA secrets, cookies, passwords)
+engagement/credentials/creds/**
+!engagement/credentials/creds/README.md
+
+# Certificates (signing certs, device certs, PTA certs)
+engagement/credentials/certs/**
+!engagement/credentials/certs/README.md
+
+# Loot (downloaded files, emails, documents)
+engagement/collection/loot/**
+!engagement/collection/loot/README.md
+
+# Noise logs (telemetry footprint, budget tracking)
+engagement/operations/noise/**
+!engagement/operations/noise/README.md
+
+# Persistence inventory (active backdoors — CLEANUP CRITICAL)
+engagement/operations/persistence/**
+!engagement/operations/persistence/README.md
+
+# Playbooks (execution journal with tool calls + targets)
+engagement/operations/playbooks/**
+!engagement/operations/playbooks/README.md
+
+# Reports (engagement deliverables)
+engagement/delivery/reports/**
+!engagement/delivery/reports/README.md
+
+# Signals (detection opportunity logs)
+engagement/defense/signals/**
+!engagement/defense/signals/README.md
+
+# IOCs (indicators with engagement-specific data)
+engagement/recon/iocs/**
+!engagement/recon/iocs/.gitkeep
+
+# Recon results (contain target-specific findings)
+engagement/recon/results/**
+!engagement/recon/results/.gitkeep
+
+# Fingerprints (target tenant identity data)
+engagement/recon/fingerprints/**
+!engagement/recon/fingerprints/.gitkeep
+
+# Behavior profiles (evolving attack surface data)
+engagement/recon/behavior/**
+!engagement/recon/behavior/README.md
+
+# ============================================================
+# CRYPTOGRAPHIC MATERIAL — NEVER COMMIT
+# ============================================================
+*.pfx
+*.pem
+*.key
+*.p12
+*.cer
+*.crt
+
+# Token store (local cache)
+~/.entrareaper/
+
+# ============================================================
+# ENVIRONMENT & SECRETS
+# ============================================================
+.env
+.env.*
+*.secret
+credentials.json
+secrets.json
+
+# ============================================================
+# DO NOT IGNORE — Reference data (safe to commit)
+# ============================================================
+# reference/scenarios/       — attack playbooks (no secrets)
+# reference/app-ids/         — public app IDs
+# reference/cmdlets/         — cmdlet documentation
+# docs/                      — architecture + docs
+# claude/                    — agent, skill, command definitions
+# scripts/                   — setup scripts
+# src/                       — Python source code

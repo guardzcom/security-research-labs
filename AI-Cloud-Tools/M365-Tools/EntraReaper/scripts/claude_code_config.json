@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "entrareaper": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "/Users/eli.s/temp/ai-sec-engineer/tools/aadinternalsMCP",
+        "python",
+        "src/entrareaper/server.py"
+      ],
+      "description": "EntraReaper — Autonomous red team platform for Entra ID. 65 tools, 87 scenarios, 13 kill chains."
+    }
+  }
+}

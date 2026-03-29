@@ -1,0 +1,19 @@
+[project]
+name = "entrareaper"
+version = "2.1.0"
+description = "EntraReaper — Autonomous red team platform for Microsoft Entra ID. 65 MCP tools, 87 scenarios, 13 kill chains."
+requires-python = ">=3.11"
+dependencies = [
+    "mcp[cli]>=1.0.0",
+    "pydantic>=2.0.0",
+]
+
+[project.scripts]
+entrareaper = "entrareaper.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/entrareaper"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
