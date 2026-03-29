@@ -2,6 +2,8 @@
 
 **Autonomous Red Team Platform for Microsoft Entra ID**
 
+Part of **[M365 Red Agents](../README.md)**.
+
 65 tools | 87 scenarios | 13 kill chains | 15 engagement folders | 238 AADInternals cmdlets
 
 ```
