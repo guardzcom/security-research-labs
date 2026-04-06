@@ -33,6 +33,12 @@ Script outputs (user lists, group members, search results, recon files) can be h
 
 ---
 
+## Related research
+
+- **Hybrid AD / Entra MFA gap (defensive):** [Research/M365/Dormant/](../../Research/M365/Dormant/) — Graph samples and PowerShell for MFA registration reporting, on-prem AD attribute review, and AD↔Entra correlation.
+
+---
+
 ## License
 
 Same as the root repository  - see [../LICENSE](../LICENSE).

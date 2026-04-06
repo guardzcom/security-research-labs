@@ -24,7 +24,7 @@ Security Research Labs is the official Guardz repo for open-source security tool
 | [![M365](https://img.shields.io/badge/M365-blue?style=flat-square)](CloudAdversary/M365/) | [CloudAdversary/M365/](CloudAdversary/M365/) | DeviceStrike, Entra ID Smart Lockout (Entra-ID-DOS), SPO Ext Recon, GraphRunner QuickStart. |
 | [![GWS](https://img.shields.io/badge/GWS-green?style=flat-square)](Purple-Team-Emulation/GWS/) | [Purple-Team-Emulation/GWS/](Purple-Team-Emulation/GWS/) | Google Workspace security tools (placeholder). |
 | [![Threat Intel](https://img.shields.io/badge/Threat%20Intel-red?style=flat-square)](Threat-Intel/) | [Threat-Intel/](Threat-Intel/) | IOCs, detection artifacts, threat intelligence. |
-| [![Research](https://img.shields.io/badge/Research-gray?style=flat-square)](Research/) | [Research/](Research/) | Research outputs, landscape studies, and reference materials (e.g. AiTM tools). |
+| [![Research](https://img.shields.io/badge/Research-gray?style=flat-square)](Research/) | [Research/](Research/) | Research outputs, landscape studies, and reference materials (e.g. [M365 AiTM](Research/M365/AiTM/), [hybrid AD MFA gap](Research/M365/Dormant/)). |
 
 ---
 

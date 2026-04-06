@@ -32,6 +32,7 @@ The landscape spreadsheet (and its CSV export) uses the following columns:
 
 - **Detection & investigation:** See repo skills and playbooks for [AiTM/token-theft](https://github.com/guardzcom/security-research-labs) and M365 forensics.
 - **M365 tools:** [CloudAdversary/M365/](../../../CloudAdversary/M365/) — DeviceStrike, SPO Ext Recon, GraphRunner QuickStart.
+- **Other M365 research:** [Dormant/](../Dormant/) — hybrid AD / Entra MFA registration gap scripts and Graph samples (blog companion artifacts).
 
 ## Usage
 

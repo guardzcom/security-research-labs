@@ -1,0 +1,4 @@
+### Check MFA Registration Status — All Users Without MFA
+### Requires: Entra ID P1+ license, AuditLog.Read.All + UserAuthenticationMethod.Read.All scopes
+
+GET https://graph.microsoft.com/v1.0/reports/authenticationMethods/userRegistrationDetails?$filter=isMfaRegistered eq false and userType eq 'member'

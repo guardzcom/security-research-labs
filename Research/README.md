@@ -14,7 +14,7 @@ Use only in line with the repo’s [security model](../README.md#security-model-
 
 | Folder | Description |
 |--------|-------------|
-| [M365/](M365/) | Microsoft 365 / Entra–related research: AiTM attack tools landscape, token-theft and phishing tooling, and M365-specific threat research. |
+| [M365/](M365/) | Microsoft 365 / Entra–related research: AiTM attack tools landscape; hybrid AD / MFA registration gap scripts and queries ([M365/Dormant/](M365/Dormant/)); token-theft and phishing tooling; other M365 threat research. |
 
 ## Contributing
 

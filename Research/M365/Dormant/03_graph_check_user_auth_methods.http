@@ -1,0 +1,5 @@
+### Check Individual User Auth Methods — Works on All License Tiers
+### Requires: UserAuthenticationMethod.Read.All scope
+### If response only contains passwordAuthenticationMethod, user has NO MFA
+
+GET https://graph.microsoft.com/v1.0/users/{userId}/authentication/methods
