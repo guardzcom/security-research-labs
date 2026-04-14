@@ -26,6 +26,8 @@ Subdomains often align with **query-parameter variants** used in landing URLs (f
 
 ## 3. Network indicators — domains
 
+**Note:** Research surfaced **dozens of domains** across **dozens of campaigns**, every hostname we classified in this set still **relies on the same OnForge** (`on-forge.com`) **platform**. The **Category** column in the table below is our label for **each domain’s type** (variant, lifecycle, or role).
+
 **Recommendation:** Where policy permits, a **wildcard DNS or proxy deny** for `*.on-forge.com` reduces exposure to newly generated subdomains. Validate for collateral impact before enforcing at the perimeter.
 
 | FQDN | Category | Notes |
