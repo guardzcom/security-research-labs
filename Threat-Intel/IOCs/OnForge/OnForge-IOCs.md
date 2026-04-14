@@ -1,200 +1,168 @@
-# on-forge.com Tech Support Scam Campaign - IOC Blocklist
-# Generated: 2026-04-14
-# Source: SentinelOne DV 
-# Total: 96+ domains, 18+ phones, 4 IPs, 2 Tawk.to accounts
+# IOC Package: OnForge - Tech Support Scam Campaign
 
-Important Note: All domains are under the on-forge.com, but include a specific Variant.
+**Purpose:** Indicators of compromise for a browser-based tech-support scam campaign using fake Microsoft security alerts, phone numbers, live chat (Tawk.to), and assets hosted under `on-forge.com` and related redirect domains. Intended for CTI, detection engineering, and defensive blocking where policy allows.
 
-# ============================================================
-# DOMAINS - Wildcard Block (Recommended)
-# ============================================================
+---
 
-*.on-forge.com
+## 1. Package metadata
 
-# ============================================================
-# DOMAINS - Confirmed Scam Subdomains 
-# ============================================================
+| Field | Value |
+|--------|--------|
+| **Campaign / infrastructure** | OnForge (`on-forge.com` subdomains and related artifacts) |
+| **Classification** | Fraud / tech-support scam (scareware-style browser lock) |
+| **Source** | SentinelOne Deep Visibility |
+| **Last updated** | 2026-04-14 |
+| **Coverage note** | Broader campaign telemetry referenced as 96+ domains, 18+ phones, 4 IPs, 2 Tawk.to accounts; this file lists confirmed samples and patterns at time of publication. |
 
-ikdnknskfjnsnflsjnfljsdlsjd-uynmyovf.on-forge.com
-kjhgfdfghjklkjfj.on-forge.com
+---
 
-# ============================================================
-# DOMAINS - Confirmed Scam Subdomains (Variant A: ph0ne=)
-# ============================================================
+## 2. Campaign summary
 
-kasdjfkasjd8uawkjnmzmnvmdsfhj27jajak03.on-forge.com
-gbukukkaksdjfkasj32amsfn004.on-forge.com
-2500007askdjfakieuri.on-forge.com
+The activity clusters on **`*.on-forge.com`**, where short-lived subdomains serve HTML and static assets that mimic Microsoft security messaging, inject callback **phone numbers**, and use aggressive browser behavior (fullscreen overlay, keyboard focus traps, looping audio) to pressure victims into calling operators. **Tawk.to** account identifiers appear in the same operational context as the scam pages.
 
-# ============================================================
-# DOMAINS - Confirmed Scam Subdomains (Variant B: Anph=)
-# ============================================================
+Subdomains often align with **query-parameter variants** used in landing URLs (for example `ph0ne=`, `Anph=`, `bcda=`, `Kuph=`). Additional naming styles include long random-looking labels with an embedded hash segment, and **`usa-monday-admin-<8 chars>`** style hosts. Some hosts return **HTTP 522** (previously live scam pages, torn down). **Redirect entry points** on unrelated TLDs funnel traffic toward the on-forge infrastructure.
 
-nbvcxcghjmmn.on-forge.com
-ruyinity65.on-forge.com
-gityuiuyt66.on-forge.com
+---
 
-# ============================================================
-# DOMAINS - Confirmed Scam Subdomains (Variant C: bcda=)
-# ============================================================
+## 3. Network indicators — domains
 
-usa-monday-admin-4wq5elwf.on-forge.com
-usa-monday-admin-yph9gxfv.on-forge.com
-usa-monday-admin-pkycwfol.on-forge.com
+**Recommendation:** Where policy permits, a **wildcard DNS or proxy deny** for `*.on-forge.com` reduces exposure to newly generated subdomains. Validate for collateral impact before enforcing at the perimeter.
 
-# ============================================================
-# DOMAINS - Confirmed Scam Subdomains (Variant D: Kuph=)
-# ============================================================
-exorepusvir-osgfaw8g.on-forge.com
+| FQDN | Category | Notes |
+|------|----------|--------|
+| `*.on-forge.com` | Wildcard block (recommended) | Catches ephemeral subdomains |
+| `ikdnknskfjnsnflsjnfljsdlsjd-uynmyovf.on-forge.com` | Confirmed scam subdomain | |
+| `kjhgfdfghjklkjfj.on-forge.com` | Confirmed scam subdomain | |
+| `kasdjfkasjd8uawkjnmzmnvmdsfhj27jajak03.on-forge.com` | Confirmed scam (variant A: `ph0ne=`) | |
+| `gbukukkaksdjfkasj32amsfn004.on-forge.com` | Confirmed scam (variant A: `ph0ne=`) | |
+| `2500007askdjfakieuri.on-forge.com` | Confirmed scam (variant A: `ph0ne=`) | |
+| `nbvcxcghjmmn.on-forge.com` | Confirmed scam (variant B: `Anph=`) | |
+| `ruyinity65.on-forge.com` | Confirmed scam (variant B: `Anph=`) | |
+| `gityuiuyt66.on-forge.com` | Confirmed scam (variant B: `Anph=`) | |
+| `usa-monday-admin-4wq5elwf.on-forge.com` | Confirmed scam (variant C: `bcda=`) | |
+| `usa-monday-admin-yph9gxfv.on-forge.com` | Confirmed scam (variant C: `bcda=`) | |
+| `usa-monday-admin-pkycwfol.on-forge.com` | Confirmed scam (variant C: `bcda=`) | |
+| `exorepusvir-osgfaw8g.on-forge.com` | Confirmed scam (variant D: `Kuph=`) | |
+| `nvcvbnnvghvbj.on-forge.com` | Dead / torn down (522; former scam page) | |
+| `alkjkdkkdkdk.on-forge.com` | Dead / torn down (522; former scam page) | |
+| `sdfghhgfjhgg.on-forge.com` | Dead / torn down (522; former scam page) | |
+| `blajdlajndlakjdlajdla-gpw2vpji.on-forge.com` | Keyboard mash + Forge hash (type B) | |
+| `alkjfnsdnladjlakdl-csftsnyu.on-forge.com` | Keyboard mash + Forge hash (type B) | |
+| `nope-gsf1crvr.on-forge.com` | Keyboard mash + Forge hash (type B) | |
+| `nequi-allianze-tramites.on-forge.com` | Other scam on same infrastructure | |
+| `nequi.on-forge.com` | Other scam on same infrastructure | |
+| `kiuuutiiiiiii.on-forge.com` | Other scam on same infrastructure | |
+| `segurosn.lat` | Redirect entry point | |
+| `dhjanask.online` | Redirect entry point | Third-party context: [VirusTotal domain report](https://www.virustotal.com/gui/domain/dhjanask.online/details) |
 
-# ============================================================
-# DOMAINS - Dead/Torn Down (522, former scam pages)
-# ============================================================
+---
 
-nvcvbnnvghvbj.on-forge.com
-alkjkdkkdkdk.on-forge.com
-sdfghhgfjhgg.on-forge.com
+## 4. Network indicators — IP addresses
 
-# ============================================================
-# DOMAINS - Keyboard Mash + Forge Hash (Type B)
-# ============================================================
+| Type | Value | Notes |
+|------|--------|--------|
+| IPv4 | `104.18.10.251` | Validate context before blocking; may reflect shared or CDN-fronted infrastructure. |
+| IPv4 | `104.18.11.251` | Same as above. |
+| IPv4 | `15.204.43.250` | |
+| IPv4 | `104.45.153.136` | |
 
-blajdlajndlakjdlajdla-gpw2vpji.on-forge.com
-alkjfnsdnladjlakdl-csftsnyu.on-forge.com
-nope-gsf1crvr.on-forge.com
+---
 
-# ============================================================
-# DOMAINS - Other Scam Campaigns on Same Infrastructure
-# ============================================================
+## 5. Phone numbers
 
-nequi-allianze-tramites.on-forge.com
-nequi.on-forge.com
-kiuuutiiiiiii.on-forge.com
+| Region / type | Number |
+|----------------|--------|
+| UK freephone | `08085310436` |
+| UK freephone | `08081752331` |
+| UK freephone | `08085012937` |
+| UK freephone | `08000884533` |
+| UK freephone | `08009124035` |
+| UK freephone | `08000884932` |
+| US toll-free | `18339261805` |
+| US toll-free | `18339261999` |
+| US toll-free | `18339262479` |
+| US toll-free | `18339262512` |
+| US toll-free | `18339262514` |
+| US toll-free | `8668094446` |
+| US toll-free | `8668094664` |
+| US toll-free | `5743695969` |
 
-# ============================================================
-# DOMAINS - Redirect Entry Points
-# ============================================================
+---
 
-segurosn.lat
-dhjanask.online - https://www.virustotal.com/gui/domain/dhjanask.online/details
+## 6. Tawk.to account identifiers
 
-# ============================================================
-# IPs
-# ============================================================
+| Account ID |
+|------------|
+| `69cd421fb8aa781c3b30ed16` |
+| `68d549cbc6b9a0194dd28338` |
 
-104.18.10.251
-104.18.11.251
-15.204.43.250
-104.45.153.136
+---
 
-# ============================================================
-# PHONE NUMBERS - UK Freephone
-# ============================================================
+## 7. File hashes — scam page assets (SHA256)
 
-08085310436
-08081752331
-08085012937
-08000884533
-08009124035
-08000884932
+| SHA256 | File | Type | Purpose / description |
+|--------|------|------|------------------------|
+| `298deae4484ebe1f2cf64669197a880d08f1c25852317d16e0feb9880a7b83fb` | `custom.js` | JavaScript | Scam engine: fullscreen hijack, keyboard lock, audio trap |
+| `e5a7faad39c23549b61051a5e50dc7d1a8bc63411b825619d1301334529687c2` | `index.html` | HTML | Main scam page: fake Microsoft Security alert, phone injection |
+| `915cbddff7dab2554948e6cd382450219f0e71c7a9facb1f4f362d37a1cf880d` | `bg.png` | PNG | Explicit adult content (scareware shock image) |
+| `948b1331677d0f9991d50376bfba436033c5a9cc5919cf9f74c03424b6f3e342` | `back.jpg` | JPEG | Fake Microsoft Support page screenshot |
+| `7497f3d08e577650f4a8f8e835c9cb8369f84693385530733c4269e2636bd997` | `custom.css` | CSS | Hidden cursor, pulsing animation, fullscreen overlay styling |
+| `316e6a6737bd296ab30aca2ef7fa36f119d15786a2432d01e31fdc130272f15c` | `defend.png` | PNG | Windows Defender shield icon |
+| `ee4bc5fe81fa7c1e8497d79c9c8a96485df217092d334e9b48fa8840fed11d03` | `ms.png` | PNG | Microsoft four-square logo |
+| `3b531d403dc8ce7cbb0efb1a0c307cfb2bbaaf21feaff9f3546f13bebda71887` | `v.jpg` | JPEG | Two laptops with shield (scan illustration) |
+| `3821ef20f5904fdb993e34d87ff8fb9c5786a382efb0eeee8b4f00c91428b701` | `x.png` | PNG | Warning / close icon |
+| `0589be7715d2320e559eae6bd26f3528e97450c70293da2e1e8ce45f77f99ab1` | `beep1.mp3` | MP3 | Alarm beep (loops) |
 
-# ============================================================
-# PHONE NUMBERS - US Toll Free
-# ============================================================
+---
 
-18339261805
-18339261999
-18339262479
-18339262512
-18339262514
-8668094446
-8668094664
-5743695969
+## 8. URL patterns and detection regex
 
-# ============================================================
-# TAWK.TO SCAMMER ACCOUNTS
-# ============================================================
+### 8.1 Query parameter tokens (blocking / hunting)
 
-69cd421fb8aa781c3b30ed16
-68d549cbc6b9a0194dd28338
+Block or alert on request URIs containing these substrings when paired with suspicious referrers or the on-forge host class:
 
-# ============================================================
-# FILE HASHES - SHA256 (Scam Page)
-# ============================================================
+- `ph0ne=`
+- `Anph=`
+- `bcda=`
+- `Kuph=`
 
-  SHA256: 298deae4484ebe1f2cf64669197a880d08f1c25852317d16e0feb9880a7b83fb
-  File: custom.js
-  Type: JavaScript
-  Purpose: Scam engine: fullscreen hijack, keyboard lock, audio trap
-  ────────────────────────────────────────
-  SHA256: e5a7faad39c23549b61051a5e50dc7d1a8bc63411b825619d1301334529687c2
-  File: index.html
-  Type: HTML
-  Purpose: Main scam page: fake Microsoft Security alert, phone injection
-  ────────────────────────────────────────
-  SHA256: 915cbddff7dab2554948e6cd382450219f0e71c7a9facb1f4f362d37a1cf880d
-  File: bg.png
-  Type: PNG
-  Purpose: Explicit adult content (scareware shock image)
-  ────────────────────────────────────────
-  SHA256: 948b1331677d0f9991d50376bfba436033c5a9cc5919cf9f74c03424b6f3e342
-  File: back.jpg
-  Type: JPEG
-  Purpose: Fake Microsoft Support page screenshot
-  ────────────────────────────────────────
-  SHA256: 7497f3d08e577650f4a8f8e835c9cb8369f84693385530733c4269e2636bd997
-  File: custom.css
-  Type: CSS
-  Purpose: Hidden cursor, pulsing animation, fullscreen overlay styling
-  ────────────────────────────────────────
-  SHA256: 316e6a6737bd296ab30aca2ef7fa36f119d15786a2432d01e31fdc130272f15c
-  File: defend.png
-  Type: PNG
-  Purpose: Windows Defender shield icon
-  ────────────────────────────────────────
-  SHA256: ee4bc5fe81fa7c1e8497d79c9c8a96485df217092d334e9b48fa8840fed11d03
-  File: ms.png
-  Type: PNG
-  Purpose: Microsoft four square logo
-  ────────────────────────────────────────
-  SHA256: 3b531d403dc8ce7cbb0efb1a0c307cfb2bbaaf21feaff9f3546f13bebda71887
-  File: v.jpg
-  Type: JPEG
-  Purpose: Two laptop icons with a shield (scan illustration)
-  ────────────────────────────────────────
-  SHA256: 3821ef20f5904fdb993e34d87ff8fb9c5786a382efb0eeee8b4f00c91428b701
-  File: x.png
-  Type: PNG
-  Purpose: Warning/close icon
-  ────────────────────────────────────────
-  SHA256: 0589be7715d2320e559eae6bd26f3528e97450c70293da2e1e8ce45f77f99ab1
-  File: beep1.mp3
-  Type: MP3
-  Purpose: Alarm beep sound (loops infinitely)
+### 8.2 Broad pattern — on-forge.com with phone-style parameters
 
-# ============================================================
-# FILE HASHES - SHA1 (ScreenConnect Binaries from S1)
-# ============================================================
+```regex
+https?://[a-z0-9\-]{5,60}\.on-forge\.com/.+\?(ph0ne|Anph|bcda|Kuph)=
+```
 
-Will be available soon
+### 8.3 Type B subdomains (keyboard mash + Forge hash segment)
 
-# ============================================================
-# URL PATTERNS - Query Parameter Blocks
-# ============================================================
+```regex
+[a-z]{15,30}-[a-z0-9]{8}\.on-forge\.com
+```
 
-ph0ne=
-Anph=
-bcda=
-Kuph=
+### 8.4 Type C subdomains (`usa-monday-admin`)
 
-# ============================================================
-# URL DETECTION REGEX
-# ============================================================
-# Broad: any on-forge.com with phone parameter
-# https?://[a-z0-9\-]{5,60}\.on-forge\.com/.+\?(ph0ne|Anph|bcda|Kuph)=
-#
-# Type B subdomains (keyboard mash + Forge hash)
-# [a-z]{15,30}-[a-z0-9]{8}\.on-forge\.com
-#
-# Type C subdomains (usa-monday-admin)
-# usa-monday-admin-[a-z0-9]{8}\.on-forge\.com
+```regex
+usa-monday-admin-[a-z0-9]{8}\.on-forge\.com
+```
+
+---
+
+## 9. Operational and defensive notes
+
+- **DNS / HTTP blocking:** Wildcard denial of `on-forge.com` is effective against rotation but requires change control; document exceptions if any legitimate use appears (unlikely for this campaign class).
+- **IP blocking:** Several listed IPv4 addresses may be shared CDN or hosting; prefer **domain and URL** controls and **hash** blocks on proxies and endpoints where possible.
+- **User education:** Tech-support scams that cite “Microsoft Security” and demand a phone call remain a high-volume fraud pattern; reinforce official support channels and browser reset procedures.
+- **Reporting:** Route confirmed fraud URLs and phone numbers through your national fraud reporting and telecom abuse workflows as applicable.
+
+---
+
+## Footer - source
+
+**Primary reference:** SentinelOne Deep Visibility research, consolidated **2026-04-14** (Guardz Security Research Labs).
+
+**Related:** [Guardz Security Research Labs (GitHub)](https://github.com/guardzcom/security-research-labs)
+
+---
+
+## License
+
+Same as the root repository — see [../../../LICENSE](../../../LICENSE).

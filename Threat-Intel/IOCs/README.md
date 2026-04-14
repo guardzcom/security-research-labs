@@ -12,6 +12,7 @@
 |--------|-------------|
 | [Akira/](Akira/) | Akira ransomware IOCs and case notes from Guardz “Seven Seconds to Stop Akira” (hashes, ransom note, filesystem and Tor indicators, SentinelOne storyline artifacts, MITRE G1024 context). |
 | [OAuth-abuse/](OAuth-abuse/) | OAuth consent phishing and token-theft IOCs: malicious app IDs, redirect URLs, file/behavior indicators, hunting signals (Microsoft-Intel-OAuth.md). |
+| [OnForge/](OnForge/) | on-forge.com tech-support scam IOCs: domains, IPs, phones, Tawk.to IDs, file hashes, URL parameters, detection regex (OnForge-IOCs.md; SentinelOne Deep Visibility). |
 
 ---
 
