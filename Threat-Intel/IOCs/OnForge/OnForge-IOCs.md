@@ -75,19 +75,9 @@ Subdomains often align with **query-parameter variants** used in landing URLs (f
 | Region / type | Number |
 |----------------|--------|
 | UK freephone | `08085310436` |
-| UK freephone | `08081752331` |
-| UK freephone | `08085012937` |
-| UK freephone | `08000884533` |
-| UK freephone | `08009124035` |
-| UK freephone | `08000884932` |
-| US toll-free | `18339261805` |
-| US toll-free | `18339261999` |
-| US toll-free | `18339262479` |
-| US toll-free | `18339262512` |
-| US toll-free | `18339262514` |
-| US toll-free | `8668094446` |
-| US toll-free | `8668094664` |
-| US toll-free | `5743695969` |
+| UK freephone | `080008xxxxx` |
+| US toll-free | `1833926xxxx` |
+| US toll-free | `57436xxxxx`  |
 
 ---
 
