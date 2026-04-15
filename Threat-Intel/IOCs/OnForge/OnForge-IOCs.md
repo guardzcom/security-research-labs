@@ -36,24 +36,12 @@ Subdomains often align with **query-parameter variants** used in landing URLs (f
 | `ikdnknskfjnsnflsjnfljsdlsjd-uynmyovf.on-forge.com` | Confirmed scam subdomain | |
 | `kjhgfdfghjklkjfj.on-forge.com` | Confirmed scam subdomain | |
 | `kasdjfkasjd8uawkjnmzmnvmdsfhj27jajak03.on-forge.com` | Confirmed scam (variant A: `ph0ne=`) | |
-| `gbukukkaksdjfkasj32amsfn004.on-forge.com` | Confirmed scam (variant A: `ph0ne=`) | |
-| `2500007askdjfakieuri.on-forge.com` | Confirmed scam (variant A: `ph0ne=`) | |
 | `nbvcxcghjmmn.on-forge.com` | Confirmed scam (variant B: `Anph=`) | |
-| `ruyinity65.on-forge.com` | Confirmed scam (variant B: `Anph=`) | |
-| `gityuiuyt66.on-forge.com` | Confirmed scam (variant B: `Anph=`) | |
 | `usa-monday-admin-4wq5elwf.on-forge.com` | Confirmed scam (variant C: `bcda=`) | |
-| `usa-monday-admin-yph9gxfv.on-forge.com` | Confirmed scam (variant C: `bcda=`) | |
-| `usa-monday-admin-pkycwfol.on-forge.com` | Confirmed scam (variant C: `bcda=`) | |
 | `exorepusvir-osgfaw8g.on-forge.com` | Confirmed scam (variant D: `Kuph=`) | |
 | `nvcvbnnvghvbj.on-forge.com` | Dead / torn down (522; former scam page) | |
-| `alkjkdkkdkdk.on-forge.com` | Dead / torn down (522; former scam page) | |
-| `sdfghhgfjhgg.on-forge.com` | Dead / torn down (522; former scam page) | |
 | `blajdlajndlakjdlajdla-gpw2vpji.on-forge.com` | Keyboard mash + Forge hash (type B) | |
-| `alkjfnsdnladjlakdl-csftsnyu.on-forge.com` | Keyboard mash + Forge hash (type B) | |
-| `nope-gsf1crvr.on-forge.com` | Keyboard mash + Forge hash (type B) | |
 | `nequi-allianze-tramites.on-forge.com` | Other scam on same infrastructure | |
-| `nequi.on-forge.com` | Other scam on same infrastructure | |
-| `kiuuutiiiiiii.on-forge.com` | Other scam on same infrastructure | |
 | `segurosn.lat` | Redirect entry point | |
 | `dhjanask.online` | Redirect entry point | Third-party context: [VirusTotal domain report](https://www.virustotal.com/gui/domain/dhjanask.online/details) |
 
