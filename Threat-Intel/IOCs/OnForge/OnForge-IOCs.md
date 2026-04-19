@@ -33,7 +33,7 @@ Subdomains often align with **query-parameter variants** used in landing URLs (f
 | FQDN | Category | Notes |
 |------|----------|--------|
 | `*.on-forge.com` | Wildcard block (recommended) | Catches ephemeral subdomains |
-| `ikdnknskfjnsnflsjnfljsdlsjd-uynmyovf.on-forge.com` | Confirmed scam subdomain | |
+| `ikdnknskgjnsnflsjnfljsdlsjd-uynmyovf.on-forge.com` | Confirmed scam subdomain | |
 | `kjhgfdfghjklkjfj.on-forge.com` | Confirmed scam subdomain | |
 | `kasdjfkasjd8uawkjnmzmnvmdsfhj27jajak03.on-forge.com` | Confirmed scam (variant A: `ph0ne=`) | |
 | `nbvcxcghjmmn.on-forge.com` | Confirmed scam (variant B: `Anph=`) | |
