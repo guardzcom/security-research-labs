@@ -1,8 +1,6 @@
-<p align="center">
-  <a href="https://github.com/guardzcom/security-research-labs">
-    <img src=".github/assets/hero.png" alt="Security Research Labs banner" width="100%" />
-  </a>
-</p>
+# Security Research Labs
+
+**Tools, scripts, and research PoCs for Purple Team, Red Team, AI Security, Forensic, and Cloud security. Authorized use only.**
 
 <!-- Project badges -->
 <p align="center">
