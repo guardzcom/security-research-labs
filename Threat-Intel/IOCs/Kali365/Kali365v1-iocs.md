@@ -19,21 +19,21 @@
 
 ## 2. Network Indicators - Domains
 
-| Indicator | Type | Category | Notes |
-|-----------|------|----------|-------|
-| `*abt90.org` | Wildcard domain | Root domain | |
-| `*cecyani.xyz` | Wildcard domain | Root domain | |
-| `*democrakidsradio.org` | Wildcard domain | Root domain | |
-| `*duemineral.uk` | Wildcard domain | Root domain | |
-| `*kali365.xyz` | Wildcard domain | Campaign domain | Wildcard-style indicator as provided. |
-| `*loadingdocuments.uk` | Wildcard domain | Root domain | |
-| `*mediaplanung.biz` | Wildcard domain | Root domain | |
-| `*nikadent.icu` | Wildcard domain | Root domain | |
-| `*nysexams.com` | Wildcard domain | Root domain | |
-| `*pohlusa.co` | Wildcard domain | Root domain | |
-| `*stpaulscathedralokc.org` | Wildcard domain | Root domain | |
-| `*trulites.com` | Wildcard domain | Root domain | |
-| `*walter-software.com` | Wildcard domain | Root domain | |
+| Indicator | Type | Category |
+|-----------|------|----------|
+| `*abt90.org` | Wildcard domain | Root domain |
+| `*cecyani.xyz` | Wildcard domain | Root domain |
+| `*democrakidsradio.org` | Wildcard domain | Root domain |
+| `*duemineral.uk` | Wildcard domain | Root domain |
+| `*kali365.xyz` | Wildcard domain | Campaign domain |
+| `*loadingdocuments.uk` | Wildcard domain | Root domain |
+| `*mediaplanung.biz` | Wildcard domain | Root domain |
+| `*nikadent.icu` | Wildcard domain | Root domain |
+| `*nysexams.com` | Wildcard domain | Root domain |
+| `*pohlusa.co` | Wildcard domain | Root domain |
+| `*stpaulscathedralokc.org` | Wildcard domain | Root domain |
+| `*trulites.com` | Wildcard domain | Root domain |
+| `*walter-software.com` | Wildcard domain | Root domain |
 
 ---
 
@@ -73,10 +73,11 @@
 | `199.91.220.111` | IPv4 | Network infrastructure | |
 | `162.243.166.119` | IPv4 | Network infrastructure | |
 | `157.230.53.233` | IPv4 | Network infrastructure | |
+| `5.182.32.166` | IPv4 | Network infrastructure | |
 | `102.89.22.100` | IPv4 | Network infrastructure | |
 | `167.99.0.116` | IPv4 | Network infrastructure | |
 | `159.203.163.96` | IPv4 | Network infrastructure | |
-5.182.32.166
+
 
 ## 7. User Agents
 
