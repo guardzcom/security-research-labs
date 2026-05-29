@@ -74,9 +74,17 @@
 | `162.243.166.119` | IPv4 | Network infrastructure | |
 | `157.230.53.233` | IPv4 | Network infrastructure | |
 | `5.182.32.166` | IPv4 | Network infrastructure | |
+| `2.58.56.248` | IPv4 | Network infrastructure | |
 | `102.89.22.100` | IPv4 | Network infrastructure | |
 | `167.99.0.116` | IPv4 | Network infrastructure | |
 | `159.203.163.96` | IPv4 | Network infrastructure | |
+| `66.179.30.87` | IPv4 | Network infrastructure | |
+| `150.228.103.23` | IPv4 | Network infrastructure | |
+| `103.216.220.117` | IPv4 | Network infrastructure | |
+| `59.11.162.114` | IPv4 | Network infrastructure | |
+| `18.117.247.159` | IPv4 | Network infrastructure | |
+| `104.21.32.229` | IPv4 | Network infrastructure | |
+| `172.67.156.83` | IPv4 | Network infrastructure | |
 
 
 ## 7. User Agents
