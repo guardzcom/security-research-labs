@@ -14,6 +14,7 @@
 | Indicator classes | Domains, FQDNs, IPv4 addresses |
 | Last updated | 2026-05-27 |
 | Coverage note | This package preserves confirmed indicators from the Kali365 v1 IOC list and groups them by provider or infrastructure role. |
+| Tracking note | We are continuing to track Kali365, and more IOCs will be added. |
 
 ---
 
@@ -44,6 +45,8 @@
 | `*.duemineral.uk` | FQDN | Campaign subdomain | |
 | `*.loadingdocuments.uk` | FQDN | Campaign subdomain | 
 | `*.sharepoint-msviewer.com` | FQDN | Lookalike Microsoft infrastructure | |
+| `*.userfriendlyinterface.de` | FQDN | Campaign subdomain | |
+| `*.hostlab.net.tr` | FQDN | Campaign subdomain | Many subdomains involved. |
 
 ---
 
@@ -85,6 +88,13 @@
 | `18.117.247.159` | IPv4 | Network infrastructure | |
 | `104.21.32.229` | IPv4 | Network infrastructure | |
 | `172.67.156.83` | IPv4 | Network infrastructure | |
+| `104.21.86.181` | IPv4 | Network infrastructure | |
+| `104.16.80.73` | IPv4 | Network infrastructure | |
+| `172.67.223.123` | IPv4 | Network infrastructure | |
+| `45.158.14.18` | IPv4 | Network infrastructure | |
+| `31.141.216.143` | IPv4 | Network infrastructure | |
+| `94.154.32.45` | IPv4 | Network infrastructure | |
+| `45.174.242.246` | IPv4 | Network infrastructure | |
 
 
 ## 7. User Agents
