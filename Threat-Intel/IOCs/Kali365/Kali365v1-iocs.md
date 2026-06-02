@@ -13,7 +13,7 @@
 | ------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
 | Campaign / infrastructure | Kali365 v1                                                                                                                   |
 | Indicator classes         | Domains, FQDNs, IPv4 addresses                                                                                               |
-| Last updated              | 2026-05-31                                                                                                                   |
+| Last updated              | 2026-06-2                                                                                                                   |
 | Coverage note             | This package preserves confirmed indicators from the Kali365 v1 IOC list and groups them by provider or infrastructure role. |
 | Tracking note             | We are continuing to track Kali365, and more IOCs will be added.                                                             |
 
