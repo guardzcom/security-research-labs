@@ -93,7 +93,6 @@
 | `167.99.0.116`    | IPv4 | Network infrastructure |       |
 | `159.203.163.96`  | IPv4 | Network infrastructure |       |
 | `66.179.30.87`    | IPv4 | Network infrastructure |       |
-| `150.228.103.23`  | IPv4 | Network infrastructure |       |
 | `103.216.220.117` | IPv4 | Network infrastructure |       |
 | `59.11.162.114`   | IPv4 | Network infrastructure |       |
 | `18.117.247.159`  | IPv4 | Network infrastructure |       |
