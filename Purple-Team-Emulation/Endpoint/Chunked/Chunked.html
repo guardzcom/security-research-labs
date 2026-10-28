@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chunked Malware Assembly (EICAR) Simulation</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 2.5rem;
+            max-width: 520px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        h2 {
+            margin-top: 0;
+            color: #38bdf8;
+            font-size: 1.25rem;
+        }
+        p {
+            color: #94a3b8;
+            font-size: 0.92rem;
+            line-height: 1.5;
+        }
+        .warning-box {
+            background-color: #451a03;
+            border: 1px solid #78350f;
+            color: #fdba74;
+            padding: 0.75rem;
+            border-radius: 4px;
+            font-size: 0.82rem;
+            margin-bottom: 1rem;
+        }
+        button {
+            background-color: #0284c7;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 0.5rem;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #0369a1;
+        }
+        #status {
+            margin-top: 1rem;
+            font-family: monospace;
+            font-size: 0.82rem;
+            padding: 0.75rem;
+            border-radius: 4px;
+            background-color: #0f172a;
+            border: 1px solid #334155;
+            display: none;
+            max-height: 120px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Chunked Fragment Reassembly (EICAR Test)</h2>
+        <div class="warning-box">
+            <strong>Simulation Objective:</strong> Tests browser stream reassembly vectors using the standard harmless 68-byte EICAR signature split into fragments.
+        </div>
+        <p>This script fragments the test string, reconstructs it dynamically in browser memory via a JavaScript <code>Blob</code> buffer, and triggers a file-write download to test extension download policy enforcement and host EDR/AV interception.</p>
+        
+        <button onclick="runEicarChunkedAssembly()">Execute Fragment Reassembly & Write</button>
+        
+        <div id="status">Initializing sequence...</div>
+    </div>
+
+    <script>
+        function logStatus(message, isError = false) {
+            const statusDiv = document.getElementById('status');
+            statusDiv.style.display = 'block';
+            statusDiv.style.color = isError ? '#f87171' : '#38bdf8';
+            statusDiv.innerHTML += `<br>[${new Date().toLocaleTimeString()}] ${message}`;
+            statusDiv.scrollTop = statusDiv.scrollHeight;
+        }
+
+        async function runEicarChunkedAssembly() {
+            const statusDiv = document.getElementById('status');
+            statusDiv.innerHTML = 'Starting fragment reassembly sequence...';
+            statusDiv.style.display = 'block';
+
+            try {
+                // Standard EICAR test string split into two Base64-encoded chunks to evade basic static signature filters
+                // Full target string: X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*
+                const fragment1_b64 = "WDVPIVAlQEFQWzRcUFpYNTQoUF4pN0NDKTd9";
+                const fragment2_b64 = "JEVJQ0FSLVNUQU5EQVJELUFOVElWSVJVUy1URVNULUZJTEUhJEgrSCo=";
+
+                logStatus("Fragment 1 buffered into memory.");
+                logStatus("Fragment 2 buffered into memory.");
+
+                // Decode fragments client-side
+                const part1 = atob(fragment1_b64);
+                const part2 = atob(fragment2_b64);
+
+                // Reassemble chunks dynamically in browser memory via stream buffer
+                logStatus("Reassembling fragments into byte array/Blob buffer...");
+                const reassembledPayload = part1 + part2;
+
+                // Create a Blob object from the reassembled stream
+                const blob = new Blob([reassembledPayload], { type: 'text/plain' });
+                const blobUrl = URL.createObjectURL(blob);
+
+                logStatus("Blob construction complete. Forcing file write download...");
+
+                // Trigger programmatic file download write operation
+                const anchor = document.createElement('a');
+                anchor.href = blobUrl;
+                anchor.download = 'eicar_reassembled.txt';
+                document.body.appendChild(anchor);
+                anchor.click();
+                document.body.removeChild(anchor);
+
+                logStatus("Download trigger fired. Verify extension block or EDR quarantine status.");
+
+            } catch (err) {
+                logStatus("Execution halted: " + err.message, true);
+            }
+        }
+    </script>
+
+</body>
+</html>
