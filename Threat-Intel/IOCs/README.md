@@ -13,6 +13,7 @@
 | [Akira/](Akira/) | Akira ransomware IOCs and case notes from Guardz “Seven Seconds to Stop Akira” (hashes, ransom note, filesystem and Tor indicators, SentinelOne storyline artifacts, MITRE G1024 context). |
 | [OAuth-abuse/](OAuth-abuse/) | OAuth consent phishing and token-theft IOCs: malicious app IDs, redirect URLs, file/behavior indicators, hunting signals (Microsoft-Intel-OAuth.md). |
 | [OnForge/](OnForge/) | on-forge.com tech-support scam IOCs: domains, IPs, phones, Tawk.to IDs, file hashes, URL parameters, detection regex (OnForge-IOCs.md; SentinelOne Deep Visibility). |
+| [Storm-0940/](Storm-0940/) | Storm-0940 network IP and HTTP user-agent indicators associated with password spray, ConnectWise sign-ins, and Graph API activity. |
 | [Vercel-breach/](Vercel-breach/) | Vercel April 2026 security incident: hard IOCs (Google OAuth `client_id`, project prefix, malicious app display name, upstream vendor) for Workspace and OAuth hunting. |
 | [Shai-Hulud/](Shai-Hulud/) | Shai-Hulud / npm–PyPI supply-chain IOCs: compromised TanStack and related packages, file hashes, C2 domains, cloud metadata harvest targets, persistence paths, and campaign markers. |
 | [Kratos/](Kratos/) | Kratos PhaaS phishing-kit IOCs: asset fingerprints, exfiltration endpoints, domains, hashes, engine signatures, and behavioral indicators. |
