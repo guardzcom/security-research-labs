@@ -11,7 +11,7 @@ The indicators below are associated with a rogue ScreenConnect client (`25.2.4.9
 | Domain | `transactonly[.]com` | Relay server communicating with the existing ScreenConnect client (`25.2.4.9229`). |
 | Domain | `relay[.]vigatu[.]top` | Secondary C2 relay server used by the rogue client. |
 | Domain | `downloads[.]ps1cloud[.]com` | Payload delivery domain hosting PowerShell scripts. |
-| GitHub account / Gist | `bradleymadden` (`gistfile1.txt`, executed as `gistfile1.ps1`) | Auxiliary script delivery via a public GitHub Gist. |
+| Files | (`gistfile1.txt`, executed as `gistfile1.ps1`)
 
 ## Host-based artifacts
 
